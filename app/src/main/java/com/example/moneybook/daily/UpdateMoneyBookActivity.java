@@ -21,8 +21,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mytest.DatabaseHelper;
-import com.example.mytest.R;
+import com.example.moneybook.DatabaseHelper;
+import com.example.moneybook.MainActivity;
+import com.example.moneybook.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -315,22 +316,22 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("수정확인");
         builder.setMessage("정말 수정하시겠습니까?");
-        builder.setPositiveButton("수정함", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                updateMoneybook();
-                database.close();
-                MainActivity MA = (MainActivity) MainActivity.activity;
-                MA.finish();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Log.d("t수정...", "수정할때 전달되는 값: "+inputDay);
-                finish();
-                intent.putExtra("date",inputDay+"");
-                MA.startActivity(intent);
-            }
-        });
+//        builder.setPositiveButton("수정함", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                updateMoneybook();
+//                database.close();
+//                MainActivity MA = (MainActivity) MainActivity.activity;
+//                MA.finish();
+//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                Log.d("t수정...", "수정할때 전달되는 값: "+inputDay);
+//                finish();
+//                intent.putExtra("date",inputDay+"");
+//                MA.startActivity(intent);
+//            }
+//        });
         builder.setNegativeButton("수정안하고 돌아감", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -344,22 +345,22 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("삭제확인");
         builder.setMessage("정말 삭제하시겠습니까?");
-        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteMoneybook();
-                database.close();
-                MainActivity MA = (MainActivity) MainActivity.activity;
-                MA.finish();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
-                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                inputDay = selecDayButton.getText().toString();
-                intent.putExtra("date",inputDay+"");
-                finish();
-                MA.startActivity(intent);
-            }
-        });
+//        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                deleteMoneybook();
+//                database.close();
+//                MainActivity MA = (MainActivity) MainActivity.activity;
+//                MA.finish();
+//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                inputDay = selecDayButton.getText().toString();
+//                intent.putExtra("date",inputDay+"");
+//                finish();
+//                MA.startActivity(intent);
+//            }
+//        });
         builder.setNegativeButton("삭제 안하고 돌아감", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.mytest.DatabaseHelper;
-import com.example.mytest.R;
+import com.example.moneybook.DatabaseHelper;
+import com.example.moneybook.R;
 
 import java.util.ArrayList;
 

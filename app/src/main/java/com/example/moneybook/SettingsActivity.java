@@ -233,7 +233,7 @@ public class SettingsActivity extends AppCompatActivity {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
             if (sd.canWrite()) {
-                String currentDBPath = "//data//" + "com.example.mytest"
+                String currentDBPath = "//data//" + "com.example.moneybook"
                         + "//databases//" + "moneybook.db";
                 String backupDBPath ="/moneybook_backup.db";
                 File currentDB = new File(data, currentDBPath);
@@ -258,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void exportDB(){
 
-        final String inFileName = "/data/data/com.example.mytest/databases/moneybook.db";
+        final String inFileName = "/data/data/com.example.moneybook/databases/moneybook.db";
         try {
             String resetPasswordSql="update user set password=''";
             database.execSQL(resetPasswordSql);

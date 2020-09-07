@@ -24,8 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mytest.DatabaseHelper;
-import com.example.mytest.R;
+import com.example.moneybook.DatabaseHelper;
+import com.example.moneybook.R;
 
 import java.util.ArrayList;
 
