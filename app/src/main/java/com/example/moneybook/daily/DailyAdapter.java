@@ -18,14 +18,13 @@ import java.util.ArrayList;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> {
     ArrayList<DailyInAndOut> items = new ArrayList<>();
 
-    MainActivity mActivity;
+    //MainActivity mActivity;
 
-    public DailyAdapter() {
-    }
+    public DailyAdapter() { }
 
-    public DailyAdapter(MainActivity activity) {
-        mActivity = activity;
-    }
+//    public DailyAdapter(MainActivity activity) {
+//        mActivity = activity;
+//    }
 
     @NonNull
     @Override

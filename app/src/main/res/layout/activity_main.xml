@@ -12,15 +12,6 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="?attr/actionBarSize"
         android:background="#f5f5f5">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            app:srcCompat="@drawable/add"
-            android:backgroundTint="@color/titleBar"/>
-
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

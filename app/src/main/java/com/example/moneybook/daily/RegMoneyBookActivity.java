@@ -251,19 +251,19 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 memoEdit.setText("");
             }
         });
-//        builder.setNegativeButton("추가안함", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                MainActivity MA = (MainActivity) MainActivity.activity;
-//                MA.finish();
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                intent.putExtra("date",inputDay+"");
-//                finish();
-//                MA.startActivity(intent);
-//            }
-//        });
+        builder.setNegativeButton("추가안함", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainActivity MA = (MainActivity) MainActivity.activity;
+                MA.finish();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("date",inputDay+"");
+                finish();
+                MA.startActivity(intent);
+            }
+        });
         builder.show();
     }
 
