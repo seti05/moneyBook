@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.moneybook.calendar.CalendarFragment;
 import com.example.moneybook.daily.DailyFragment;
 import com.example.moneybook.daily.RegMoneyBookActivity;
 import com.example.moneybook.economyinfo.Economy_InfoFragment;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     DailyFragment dailyFragment;
     Economy_InfoFragment economy_infoFragment;
     public static Activity activity;
+    CalendarFragment calendarFragment;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         //일일 프레그먼트와 연결
         dailyFragment= new DailyFragment();
         economy_infoFragment = new Economy_InfoFragment();
+        calendarFragment = new CalendarFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_container, dailyFragment).commit();
 
@@ -56,9 +59,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
                         return true;
                     case R.id.tab2:
                         Toast.makeText(getApplicationContext(),"두째 탭",Toast.LENGTH_SHORT).show();
-
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, calendarFragment).commit();
                         return true;
-
                     case R.id.tab3:
                         Toast.makeText(getApplicationContext(),"세번째 탭",Toast.LENGTH_SHORT).show();
 
