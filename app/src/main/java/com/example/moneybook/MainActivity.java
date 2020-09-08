@@ -1,27 +1,21 @@
 package com.example.moneybook;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.moneybook.calendar.CalendarFragment;
+import com.example.moneybook.chart.ChartFragment;
 import com.example.moneybook.daily.DailyFragment;
-import com.example.moneybook.daily.RegMoneyBookActivity;
 import com.example.moneybook.economyinfo.Economy_InfoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pedro.library.AutoPermissions;
 import com.pedro.library.AutoPermissionsListener;
 
@@ -30,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     Economy_InfoFragment economy_infoFragment;
     public static Activity activity;
     CalendarFragment calendarFragment;
+    ChartFragment chartFragment;
+    BottomNavigationView bottomNavigationView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -43,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         dailyFragment= new DailyFragment();
         economy_infoFragment = new Economy_InfoFragment();
         calendarFragment = new CalendarFragment();
+        chartFragment = new ChartFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_container, dailyFragment).commit();
 
         //아래 네비게이션 바 클릭
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -63,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
                         return true;
                     case R.id.tab3:
                         Toast.makeText(getApplicationContext(),"세번째 탭",Toast.LENGTH_SHORT).show();
-
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, chartFragment).commit();
                         return true;
                     case R.id.tab4:
                         Toast.makeText(getApplicationContext(),"네번째 탭",Toast.LENGTH_SHORT).show();
@@ -80,7 +77,29 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         dailyFragment.setArguments(bundle);
 
         AutoPermissions.Companion.loadAllPermissions(this,101);
+
+        //차트 상세내역 클릭
+        barchartClick();
     }//onCreate끝
+
+    private void barchartClick() {
+        Intent barChartIntent = getIntent();
+        if(barChartIntent != null) {
+            String monthBarChart = barChartIntent.getStringExtra("month");
+            if (monthBarChart != null) {
+                //Log.d("TAG", "클릭함: ");
+                String yearBarChart = monthBarChart.substring(0, 4);
+                String monthBC = monthBarChart.substring(monthBarChart.indexOf("-") + 1, monthBarChart.lastIndexOf("-"));
+                //Log.d("TAG", "이제는 받지?: " + yearBarChart + ", " + monthBC);
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_container, calendarFragment).commit();
+                bottomNavigationView.setSelectedItemId(R.id.tab2);
+                Bundle bundle = new Bundle();
+                bundle.putString("year", yearBarChart);
+                bundle.putString("month", monthBC);
+                calendarFragment.setArguments(bundle);
+            }
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

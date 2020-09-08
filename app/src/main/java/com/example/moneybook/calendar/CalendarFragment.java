@@ -87,8 +87,11 @@ public class CalendarFragment extends Fragment {
         dbHelper = new DatabaseHelper(getContext());
         database = dbHelper.getWritableDatabase();
 
+        Log.d("TAG", "onCreateView: " + dateSql);
         //오늘 년, 월 설정
         today();
+
+        click();
 
         //타이틀바 클릭시(데이터피커)
         titleText.setOnClickListener(new View.OnClickListener() {
@@ -150,30 +153,34 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-//        Intent barChartIntent = getIntent();
-//        if(barChartIntent != null){
-//            String monthBarChart = barChartIntent.getStringExtra("month");
-//            if(monthBarChart != null){
-//                String yearBarChart = monthBarChart.substring(0,4);
-//                String monthBC = monthBarChart.substring(monthBarChart.indexOf("-")+1, monthBarChart.lastIndexOf("-"));
-//                selectym = yearBarChart + "-" + monthBC + "-";
-//                titleText.setText(yearBarChart + "년 " + monthBC + "월");
-//                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        dayStr = String.valueOf(position + 2 - dayNum);//gridview의 각 칸을 position이라고 함
-//                        //위에처럼하면 10이 안넘어가면 앞에 0을 붙혀서 동일하게 해줘야함
-//                        if (dayStr.length() == 1) {
-//                            dayStr = "0" + (position + 2 - dayNum);
-//                        }
-//                        day = selectym + dayStr;
-//                        adapter.clear();
-//                        select();
-//                    }
-//                });
-//            }
-
+        Log.d("TAG", "onCreateView: " + yearStr + monthStr);
         return view;
+    }
+
+    private void click(){
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            String monthBC = bundle.getString("month");
+            String yearBarChart = bundle.getString("year");
+            Log.d("TAG", "m: " + monthBC + ", y" + yearBarChart);
+            if(monthBC != null && yearBarChart != null) {
+                dateSql = yearBarChart + "-" + monthBC + "-";
+                titleText.setText(yearBarChart + "년 " + monthBC + "월");
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        dayStr = String.valueOf(position + 2 - dayNum);
+                        if (dayStr.length() == 1) {
+                            dayStr = "0" + dayStr;
+                        }
+                        Log.d("TAG", "dateSql: " + dateSql);
+                        day = dateSql + dayStr;
+                        adapter.clear();
+                    }
+                });
+            }
+            bundle.clear();
+        }
     }
 
     //상단바활성화
@@ -184,6 +191,7 @@ public class CalendarFragment extends Fragment {
 
     //현재오늘 년월을 설정함함
     private void today() {
+        Log.d("TAG", "today: ");
         //현재 년월 지정
         long now = System.currentTimeMillis();
         date = new Date(now);
@@ -416,6 +424,7 @@ public class CalendarFragment extends Fragment {
         TextView expenseText;
     }
 
+    //타이틀바에 있는 버튼 클릭시
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(home == item.getItemId()){
