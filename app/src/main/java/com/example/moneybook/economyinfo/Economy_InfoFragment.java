@@ -55,13 +55,14 @@ public class Economy_InfoFragment extends Fragment {
         mTabLayout=(TabLayout)view.findViewById(R.id.tablayout);
 
         pager = view.findViewById(R.id.viewpager);
-        MyPagerAdapter adapter = new MyPagerAdapter(getFragmentManager());
+        MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
 
         ExchangeRateFragment exchangeRateFragment = new ExchangeRateFragment();
         adapter.addPage(exchangeRateFragment);
         StockFragment stockFragment = new StockFragment();
         adapter.addPage(stockFragment);
         pager.setAdapter(adapter);
+        pager.setSaveEnabled(false);
 
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

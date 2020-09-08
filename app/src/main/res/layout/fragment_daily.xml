@@ -163,10 +163,14 @@
                 </TableLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/daily_recycler_View"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/daily_recycler_View"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+
         </LinearLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/reg_fabButton"
