@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.example.moneybook.daily.DailyInAndOut;
 import com.example.moneybook.daily.RegMoneyBookActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,6 +65,7 @@ public class CalendarFragment extends Fragment {
     DatePickerDialog datePickerDialog;
     CalendarAdapter adapter;
     String day;
+    NumberFormat numberFormat;
 
 
     @Override
@@ -76,6 +79,7 @@ public class CalendarFragment extends Fragment {
         gridWeek = view.findViewById(R.id.gridWeek);
         recyclerView = view.findViewById(R.id.recyclerView);
         toolbar = view.findViewById(R.id.toolbar);
+        numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
         //상단바 설정(오늘버튼)
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -376,7 +380,7 @@ public class CalendarFragment extends Fragment {
                 while (cursor.moveToNext()) {
                     String amount = cursor.getString(0);
                     if (amount != null) {
-                        holder.expenseText.setText(amount + "\n");
+                        holder.expenseText.setText(numberFormat.format(Integer.parseInt(amount)) + "\n");
                     } else {
                         holder.expenseText.setText("");
                     }
@@ -390,7 +394,7 @@ public class CalendarFragment extends Fragment {
                 while (cursor.moveToNext()) {
                     String amount = cursor.getString(0);
                     if(amount != null) {
-                        holder.incomeText.setText(amount + "\n");
+                        holder.incomeText.setText(numberFormat.format(Integer.parseInt(amount)) + "\n");
                     } else {
                         holder.incomeText.setText("");
                     }
@@ -410,7 +414,7 @@ public class CalendarFragment extends Fragment {
             String month = cmy.substring(6, 8);
 
             if(sToday.equals(getItem(position)) && sMonth.equals(month) && sYear.equals(year)){
-                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.colorAccent));
+                holder.tvItemGridView.setTextColor(Color.parseColor(String.valueOf("#FB8989")));
                 holder.tvItemGridView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             }
 

@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
-import com.example.moneybook.calendar.CalendarFragment;
 import com.example.moneybook.daily.DailyInAndOut;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class BarChartAdapter extends RecyclerView.Adapter<BarChartAdapter.ViewHolder> {
 
     ArrayList<DailyInAndOut> items = new ArrayList<>();
     ArrayList<DailyInAndOut> incomeArr = new ArrayList<>();
-    CalendarFragment calendarFragment;
 
     @NonNull
     @Override
@@ -43,12 +43,6 @@ public class BarChartAdapter extends RecyclerView.Adapter<BarChartAdapter.ViewHo
                 String month = item.getDate() + "-01";
                 intent.putExtra("month", month);
                 v.getContext().startActivity(intent);
-//                calendarFragment = new CalendarFragment();
-//                Bundle bundle = new Bundle();
-//                String month = item.getDate() + "-01";
-//                bundle.putString("month", month);
-//                calendarFragment.setArguments(bundle);
-//                Log.d("TAG", "onClick: " + bundle);
             }
         });
     }
@@ -61,6 +55,7 @@ public class BarChartAdapter extends RecyclerView.Adapter<BarChartAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView month, income, expense;
+        NumberFormat numberFormat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,11 +65,12 @@ public class BarChartAdapter extends RecyclerView.Adapter<BarChartAdapter.ViewHo
         }
 
         public void setItem(DailyInAndOut item, int position){
+            numberFormat = NumberFormat.getInstance(Locale.getDefault());
             String date = String.valueOf(item.getDate());
             String monthStr = date.substring(date.indexOf("-")+1);//년 부분만 짤라옴
             month.setText(monthStr + "월");
-            income.setText(String.valueOf(incomeArr.get(position).getAmount()));
-            expense.setText(String.valueOf(item.getAmount()));
+            income.setText(String.valueOf(numberFormat.format(incomeArr.get(position).getAmount())));
+            expense.setText(numberFormat.format(item.getAmount()));
         }
     }
 

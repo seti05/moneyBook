@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moneybook.R;
 import com.example.moneybook.daily.DailyInAndOut;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.ViewHolder> {
 
@@ -40,6 +42,7 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView assetTypeText, assetText, perText;
+        NumberFormat numberFormat;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,9 +52,9 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
         }
 
         public void setItem(DailyInAndOut item, int position) {
+            numberFormat = NumberFormat.getInstance(Locale.getDefault());
             assetTypeText.setText(item.getAssetName());
-            assetText.setText(String.valueOf(item.getAmount()));
-            //Log.d("TAG", "setItem: " + perList.get(position));
+            assetText.setText(numberFormat.format(item.getAmount()));
             perText.setText(" ( " + perList.get(position) + " )");
         }
     }

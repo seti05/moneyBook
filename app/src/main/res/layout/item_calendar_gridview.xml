@@ -9,24 +9,27 @@
         android:id="@+id/tv_item_gridview"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:textSize="15dp">
-    </TextView>
+        android:layout_height="wrap_content"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/incomeText"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:textSize="14dp"
-        android:textColor="#3F51B5" />
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="#3F51B5"/>
 
     <TextView
         android:id="@+id/expenseText"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:textSize="14dp"
         android:textColor="#BF2929"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:layout_marginBottom="5dp"/>
 
 

@@ -14,7 +14,9 @@ import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
 import com.example.moneybook.daily.DailyInAndOut;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
 
@@ -57,6 +59,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView category, money;
+        NumberFormat numberFormat;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,8 +78,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         }
 
         public void setItem(DailyInAndOut item) {
+            numberFormat = NumberFormat.getInstance(Locale.getDefault());
             category.setText(item.getCategoryName());
-            money.setText(String.valueOf(item.getAmount()));
+            money.setText(numberFormat.format(item.getAmount()));
             if(item.getMemo() != null){
                 category.setText(item.getCategoryName()+"(" + item.getMemo() + ")");
               }
