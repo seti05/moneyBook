@@ -10,7 +10,7 @@
     android:id="@+id/settingsappbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#8BC34A">
+    android:background="@color/titleBar">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settingstoolbar"
