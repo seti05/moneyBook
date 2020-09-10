@@ -35,6 +35,7 @@ import com.example.moneybook.R;
 import com.example.moneybook.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class DailyFragment extends Fragment {
     ScrollView scrollView;
     LinearLayout testlinearlayout;
 
-    boolean dailyFismoving = false;
+    NumberFormat numberFormat;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class DailyFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_daily, container, false);
 
         titleTextView = view.findViewById(R.id.titleText);
+        numberFormat = NumberFormat.getInstance(Locale.getDefault());
 
         //상단바
         toolbar = view.findViewById(R.id.toolbar);
@@ -234,18 +236,18 @@ public class DailyFragment extends Fragment {
         }
         //하루 전체 내역
         dayTotal=incomeTotal-expenseTotal;
-        incomeT.setText(incomeTotal+" 원");
-        expenseT.setText(expenseTotal+" 원");
+        incomeT.setText(numberFormat.format(incomeTotal)+" 원");
+        expenseT.setText(numberFormat.format(expenseTotal)+" 원");
 
         if (dayTotal>0){
             totalT.setText(Html.fromHtml("<font color=\"#2196F3\">"
-                    +dayTotal +"</font>"
+                    +numberFormat.format(dayTotal) +"</font>"
                     + "원"));
         }else if (dayTotal==0){
             totalT.setText(dayTotal+" 원");
         }else if (dayTotal<0){
             totalT.setText(Html.fromHtml("<font color=\"#ff0000\">"
-                    +dayTotal +"</font>"
+                    +numberFormat.format(dayTotal) +"</font>"
                     + "원"));
         }
 
@@ -262,7 +264,7 @@ public class DailyFragment extends Fragment {
         assetT= new TextView(getContext());
         assetT.setText(asset);
         amountT= new TextView(getContext());
-        amountT.setText(amount+"");
+        amountT.setText(numberFormat.format(amount)+"원");
         memoT= new TextView(getContext());
         memoT.setText(memo);
         innercardviewLinear.addView(categoryT);
@@ -271,17 +273,7 @@ public class DailyFragment extends Fragment {
         innercardviewLinear.addView(memoT);
         cardView.addView(innercardviewLinear);
         testlinearlayout.addView(cardView);
-//       // 카드 뷰에 클릭이벤트 걸기
-//        cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("카드뷰 클릭이벤트", "onClick: ");
-//                if(dailyFismoving){
-//                    Log.d("움직여라움직여라", "onClick: ");
-//                }
-//
-//            }
-//        });
+        //카드뷰에 터치이벤트걸기
         cardView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             @SuppressLint("ClickableViewAccessibility")
             @RequiresApi(api = Build.VERSION_CODES.O)

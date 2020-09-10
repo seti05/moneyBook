@@ -343,22 +343,22 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("삭제확인");
         builder.setMessage("정말 삭제하시겠습니까?");
-//        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                deleteMoneybook();
-//                database.close();
-//                MainActivity MA = (MainActivity) MainActivity.activity;
-//                MA.finish();
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                inputDay = selecDayButton.getText().toString();
-//                intent.putExtra("date",inputDay+"");
-//                finish();
-//                MA.startActivity(intent);
-//            }
-//        });
+        builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteMoneybook();
+                database.close();
+                MainActivity MA = (MainActivity) MainActivity.activity;
+                MA.finish();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                inputDay = selecDayButton.getText().toString();
+                intent.putExtra("date",inputDay+"");
+                finish();
+                MA.startActivity(intent);
+            }
+        });
         builder.setNegativeButton("삭제 안하고 돌아감", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
