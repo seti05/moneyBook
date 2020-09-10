@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -66,9 +68,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         //비밀번호 설정 버튼
         findViewById(R.id.buttonSettingPassword).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this);
+                AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 ad.setTitle("비밀번호 설정");       // 제목 설정
                 //ad.setMessage("Message");   // 내용 설정
@@ -76,6 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
                 // EditText 삽입하기
                 final EditText passwordEditText = new EditText(SettingsActivity.this);
                 passwordEditText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                passwordEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
                 InputFilter[] FilterArray = new InputFilter[1];
                 FilterArray[0] = new InputFilter.LengthFilter(4);
                 passwordEditText.setFilters(FilterArray);
@@ -191,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
         findViewById(R.id.backup_load_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this);
+                AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 ad.setTitle("데이터");       // 제목 설정
 

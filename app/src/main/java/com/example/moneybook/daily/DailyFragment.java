@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -355,13 +356,71 @@ public class DailyFragment extends Fragment {
     public void setSevenDays(){
         String selectDayStr = titleTextView.getText().toString();
         LocalDate selecday = LocalDate.parse(selectDayStr);
-        before3.setText(selecday.minusDays(3).getDayOfMonth()+"");
-        before2.setText(selecday.minusDays(2).getDayOfMonth()+"");
-        before1.setText(selecday.minusDays(1).getDayOfMonth()+"");
-        select.setText(selecday.getDayOfMonth()+"");
-        next1.setText(selecday.plusDays(1).getDayOfMonth()+"");
-        next2.setText(selecday.plusDays(2).getDayOfMonth()+"");
-        next3.setText(selecday.plusDays(3).getDayOfMonth()+"");
+        before3.setTextColor(Color.BLACK);
+        before2.setTextColor(Color.BLACK);
+        before1.setTextColor(Color.BLACK);
+        select.setTextColor(Color.BLACK);
+        next1.setTextColor(Color.BLACK);
+        next2.setTextColor(Color.BLACK);
+        next3.setTextColor(Color.BLACK);
+        before3.setText(setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString())+"\n"+selecday.minusDays(3).getDayOfMonth()+"");
+        if (selecday.minusDays(3).getDayOfWeek().toString().equals("SATURDAY")){
+            before3.setTextColor(Color.BLUE);
+        }else if (selecday.minusDays(3).getDayOfWeek().toString().equals("SUNDAY")){
+            before3.setTextColor(Color.RED);
+        }
+        before2.setText(setWeekdayStr(selecday.minusDays(2).getDayOfWeek().toString())+"\n"+selecday.minusDays(2).getDayOfMonth()+"");
+        if (selecday.minusDays(2).getDayOfWeek().toString().equals("SATURDAY")){
+            before2.setTextColor(Color.BLUE);
+        }else if (selecday.minusDays(2).getDayOfWeek().toString().equals("SUNDAY")){
+            before2.setTextColor(Color.RED);
+        }
+        before1.setText(setWeekdayStr(selecday.minusDays(1).getDayOfWeek().toString())+"\n"+selecday.minusDays(1).getDayOfMonth()+"");
+        if (selecday.minusDays(1).getDayOfWeek().toString().equals("SATURDAY")){
+            before1.setTextColor(Color.BLUE);
+        }else if (selecday.minusDays(1).getDayOfWeek().toString().equals("SUNDAY")){
+            before1.setTextColor(Color.RED);
+        }
+        select.setText(Html.fromHtml(setWeekdayStr(selecday.getDayOfWeek().toString())+"<br>"
+                +"<span style=\"background-color:#1cbaba;\"><u>"+selecday.getDayOfMonth() +"</span></u>"));
+        if (selecday.getDayOfWeek().toString().equals("SATURDAY")){
+            select.setTextColor(Color.BLUE);
+        }else if (selecday.getDayOfWeek().toString().equals("SUNDAY")){
+            select.setTextColor(Color.RED);
+        }
+        next1.setText(setWeekdayStr(selecday.plusDays(1).getDayOfWeek().toString())+"\n"+selecday.plusDays(1).getDayOfMonth()+"");
+        if (selecday.plusDays(1).getDayOfWeek().toString().equals("SATURDAY")){
+            next1.setTextColor(Color.BLUE);
+        }else if (selecday.plusDays(1).getDayOfWeek().toString().equals("SUNDAY")){
+            next1.setTextColor(Color.RED);
+        }
+        next2.setText(setWeekdayStr(selecday.plusDays(2).getDayOfWeek().toString())+"\n"+selecday.plusDays(2).getDayOfMonth()+"");
+        if (selecday.plusDays(2).getDayOfWeek().toString().equals("SATURDAY")){
+            next2.setTextColor(Color.BLUE);
+        }else if (selecday.plusDays(2).getDayOfWeek().toString().equals("SUNDAY")){
+            next2.setTextColor(Color.RED);
+        }
+        next3.setText(setWeekdayStr(selecday.plusDays(3).getDayOfWeek().toString())+"\n"+selecday.plusDays(3).getDayOfMonth()+"");
+        if (selecday.plusDays(3).getDayOfWeek().toString().equals("SATURDAY")){
+            next3.setTextColor(Color.BLUE);
+        }else if (selecday.plusDays(3).getDayOfWeek().toString().equals("SUNDAY")){
+            next3.setTextColor(Color.RED);
+        }
+    }
+
+    public String setWeekdayStr(String str){
+        String dayofweek="";
+        switch (str){
+            case "MONDAY":dayofweek="월"; break;
+            case "TUESDAY":dayofweek= "화"; break;
+            case "WEDNESDAY":dayofweek= "수"; break;
+            case "THURSDAY":dayofweek= "목"; break;
+            case "FRIDAY":dayofweek= "금"; break;
+            case "SATURDAY":dayofweek= "토"; break;
+            case "SUNDAY":dayofweek= "일"; break;
+
+        }
+        return dayofweek;
     }
 
     LocalDate thisday;

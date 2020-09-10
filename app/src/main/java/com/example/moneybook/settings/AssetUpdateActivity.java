@@ -5,6 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -21,12 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class AssetUpdateActivity extends Activity {
@@ -54,17 +60,23 @@ public class AssetUpdateActivity extends Activity {
         findViewById(R.id.addAssetButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                regDBAsset();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    regDBAsset();
+                }
             }
         });
 
         setAssetName();
     }//onCreate끝부분
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private void regDBAsset() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
         final EditText addAssetEditText = new EditText(AssetUpdateActivity.this);
-        addAssetEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        addAssetEditText.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        addAssetEditText.setBackgroundColor(Color.parseColor("#FFF1F1"));
+        addAssetEditText.setTextColor(Color.BLACK);
+        addAssetEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(10);
         addAssetEditText.setFilters(FilterArray);
@@ -206,6 +218,7 @@ public class AssetUpdateActivity extends Activity {
                 itembutton = itemView.findViewById(R.id.settingItemsButton);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.Q)
                     @Override
                     public void onClick(View v) {
                         int pos = getAdapterPosition();
@@ -214,10 +227,14 @@ public class AssetUpdateActivity extends Activity {
                         }
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.Q)
                     private void updateCategory() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
                         final EditText updateAssetEditText = new EditText(itemView.getContext());
                         updateAssetEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        updateAssetEditText.setBackgroundColor(Color.parseColor("#FFF1F1"));
+                        updateAssetEditText.setTextColor(Color.BLACK);
+                        updateAssetEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
                         InputFilter[] FilterArray = new InputFilter[1];
                         FilterArray[0] = new InputFilter.LengthFilter(10);
                         updateAssetEditText.setFilters(FilterArray);
@@ -309,6 +326,7 @@ public class AssetUpdateActivity extends Activity {
             }
         }
     }
+
 
 
 }

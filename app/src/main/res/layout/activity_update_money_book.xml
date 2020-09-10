@@ -148,7 +148,8 @@
             android:ems="10"
             android:hint="메모"
             android:inputType="text"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:maxLength="40"/>
     </LinearLayout>
 
     <LinearLayout

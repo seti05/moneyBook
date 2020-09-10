@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,6 +104,7 @@ public class CateUpdateActivity extends Activity {
         });
         //카테추가 버튼
         addCateButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View v) {
                 regDBCategory();
@@ -143,10 +147,14 @@ public class CateUpdateActivity extends Activity {
     }
 
     //카테고리 추가 다이얼로그로
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     void regDBCategory() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
         final EditText addCateEditText = new EditText(CateUpdateActivity.this);
-        addCateEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        addCateEditText.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        addCateEditText.setBackgroundColor(Color.parseColor("#FFF1F1"));
+        addCateEditText.setTextColor(Color.BLACK);
+        addCateEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(10);
         addCateEditText.setFilters(FilterArray);
@@ -298,14 +306,20 @@ public class CateUpdateActivity extends Activity {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
 //                        Log.d("카테아답터", "어쨌든 클릭 누름" + items.get(pos).toString());
-                            updateCategory();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                updateCategory();
+                            }
                         }
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.Q)
                     private void updateCategory() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
                         final EditText updateCateEditText = new EditText(itemView.getContext());
-                        updateCateEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        updateCateEditText.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                        updateCateEditText.setBackgroundColor(Color.parseColor("#FFF1F1"));
+                        updateCateEditText.setTextColor(Color.BLACK);
+                        updateCateEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
                         InputFilter[] FilterArray = new InputFilter[1];
                         FilterArray[0] = new InputFilter.LengthFilter(10);
                         updateCateEditText.setFilters(FilterArray);
@@ -397,7 +411,9 @@ public class CateUpdateActivity extends Activity {
 
                             }
                         });
-                    }
+                    }//업데이트 카테고리 함수 끝
+
+
                 });
 
 

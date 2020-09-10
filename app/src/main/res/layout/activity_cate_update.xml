@@ -5,6 +5,7 @@
     android:layout_width="350dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#F5F5F5"
     tools:context=".settings.CateUpdateActivity">
 
     <LinearLayout
@@ -17,22 +18,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="지출" />
+            android:text="지출"
+            android:textColor="@color/colorPrimary"/>
 
         <CheckBox
             android:id="@+id/incheckBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="수입" />
+            android:text="수입"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/addCateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ABFFD147"
+        android:background="#ffcccc"
         android:text="추가"
+        android:textColor="@color/colorPrimary"
         android:textSize="24sp" />
 
     <androidx.recyclerview.widget.RecyclerView

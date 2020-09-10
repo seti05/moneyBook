@@ -41,26 +41,43 @@
         <Button
             android:id="@+id/buttonUpdateDBAsset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bt_corner"
             android:text="자산 수정" />
 
         <Button
             android:id="@+id/buttonUpdateDBCategory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bt_corner"
             android:text="카테고리 수정" />
 
 
         <Button
             android:id="@+id/buttonSettingPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bt_corner"
             android:text="비밀번호 설정" />
 
         <Button
             android:id="@+id/backup_load_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bt_corner"
             android:text="백업/가져오기" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

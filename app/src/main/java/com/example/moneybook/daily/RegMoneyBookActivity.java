@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
+import com.example.moneybook.settings.MinMaxFilter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -61,7 +65,34 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         spinner = findViewById(R.id.assetSpinner);
         spinner2 = findViewById(R.id.selectCategorySpinner);
         amountEdit = findViewById(R.id.editTextNumber);
+        amountEdit.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , "100000000" )});
+        amountEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+            @Override
+            public void afterTextChanged(Editable s) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.length() > 7){
+                    Toast.makeText(RegMoneyBookActivity.this,"최대1억까지 입력가능합니다",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         memoEdit = findViewById(R.id.editTextMemo);
+        memoEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void afterTextChanged(Editable s) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.length() > 39){
+                    Toast.makeText(RegMoneyBookActivity.this,"40자이상 입력할수 없습니다",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         if(getIntent().getStringExtra("regDate")==null){
             selecDayButton.setText(today.toString());
@@ -241,7 +272,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         confirmRegReview();
     }
     void confirmRegReview() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
         builder.setTitle("추가확인");
         builder.setMessage("계속 추가하시겠습니까?");
         builder.setPositiveButton("계속추가", new DialogInterface.OnClickListener() {
