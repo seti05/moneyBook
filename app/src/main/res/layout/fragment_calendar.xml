@@ -44,19 +44,75 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFF1F1"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/monthIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="수입" />
+
+                    <TextView
+                        android:id="@+id/monthSum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="전체" />
+
+                    <TextView
+                        android:id="@+id/monthExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="지출" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/monthIncomeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/monthSumText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/monthExpenseText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+                </TableRow>
+
+            </TableLayout>
+
             <GridView
                 android:id="@+id/gridWeek"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="5dp"
-                android:numColumns="7" />
+                android:numColumns="7"
+                android:scrollbars="none"/>
 
             <GridView
                 android:id="@+id/gridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:listSelector="#FFF1F1"
+                android:layout_marginTop="5dp"
                 android:numColumns="7" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -65,7 +121,19 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:background="#ececec"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/calendar_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No Data"
+                android:background="#ececec"
+                />
+
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +144,7 @@
             android:layout_margin="16dp"
             app:srcCompat="@drawable/add"
             app:borderWidth="0dp"
-            android:backgroundTint="@color/titleBar"/>
+            android:backgroundTint="@color/titleBar" />
 
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

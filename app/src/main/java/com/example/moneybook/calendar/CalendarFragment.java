@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -66,6 +68,10 @@ public class CalendarFragment extends Fragment {
     CalendarAdapter adapter;
     String day;
     NumberFormat numberFormat;
+    TextView nodata;
+    TextView monthSum, expenseSum, incomeSum;
+    String lastday, year_month_day, year_month;
+    String amountIn, amountEx;
 
 
     @Override
@@ -80,6 +86,10 @@ public class CalendarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         toolbar = view.findViewById(R.id.toolbar);
         numberFormat = NumberFormat.getInstance(Locale.getDefault());
+        nodata = view.findViewById(R.id.calendar_nodata);
+        monthSum = view.findViewById(R.id.monthSumText);
+        expenseSum = view.findViewById(R.id.monthExpenseText);
+        incomeSum = view.findViewById(R.id.monthIncomeText);
 
         //상단바 설정(오늘버튼)
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -91,10 +101,22 @@ public class CalendarFragment extends Fragment {
         dbHelper = new DatabaseHelper(getContext());
         database = dbHelper.getWritableDatabase();
 
+        gridWeek.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    return true;
+                }
+                return false;
+            }
+        });
+
         Log.d("TAG", "onCreateView: " + dateSql);
+
         //오늘 년, 월 설정
         today();
 
+        //상세내역 클릭시 해당하는 일별로 넘어감
         click();
 
         //타이틀바 클릭시(데이터피커)
@@ -158,7 +180,71 @@ public class CalendarFragment extends Fragment {
         });
 
         Log.d("TAG", "onCreateView: " + yearStr + monthStr);
+
+        monthSum();
         return view;
+    }
+
+    //한달치 계산
+    private void monthSum() {
+        if(database != null){
+            for(int i = 0; i < 12; i++){
+                if(monthStr.equals("01") || monthStr.equals("03") || monthStr.equals("05") || monthStr.equals("07") || monthStr.equals("08") || monthStr.equals("10") || monthStr.equals("12")){
+                    lastday = "31";
+                } else if(monthStr.equals("02")){
+                    if(Integer.parseInt(yearStr) % 4 == 0 && Integer.parseInt(yearStr) % 100 != 0 || Integer.parseInt(yearStr) % 400 == 0){
+                        lastday = "29";
+                    } else {
+                        lastday = "28";
+                    }
+                } else if(monthStr.equals("04") || monthStr.equals("06") || monthStr.equals("09") || monthStr.equals("11")){
+                    lastday = "30";
+                }
+                year_month = yearStr + "-" + monthStr + "-01";
+                year_month_day = yearStr + "-" + monthStr + "-" + lastday;
+                String inSumSql = "select sum(amount) from income where income_date >= '" + year_month + "' and income_date <= '"+ year_month_day + "'";
+                String exSumSql= "select sum(amount) from expense where expense_date >= '" + year_month + "' and expense_date <= '"+ year_month_day + "'";
+                if(inSumSql != null && exSumSql != null){
+                    Cursor cursorEx = database.rawQuery(exSumSql, null);
+                    Cursor cursorIn = database.rawQuery(inSumSql, null);
+                    while (cursorEx.moveToNext()){
+                        amountEx = cursorEx.getString(0);
+                        if(amountEx != null){
+                            expenseSum.setText(numberFormat.format(Integer.parseInt(amountEx)) + " 원");
+                        } else {
+                            expenseSum.setText("0 원");
+                        }
+                    }
+                    cursorEx.close();
+
+                    while (cursorIn.moveToNext()){
+                        amountIn = cursorIn.getString(0);
+                        if(amountIn != null){
+                            incomeSum.setText(numberFormat.format(Integer.parseInt(amountIn)) + " 원");
+                        } else {
+                            incomeSum.setText("0 원");
+                        }
+                    }
+                    cursorIn.close();
+                }
+                if(amountEx == null){
+                    amountEx = "0";
+                }
+                if(amountIn == null){
+                    amountIn = "0";
+                }
+                Log.d("TAG", "monthSum: " + (Integer.parseInt(amountIn) - Integer.parseInt(amountEx)));
+                int mountSumInt = Integer.parseInt(amountIn) - Integer.parseInt(amountEx);
+                if(mountSumInt < 0){
+                    monthSum.setText(Html.fromHtml("<font color=\"#ff0000\">" + numberFormat.format(mountSumInt) + "</font>" + " 원"));
+                } else if(mountSumInt == 0){
+                    monthSum.setText(numberFormat.format(mountSumInt) + " 원");
+                } else if(mountSumInt > 0){
+                    monthSum.setText(Html.fromHtml("<font color=\"#0000ff\">" + numberFormat.format(mountSumInt) + "</font>" + " 원"));
+                }
+                //monthSum.setText();
+            }
+        }
     }
 
     private void click(){
@@ -207,15 +293,23 @@ public class CalendarFragment extends Fragment {
     //상세내역보는 것
     private void select() {
         if(database != null){
-            Log.d("TAG", "상세내역: " + day);
             String exSql = "select expensecategory_name, amount, memo, expense_date from expense where expense_date = '"+day+"'";
             String inSql = "select incomecategory_name, amount, memo, income_date from income where income_date = '" + day + "'";
 
             Cursor cursorEx = database.rawQuery(exSql, null);
             Cursor cursorIn = database.rawQuery(inSql, null);
-
+            Log.d("TAG", "cursorEx.getCount(): " + cursorEx.getCount() + "cursorIn.getCount(): " + cursorIn.getCount());
+            //상세보기에 값이 비여있을때와 안비여있을때 구분
+            if(cursorEx.getCount() == 0 && cursorIn.getCount() == 0){
+                recyclerView.setVisibility(View.GONE);
+                nodata.setVisibility(View.VISIBLE);
+            } else {
+                recyclerView.setVisibility(View.VISIBLE);
+                nodata.setVisibility(View.GONE);
+            }
             //수입내용
             while (cursorIn.moveToNext()){
+                Log.d("TAG", "cursorIn.getCount(): " + cursorIn.getCount());
                 String incomecategory_name = cursorIn.getString(0);
                 int amount = cursorIn.getInt(1);
                 String memo = cursorIn.getString(2);
@@ -233,6 +327,7 @@ public class CalendarFragment extends Fragment {
 
             //지출내용
             while (cursorEx.moveToNext()){
+                Log.d("TAG", "cursorEx.getCount(): " + cursorEx.getCount());
                 String expensecategory_name = cursorEx.getString(0);
                 int amount = cursorEx.getInt(1);
                 String memo = cursorEx.getString(2);
@@ -244,7 +339,6 @@ public class CalendarFragment extends Fragment {
                     DailyInAndOut d = new DailyInAndOut(0, null, expense_date, null, expensecategory_name, amount, memo);
                     adapter.addItem(d);
                 }
-
             }
             adapter.notifyDataSetChanged();
             cursorEx.close();
@@ -273,6 +367,7 @@ public class CalendarFragment extends Fragment {
             datePickerDialog = new DatePickerDialog(getContext(), listener, year, monthOfYear, dayOfMonth);
             datePickerDialog.getDatePicker().setCalendarViewShown(false);
             dateSql = yearStr + "-" + monthStr + "-";
+            monthSum();
         }
     };
 
@@ -439,6 +534,7 @@ public class CalendarFragment extends Fragment {
             monthStr = titleText.getText().toString().substring(6,8);
             dateSql = yearStr + "-" + monthStr + "-";//실제 view에 보이도록 하기 위해서 view의 변수를 넣어줌
             calendar();
+            monthSum();
             return true;
         } else if(R.id.tab5 == item.getItemId()){
             Intent intent = new Intent(getContext(), SettingsActivity.class);
