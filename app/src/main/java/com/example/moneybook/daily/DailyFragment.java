@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +43,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -56,6 +60,7 @@ public class DailyFragment extends Fragment {
     LocalDate today =LocalDate.now();
     String titleStr="";
     ArrayList<DailyInAndOut> outList,inList;
+    ArrayList<DailyInAndOut> alldayList=new ArrayList<>();
 
     DatabaseHelper dbHelper;
     SQLiteDatabase database;
@@ -190,12 +195,13 @@ public class DailyFragment extends Fragment {
         //하루내역보여주기
         inList.clear();
         outList.clear();
+        alldayList.clear();
         String[] expense = new String[]{"expense_date","asset_name","expensecategory_name","amount","memo"};
         String[] income = new String[]{"income_date","asset_name","incomecategory_name","amount","memo"};
         String selectDayStr = titleTextView.getText().toString();
         //Log.d("카드뷰세팅", "날짜: "+selectDayStr);
         //지출 넣기
-        cursor = database.rawQuery("select expense_id,expense_date,asset_name,expensecategory_name,amount,memo"+
+        cursor = database.rawQuery("select expense_id,expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo"+
                 " from expense where expense_date=?",new String[]{selectDayStr});
         while(cursor.moveToNext()){
             int ex_id= cursor.getInt(0);
@@ -204,12 +210,13 @@ public class DailyFragment extends Fragment {
             String category= cursor.getString(cursor.getColumnIndex(expense[2]));
             int amount=cursor.getInt(cursor.getColumnIndex(expense[3]));
             String memo =cursor.getString(cursor.getColumnIndex(expense[4]));
-            dailyInAndOut = new DailyInAndOut(ex_id,"지출",date,asset,category,amount,memo);
-            setCardTextView(category,asset,amount,memo,dailyInAndOut);
+            String regDateTime = cursor.getString(cursor.getColumnIndex("reg_date_time"));
+            dailyInAndOut = new DailyInAndOut(ex_id,"지출",date,asset,category,amount,memo,regDateTime);
+            alldayList.add(dailyInAndOut);
             outList.add(dailyInAndOut);
         }
         //수입넣기
-        cursor = database.rawQuery("select income_id,income_date,asset_name,incomecategory_name,amount,memo"+
+        cursor = database.rawQuery("select income_id,income_date,asset_name,incomecategory_name,amount,reg_date_time,memo"+
                 " from income where income_date=?",new String[]{selectDayStr});
         while(cursor.moveToNext()){
             int in_id= cursor.getInt(0);
@@ -218,21 +225,29 @@ public class DailyFragment extends Fragment {
             String category= cursor.getString(cursor.getColumnIndex(income[2]));
             int amount=cursor.getInt(cursor.getColumnIndex(income[3]));
             String memo =cursor.getString(cursor.getColumnIndex(income[4]));
-            dailyInAndOut = new DailyInAndOut(in_id,"수입",date,asset,category,amount,memo);
-            setCardTextView(category,asset,amount,memo,dailyInAndOut);
+            String regDateTime = cursor.getString(cursor.getColumnIndex("reg_date_time"));
+            dailyInAndOut = new DailyInAndOut(in_id,"수입",date,asset,category,amount,memo,regDateTime);
+            alldayList.add(dailyInAndOut);
             inList.add(dailyInAndOut);
         }
         cursor.close();
+        MyComparator myComparator = new MyComparator();
+        Collections.sort(alldayList,myComparator);
+        if(alldayList!=null){
+            for (DailyInAndOut dayData: alldayList) {
+                //Log.d("전체정보", dayData.toString());
+                setCardTextView(dayData);
+            }
+        }
+
         //하루 총합구하기
         int incomeTotal=0;
         int expenseTotal=0;
         int dayTotal=0;
         for (DailyInAndOut ex: outList ) {
-            //adapter.addItem(ex);
             expenseTotal+=ex.getAmount();
         }
         for (DailyInAndOut in: inList ) {
-            // adapter.addItem(in);
             incomeTotal+=in.getAmount();
         }
         //하루 전체 내역
@@ -254,9 +269,27 @@ public class DailyFragment extends Fragment {
 
     }//스크롤뷰안쪽 리니어레이아웃에 카드뷰넣기
 
-    private void setCardTextView(String category, String asset, int amount, String memo, final DailyInAndOut dailyInAndOut) {
+    ///////////////어레이리스트 정렬시키기기
+   class MyComparator implements Comparator<DailyInAndOut> {
+        @Override
+        public int compare(DailyInAndOut o1, DailyInAndOut o2) {
+            if(Double.parseDouble(o1.getRegDateTime())>Double.parseDouble(o2.getRegDateTime())){
+                return 1;
+            }
+            return -1;
+        }
+    }
+
+    ////////////////
+
+    private void setCardTextView(final DailyInAndOut dailyInAndOut) {
+        String category=dailyInAndOut.getCategoryName();
+        String asset=dailyInAndOut.getAssetName();
+        int amount=dailyInAndOut.getAmount();
+        String memo=dailyInAndOut.getMemo();
         CardView cardView = new CardView(getContext());
-        cardView.setCardElevation(5);
+        cardView.setCardElevation(50);
+        cardView.setRadius(10);
         LinearLayout innercardviewLinear= new LinearLayout(getContext());
         innercardviewLinear.setOrientation(LinearLayout.VERTICAL);
         TextView categoryT,assetT,memoT,amountT;
@@ -265,7 +298,16 @@ public class DailyFragment extends Fragment {
         assetT= new TextView(getContext());
         assetT.setText(asset);
         amountT= new TextView(getContext());
-        amountT.setText(numberFormat.format(amount)+"원");
+        amountT.setGravity(Gravity.END);
+        if (dailyInAndOut.getType().equals("수입")){
+            amountT.setText(
+                    Html.fromHtml("<font color=\"#0000FF\">"+numberFormat.format(amount)
+                            +"</font> 원  "));
+        }else if (dailyInAndOut.getType().equals("지출")){
+            amountT.setText(
+                    Html.fromHtml("<font color=\"#FF0000\">"+numberFormat.format(amount)
+                            +"</font> 원  "));
+        }
         memoT= new TextView(getContext());
         memoT.setText(memo);
         innercardviewLinear.addView(categoryT);
@@ -382,7 +424,7 @@ public class DailyFragment extends Fragment {
             before1.setTextColor(Color.RED);
         }
         select.setText(Html.fromHtml(setWeekdayStr(selecday.getDayOfWeek().toString())+"<br>"
-                +"<span style=\"background-color:#1cbaba;\"><u>"+selecday.getDayOfMonth() +"</span></u>"));
+                +"<span style=\"background-color:#FFF1F1;\"><u>"+selecday.getDayOfMonth() +"</u></span>"));
         if (selecday.getDayOfWeek().toString().equals("SATURDAY")){
             select.setTextColor(Color.BLUE);
         }else if (selecday.getDayOfWeek().toString().equals("SUNDAY")){

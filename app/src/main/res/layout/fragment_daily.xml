@@ -102,6 +102,7 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="#FFF1F1"
                 android:stretchColumns="*">
 
@@ -114,21 +115,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="수입" />
+                        android:text="수입"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="전체" />
+                        android:text="전체"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="지출" />
+                        android:text="지출"
+                        android:textSize="16sp" />
                 </TableRow>
 
                 <TableRow
@@ -139,22 +143,31 @@
                         android:id="@+id/textView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:singleLine="true"
+                        android:text="TextView"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:singleLine="true"
+                        android:text="TextView"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/textView15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
                         android:gravity="center"
-                        android:text="TextView" />
+                        android:singleLine="true"
+                        android:text="TextView"
+                        android:textSize="18sp" />
                 </TableRow>
 
             </TableLayout>

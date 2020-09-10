@@ -22,17 +22,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         printLog("onCreate() call");
+        //유저테이블만들기
         String sqlUser = "create table if not exists user( "+
                 " user_id integer primary key autoincrement, "+
                 " password text) ";
         db.execSQL(sqlUser);
+        //수입테이블만들기
         String sqlIncome = "create table if not exists income( "+
                 " income_id integer primary key autoincrement, "+
-                " income_date text, asset_name text,incomecategory_name text,amount integer,memo text) ";
+                " income_date text, asset_name text,incomecategory_name text,amount integer,reg_date_time text,memo text) ";
         db.execSQL(sqlIncome);
+        //지출테이블만들기
         String sqlExpense = "create table if not exists expense( "+
                 " expense_id integer primary key autoincrement, "+
-                " expense_date text, asset_name text,expensecategory_name text,amount integer,memo text) ";
+                " expense_date text, asset_name text,expensecategory_name text,amount integer,reg_date_time text,memo text) ";
         db.execSQL(sqlExpense);
         String sqlIncomeCategory = "create table if not exists incomecategory( "+
                 " category_id integer primary key autoincrement, "+

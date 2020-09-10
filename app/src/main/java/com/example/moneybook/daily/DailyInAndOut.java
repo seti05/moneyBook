@@ -10,6 +10,7 @@ public class DailyInAndOut implements Serializable {
     private String categoryName;
     private int amount;
     private String memo;
+    private String regDateTime;
 
     public DailyInAndOut() {}
 
@@ -23,6 +24,17 @@ public class DailyInAndOut implements Serializable {
         this.memo = memo;
     }
 
+    public DailyInAndOut(int id, String type, String date, String assetName, String categoryName, int amount, String memo, String regDateTime) {
+        this.id = id;
+        this.type = type;
+        this.date = date;
+        this.assetName = assetName;
+        this.categoryName = categoryName;
+        this.amount = amount;
+        this.memo = memo;
+        this.regDateTime = regDateTime;
+    }
+
     @Override
     public String toString() {
         return "DailyInAndOut{" +
@@ -33,6 +45,7 @@ public class DailyInAndOut implements Serializable {
                 ", categoryName='" + categoryName + '\'' +
                 ", amount=" + amount +
                 ", memo='" + memo + '\'' +
+                ", regDateTime='" + regDateTime + '\'' +
                 '}';
     }
 
@@ -90,5 +103,13 @@ public class DailyInAndOut implements Serializable {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public String getRegDateTime() {
+        return regDateTime;
+    }
+
+    public void setRegDateTime(String regDateTime) {
+        this.regDateTime = regDateTime;
     }
 }

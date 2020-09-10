@@ -31,6 +31,8 @@ import com.example.moneybook.R;
 import com.example.moneybook.settings.MinMaxFilter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -259,14 +261,14 @@ public class RegMoneyBookActivity extends AppCompatActivity {
     private void insertMoneybook(){
         String sql="";
         if(isExpenseChecked){
-            sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,memo)"+
+            sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
                     " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                    Integer.parseInt(inputAmount)+",'"+inputMemo+"')";
+                    Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
             database.execSQL(sql);
         }else {
-            sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,memo)"+
+            sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
                     " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                    Integer.parseInt(inputAmount)+",'"+inputMemo+"')";
+                    Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
             database.execSQL(sql);
         }
         confirmRegReview();
