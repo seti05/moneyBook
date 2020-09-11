@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -71,6 +72,9 @@ public class DailyFragment extends Fragment {
 
     NumberFormat numberFormat;
 
+    FloatingActionButton fab;
+    Handler handler = new Handler();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -118,7 +122,7 @@ public class DailyFragment extends Fragment {
         });
 
         //입력+버튼
-        FloatingActionButton fab = view.findViewById(R.id.reg_fabButton);
+        fab = view.findViewById(R.id.reg_fabButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,15 +292,14 @@ public class DailyFragment extends Fragment {
         int amount=dailyInAndOut.getAmount();
         String memo=dailyInAndOut.getMemo();
         CardView cardView = new CardView(getContext());
-        cardView.setCardElevation(50);
-        cardView.setRadius(10);
+        cardView.setRadius(20);
         LinearLayout innercardviewLinear= new LinearLayout(getContext());
         innercardviewLinear.setOrientation(LinearLayout.VERTICAL);
         TextView categoryT,assetT,memoT,amountT;
         categoryT= new TextView(getContext());
-        categoryT.setText(category);
-        assetT= new TextView(getContext());
-        assetT.setText(asset);
+        categoryT.setText("  "+category+" | "+asset);
+//        assetT= new TextView(getContext());
+//        assetT.setText(asset);
         amountT= new TextView(getContext());
         amountT.setGravity(Gravity.END);
         if (dailyInAndOut.getType().equals("수입")){
@@ -311,11 +314,19 @@ public class DailyFragment extends Fragment {
         memoT= new TextView(getContext());
         memoT.setText(memo);
         innercardviewLinear.addView(categoryT);
-        innercardviewLinear.addView(assetT);
+        //innercardviewLinear.addView(assetT);
         innercardviewLinear.addView(amountT);
         innercardviewLinear.addView(memoT);
         cardView.addView(innercardviewLinear);
+
         testlinearlayout.addView(cardView);
+        if(cardView.getLayoutParams()==null){
+            //Log.d("TAG", "cardView.getLayoutParams()는 널이다 ");
+        }else {
+            LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) cardView.getLayoutParams();
+            layoutParams.topMargin=10;
+            cardView.setLayoutParams(layoutParams);
+        }
         //카드뷰에 터치이벤트걸기
         cardView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             @SuppressLint("ClickableViewAccessibility")
@@ -347,9 +358,45 @@ public class DailyFragment extends Fragment {
                 intent.putExtra("contents",dailyInAndOut);
                 getContext().startActivity(intent);
             }
+
+            @Override
+            public void hidefabAction() {
+                //super.hidefabAction();
+                fab.hide();
+                //Log.d("플러스버튼 사라짐", "hidefabAction: ");
+            }
+
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public void showfabAction() {
+                //super.showfabAction();
+                BackThread thread = new BackThread();
+                thread.start();
+            }
+            @Override
+            public void showfabOnScroll() {
+                fab.show();
+            }
         });
     }//카드뷰 안쪽 텍스트뷰 만들고 리니어레이아웃에 뷰추가
 
+    //플러스버튼 나타나게하는 스레드
+    private class BackThread extends Thread{
+        @Override
+        public void run() {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {}
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Log.d("플러스버튼 나타나라라", "showfabAction: ");
+                        fab.show();
+                    }
+                });
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

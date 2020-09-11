@@ -30,44 +30,47 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     //boolean isSwiping = false;
 
     public boolean onTouch(View v, MotionEvent event) {
-        //Log.d("스와이프터치리스너", "onTouch: ");
+        Log.d("터치터치", "이벤트: "+event);
 
-            switch (event.getAction()) {
+            switch (event.getAction()) {                
                 case MotionEvent.ACTION_SCROLL:
-                    Log.d("스와이프터치리스너", "ACTION_SCROLL: ");
+//                    Log.d("스와이프터치리스너", "ACTION_SCROLL: ");
                 case MotionEvent.ACTION_CANCEL:
-                    Log.d("스와이프터치리스너", "ACTION_CANCEL: ");
+                    Log.d("액션캔슬", "ACTION_CANCEL: ");
+                    showfabAction();
+                    break;
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    Log.d("스와이프터치리스너", "ACTION_POINTER_DOWN: ");
+//                    Log.d("스와이프터치리스너", "ACTION_POINTER_DOWN: ");
                 case MotionEvent.ACTION_POINTER_UP:
-                    Log.d("스와이프터치리스너", "ACTION_POINTER_UP: ");
+//                    Log.d("스와이프터치리스너", "ACTION_POINTER_UP: ");
                 case MotionEvent.ACTION_HOVER_MOVE:
-                    Log.d("스와이프터치리스너", "ACTION_HOVER_MOVE: ");
+//                    Log.d("스와이프터치리스너", "ACTION_HOVER_MOVE: ");
                 case MotionEvent.ACTION_HOVER_ENTER:
-                    Log.d("스와이프터치리스너", "ACTION_HOVER_ENTER: ");
+//                    Log.d("스와이프터치리스너", "ACTION_HOVER_ENTER: ");
                 case MotionEvent.ACTION_HOVER_EXIT:
-                    Log.d("스와이프터치리스너", "ACTION_HOVER_EXIT: ");
+//                    Log.d("스와이프터치리스너", "ACTION_HOVER_EXIT: ");
 //                    isMoving = true;
 //                    if (isSwiping==false){
 //                        this.onClick(v);
 //                    }
-                    break;
+//                    break;
                 case MotionEvent.ACTION_OUTSIDE:
-                    Log.d("스와이프터치리스너", "ACTION_OUTSIDE: ");
+//                    Log.d("스와이프터치리스너", "ACTION_OUTSIDE: ");
 
                 case MotionEvent.ACTION_MOVE:
-                    Log.d("스와이프터치리스너", "ACTION_MOVE: ");
+
 //                    isMoving = true;
 //                    isSwiping=true;
                     float eventNum = event.getOrientation();
                     float xNum = event.getX();
                     float yNum = event.getY();
-
+                    Log.d("터치리스너,액션무브", "xNum: "+xNum+", yNum: "+yNum);
+                    hidefabAction();
                     // implement your move codes
                     break;
 
                 case MotionEvent.ACTION_UP:
-                    Log.d("스와이프터치리스너", "ACTION_UP: ");
+                    Log.d("스와이프터치리스너", "ACTION_UP:y값 "+event.getY());
                     if(isMoving==false){
                         this.onClick(v);
                     }
@@ -80,6 +83,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         return gestureDetector.onTouchEvent(event);
     }
 
+
+
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private static final int SWIPE_DISTANCE_THRESHOLD = 100;
@@ -87,7 +92,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            Log.d("스와이프터치리스너", "onDown: ");
+//            Log.d("스와이프터치리스너", "onDown: ");
             return true;
         }
 
@@ -95,6 +100,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             Log.d("스크롤", "이1: "+e1+"e2: "+e2+"x:"+distanceX+"y: "+distanceY);
             isMoving=true;
+            showfabOnScroll();
             return super.onScroll(e1, e2, distanceX, distanceY);
         }
 
@@ -120,7 +126,15 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
 
+    public void showfabOnScroll() {
+    }
 
+
+    public void hidefabAction() {
+    }
+
+    public void showfabAction() {
+    }
     public void onClick(View v) {
         //Log.d("스와이프터치리스너", "onClick: ");
     }
