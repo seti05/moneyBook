@@ -311,6 +311,7 @@ public class DailyFragment extends Fragment {
                     Html.fromHtml("<font color=\"#FF0000\">"+numberFormat.format(amount)
                             +"</font> 원  "));
         }
+        amountT.setTextSize(18);
         memoT= new TextView(getContext());
         memoT.setText(memo);
         innercardviewLinear.addView(categoryT);
