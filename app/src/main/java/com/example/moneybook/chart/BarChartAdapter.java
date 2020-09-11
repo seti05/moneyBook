@@ -1,6 +1,7 @@
 package com.example.moneybook.chart;
 
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,8 @@ public class BarChartAdapter extends RecyclerView.Adapter<BarChartAdapter.ViewHo
             String date = String.valueOf(item.getDate());
             String monthStr = date.substring(date.indexOf("-")+1);//년 부분만 짤라옴
             month.setText(monthStr + "월");
-            income.setText(String.valueOf(numberFormat.format(incomeArr.get(position).getAmount())));
-            expense.setText(numberFormat.format(item.getAmount()));
+            income.setText(Html.fromHtml("<font color=\"#0000ff\">" + numberFormat.format(incomeArr.get(position).getAmount()) + "</font>" + " 원"));
+            expense.setText(Html.fromHtml("<font color=\"#ff0000\">" + numberFormat.format(item.getAmount()) + "</font>" + " 원"));
         }
     }
 

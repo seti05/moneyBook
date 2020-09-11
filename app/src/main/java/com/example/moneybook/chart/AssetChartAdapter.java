@@ -54,7 +54,7 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
         public void setItem(DailyInAndOut item, int position) {
             numberFormat = NumberFormat.getInstance(Locale.getDefault());
             assetTypeText.setText(item.getAssetName());
-            assetText.setText(numberFormat.format(item.getAmount()));
+            assetText.setText(numberFormat.format(item.getAmount()) + " 원");
             perText.setText(" ( " + perList.get(position) + " )");
         }
     }

@@ -59,6 +59,8 @@ public class ChartFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        setHasOptionsMenu(true);
+
         //프래그먼트 지정
         MyPagerAdapter adapter = new MyPagerAdapter(getChildFragmentManager());
         barChartFragment = new BarChartFragment();

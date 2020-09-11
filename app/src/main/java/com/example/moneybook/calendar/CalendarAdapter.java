@@ -80,7 +80,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         public void setItem(DailyInAndOut item) {
             numberFormat = NumberFormat.getInstance(Locale.getDefault());
             category.setText(item.getCategoryName());
-            money.setText(numberFormat.format(item.getAmount()));
+            money.setText(numberFormat.format(item.getAmount()) + " 원");
             if(item.getMemo() != null){
                 category.setText(item.getCategoryName()+"(" + item.getMemo() + ")");
               }
