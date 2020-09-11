@@ -282,7 +282,7 @@ public class AssetChartFragment extends Fragment {
             }
             year_month_day = year + "-" + month + "-" + day;
             year_month = year + "-" + month;
-            sql = "select asset_name, sum(amount) from " + assetType + " where " + assetDate + " >= '" + year_month + "-01' and " + assetDate + " <= " + "'" + year_month_day + "' group by asset_name";
+            sql = "select asset_name, sum(amount) from " + assetType + " where " + assetDate + " >= '" + year_month + "-01' and " + assetDate + " <= " + "'" + year_month_day + "' group by asset_name order by sum(amount) desc";
             if(sql != null){
                 Cursor cursor = database.rawQuery(sql, null);
                 while (cursor.moveToNext()){
