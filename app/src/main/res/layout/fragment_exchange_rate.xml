@@ -23,7 +23,8 @@
             android:id="@+id/textViewUSA"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:text="미국 USD"
             android:textSize="24sp" />
 
@@ -45,7 +46,8 @@
             android:id="@+id/textViewEuro"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:text="유럽연합 EUR"
             android:textSize="24sp" />
 
@@ -67,7 +69,8 @@
             android:id="@+id/textViewEngland"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:text="영국 GBP"
             android:textSize="24sp" />
 
@@ -89,7 +92,8 @@
             android:id="@+id/textViewChina"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:text="중국 CNY"
             android:textSize="24sp" />
 
@@ -111,7 +115,8 @@
             android:id="@+id/textViewJapan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="5"
             android:text="일본 JPY"
             android:textSize="24sp" />
 
