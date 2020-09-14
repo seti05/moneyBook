@@ -18,6 +18,16 @@
             android:elevation="1dp">
 
             <TextView
+                android:id="@+id/todayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TODAY"
+                android:textColor="#F37369"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                />
+
+            <TextView
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFF1F1"
-                android:stretchColumns="*">
+                android:stretchColumns="*"
+                android:paddingTop="3dp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -113,16 +124,25 @@
                 android:layout_height="wrap_content"
                 android:listSelector="#FFF1F1"
                 android:layout_marginTop="5dp"
-                android:numColumns="7" />
+                android:numColumns="7" >
+
+            </GridView>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#bdbdbd"
+                android:layout_marginTop="5dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
                 android:background="#ececec"
                 android:orientation="vertical"
                 android:visibility="gone"
+                android:layout_marginBottom="7dp"
                 />
 
             <TextView

@@ -1,6 +1,8 @@
 package com.example.moneybook.calendar;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +82,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         public void setItem(DailyInAndOut item) {
             numberFormat = NumberFormat.getInstance(Locale.getDefault());
             category.setText(item.getCategoryName());
-            money.setText(numberFormat.format(item.getAmount()) + " 원");
+            if(item.getType() == "지출"){
+                money.setText(Html.fromHtml("<font color=\"#ff0000\">" + numberFormat.format(item.getAmount()) + "</font>" + " 원"));
+            }
+            if(item.getType() == "수입"){
+                money.setText(Html.fromHtml("<font color=\"#0000ff\">" + numberFormat.format(item.getAmount()) + "</font>" + " 원"));
+            }
             if(item.getMemo() != null){
                 category.setText(item.getCategoryName()+"(" + item.getMemo() + ")");
               }

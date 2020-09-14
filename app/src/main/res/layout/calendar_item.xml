@@ -17,19 +17,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
-                <TextView
+
+            <TextView
                     android:id="@+id/category"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:id="@+id/money"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:textSize="20sp"
-                    android:gravity="right"/>
+                    android:ellipsize="middle"
+                    android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:gravity="right"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

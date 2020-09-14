@@ -72,6 +72,7 @@ public class CalendarFragment extends Fragment {
     TextView monthSum, expenseSum, incomeSum;
     String lastday, year_month_day, year_month;
     String amountIn, amountEx;
+    TextView todayButton;
 
 
     @Override
@@ -90,13 +91,14 @@ public class CalendarFragment extends Fragment {
         monthSum = view.findViewById(R.id.monthSumText);
         expenseSum = view.findViewById(R.id.monthExpenseText);
         incomeSum = view.findViewById(R.id.monthIncomeText);
+        todayButton = view.findViewById(R.id.todayButton);
 
         //상단바 설정(오늘버튼)
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.today);
+//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_today_foreground);
 
         dbHelper = new DatabaseHelper(getContext());
         database = dbHelper.getWritableDatabase();
@@ -189,6 +191,26 @@ public class CalendarFragment extends Fragment {
         Log.d("TAG", "onCreateView: " + yearStr + monthStr);
 
         monthSum();
+
+        todayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clear();
+                adapter.notifyDataSetChanged();
+                today();
+                yearStr = titleText.getText().toString().substring(0,4);
+                monthStr = titleText.getText().toString().substring(6,8);
+                dateSql = yearStr + "-" + monthStr + "-";//실제 view에 보이도록 하기 위해서 view의 변수를 넣어줌
+                calendar();
+                monthSum();
+                long now = System.currentTimeMillis();
+                Date mDate = new Date(now);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String today = simpleDateFormat.format(mDate);
+                day = today;
+                select();
+            }
+        });
         return view;
     }
 
@@ -323,10 +345,10 @@ public class CalendarFragment extends Fragment {
                 String memo = cursorIn.getString(2);
                 String income_date = cursorIn.getString(3);
                 if(memo==null || memo.equals("")){
-                    DailyInAndOut d = new DailyInAndOut(0, null, income_date, null, incomecategory_name, amount, null);
+                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, null);
                     adapter.addItem(d);
                 } else {
-                    DailyInAndOut d = new DailyInAndOut(0, null, income_date, null, incomecategory_name, amount, memo);
+                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, memo);
                     adapter.addItem(d);
                 }
             }
@@ -341,10 +363,10 @@ public class CalendarFragment extends Fragment {
                 String memo = cursorEx.getString(2);
                 String expense_date = cursorEx.getString(3);
                 if(memo==null || memo.equals("")){
-                    DailyInAndOut d = new DailyInAndOut(0, null, expense_date, null, expensecategory_name, amount, null);
+                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, null);
                     adapter.addItem(d);
                 } else {
-                    DailyInAndOut d = new DailyInAndOut(0, null, expense_date, null, expensecategory_name, amount, memo);
+                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, memo);
                     adapter.addItem(d);
                 }
             }
@@ -534,23 +556,7 @@ public class CalendarFragment extends Fragment {
     //타이틀바에 있는 버튼 클릭시
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(home == item.getItemId()){
-            adapter.clear();
-            adapter.notifyDataSetChanged();
-            today();
-            yearStr = titleText.getText().toString().substring(0,4);
-            monthStr = titleText.getText().toString().substring(6,8);
-            dateSql = yearStr + "-" + monthStr + "-";//실제 view에 보이도록 하기 위해서 view의 변수를 넣어줌
-            calendar();
-            monthSum();
-            long now = System.currentTimeMillis();
-            Date mDate = new Date(now);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String today = simpleDateFormat.format(mDate);
-            day = today;
-            select();
-            return true;
-        } else if(R.id.tab5 == item.getItemId()){
+        if(R.id.tab5 == item.getItemId()){
             Intent intent = new Intent(getContext(), SettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
