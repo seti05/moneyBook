@@ -20,6 +20,7 @@ import com.example.moneybook.R;
 import com.example.moneybook.daily.DailyInAndOut;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -66,7 +67,6 @@ public class BarChartFragment extends Fragment {
         barChart.getAxisRight().setDrawLabels(false);
         //x축설정
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.TOP);//x축 라벨 위치
-
 
         monthArr = new ArrayList<>();
         inList = new ArrayList<>();

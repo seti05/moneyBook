@@ -179,6 +179,13 @@ public class CalendarFragment extends Fragment {
             }
         });
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String today = simpleDateFormat.format(date);
+        day = today;
+        Log.d("TAG", "오늘날짜: " + day);
+
+        select();
+
         Log.d("TAG", "onCreateView: " + yearStr + monthStr);
 
         monthSum();
@@ -247,6 +254,7 @@ public class CalendarFragment extends Fragment {
         }
     }
 
+    //상세내역클릭시 넘어감
     private void click(){
         Bundle bundle = getArguments();
         if(bundle != null){
@@ -535,6 +543,12 @@ public class CalendarFragment extends Fragment {
             dateSql = yearStr + "-" + monthStr + "-";//실제 view에 보이도록 하기 위해서 view의 변수를 넣어줌
             calendar();
             monthSum();
+            long now = System.currentTimeMillis();
+            Date mDate = new Date(now);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String today = simpleDateFormat.format(mDate);
+            day = today;
+            select();
             return true;
         } else if(R.id.tab5 == item.getItemId()){
             Intent intent = new Intent(getContext(), SettingsActivity.class);
