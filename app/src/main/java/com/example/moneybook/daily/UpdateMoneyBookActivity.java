@@ -37,20 +37,17 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
     DatabaseHelper dbHelper;
     SQLiteDatabase database;
     boolean isExpenseChecked=true;
-    private Spinner spinner2,spinner;
-    ArrayAdapter<String> arrayAdapter;
-    ArrayAdapter<String> arrayAdapter2;
+
     int catNum,assetNum;
 
     ArrayList<String> incomeCat = new ArrayList<>();
     ArrayList<String> expenseCat = new ArrayList<>();
-    ArrayList<String> assetList = new ArrayList<>();
 
     Button selecIncomeButton, selecExpenseButton,selecDayButton;
     Cursor cursor;
     LocalDate today = LocalDate.now();
 
-    String inputDay,inputAsset,inputCategory,inputAmount,inputMemo;
+    String inputDay,inputAmount,inputMemo;
 
     EditText amountEdit,memoEdit;
 
@@ -58,6 +55,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
 
     Button assetUpdateButton,categoryUpdateButton;
     String assetresult,categoryresult;
+    String originalRegTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +107,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
             data = (DailyInAndOut) bundle.getSerializable("contents");//저장해 놓은 키값을 입력, protected MyData(Parcel in)를 호출해서 넣어주는 거
 
             if(data!= null){
+                originalRegTime=data.getRegDateTime();
                 if(data.getType().equals("수입")){
                     isExpenseChecked=false;
                     selecIncomeButton.setBackgroundColor(Color.parseColor("#ffcccc"));
@@ -276,16 +275,16 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
     }
 
     private void updateMoneybook(){
-        //수입,지출이 변동있으면 삭제하고 입력하기
+        //수입,지출이 변동있으면 삭제하고 입력하기, 원래 작성시간 전달하기
         String exDelsql="delete from expense where expense_id="+data.getId();
-        String inInsertsql="insert into income(income_date, asset_name ,incomecategory_name,amount,memo)"+
+        String inInsertsql="insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
                 " values('"+inputDay+"','"+assetresult+"','"+categoryresult+"',"+
-                Integer.parseInt(inputAmount)+",'"+inputMemo+"')";
+                Integer.parseInt(inputAmount)+",'"+originalRegTime+"','"+inputMemo+"')";
 
         String inDelsql="delete from income where income_id="+data.getId();
-        String exInsertsql="insert into expense(expense_date,asset_name,expensecategory_name,amount,memo)"+
+        String exInsertsql="insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
                 " values('"+inputDay+"','"+assetresult+"','"+categoryresult+"',"+
-                Integer.parseInt(inputAmount)+",'"+inputMemo+"')";
+                Integer.parseInt(inputAmount)+",'"+originalRegTime+"','"+inputMemo+"')";
 
         //수입,지출 변동없을때 바로 수정하기
         String exUpsql="update expense set expense_date='" +inputDay+

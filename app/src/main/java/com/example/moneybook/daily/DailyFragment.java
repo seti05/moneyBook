@@ -54,7 +54,7 @@ import static android.R.id.home;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DailyFragment extends Fragment {
     TextView before3,before2,before1,select,next1,next2,next3;
-    TextView titleTextView;
+    TextView titleTextView,todayTextView;
     TextView incomeT,totalT,expenseT;
 
     Toolbar toolbar;
@@ -96,8 +96,9 @@ public class DailyFragment extends Fragment {
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);//원래 상단바의 이름을 감춤
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.today);
+        todayTextView=view.findViewById(R.id.todaytextview);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(R.drawable.today);
 
         Date current = Calendar.getInstance().getTime();
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(current);
@@ -118,6 +119,17 @@ public class DailyFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener, today.getYear(), today.getMonthValue()-1, today.getDayOfMonth());
                 datePickerDialog.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog.show();
+            }
+        });
+
+        todayTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date current = Calendar.getInstance().getTime();
+                String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(current);
+                titleTextView.setText(date);
+                setSevenDays();
+                setCardView();
             }
         });
 
@@ -325,7 +337,9 @@ public class DailyFragment extends Fragment {
             //Log.d("TAG", "cardView.getLayoutParams()는 널이다 ");
         }else {
             LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) cardView.getLayoutParams();
-            layoutParams.topMargin=10;
+            layoutParams.bottomMargin=10;
+            layoutParams.leftMargin=18;
+            layoutParams.rightMargin=18;
             cardView.setLayoutParams(layoutParams);
         }
         //카드뷰에 터치이벤트걸기
@@ -353,7 +367,7 @@ public class DailyFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onClick(View v) {
-                Log.d("스크롤뷰클릭이벤트 제발", "onClick: "+dailyInAndOut.toString());
+                //Log.d("스크롤뷰클릭이벤트 제발", "onClick: "+dailyInAndOut.toString());
                 Intent intent = new Intent(getContext(), UpdateMoneyBookActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("contents",dailyInAndOut);
@@ -362,9 +376,7 @@ public class DailyFragment extends Fragment {
 
             @Override
             public void hidefabAction() {
-                //super.hidefabAction();
                 fab.hide();
-                //Log.d("플러스버튼 사라짐", "hidefabAction: ");
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -406,14 +418,8 @@ public class DailyFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Date current = Calendar.getInstance().getTime();
-        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(current);
-        if(home == item.getItemId()){
-            titleTextView.setText(date);
-            setSevenDays();
-            setCardView();
-            return true;
-        }else if(R.id.tab5 == item.getItemId()){
+
+       if(R.id.tab5 == item.getItemId()){
             Intent intent = new Intent(getContext(), SettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
