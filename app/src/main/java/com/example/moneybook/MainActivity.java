@@ -51,28 +51,24 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
                 switch (item.getItemId()){
                     //menu_bottom.xml에 있는 tab id로 구분함
                     case R.id.tab1:
-                        Toast.makeText(getApplicationContext(),"첫번째 탭",Toast.LENGTH_SHORT).show();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, dailyFragment).commit();
                         if(getIntent().getStringExtra("date")!=null){
                             getIntent().removeExtra("date");
                         }
                         return true;
                     case R.id.tab2:
-                        Toast.makeText(getApplicationContext(),"두째 탭",Toast.LENGTH_SHORT).show();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, calendarFragment).commit();
                         if(getIntent().getStringExtra("date")!=null){
                             getIntent().removeExtra("date");
                         }
                         return true;
                     case R.id.tab3:
-                        Toast.makeText(getApplicationContext(),"세번째 탭",Toast.LENGTH_SHORT).show();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, chartFragment).commit();
                         if(getIntent().getStringExtra("date")!=null){
                             getIntent().removeExtra("date");
                         }
                         return true;
                     case R.id.tab4:
-                        Toast.makeText(getApplicationContext(),"네번째 탭",Toast.LENGTH_SHORT).show();
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_container, economy_infoFragment).commit();
                         if(getIntent().getStringExtra("date")!=null){
                             getIntent().removeExtra("date");

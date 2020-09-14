@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
@@ -22,8 +24,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.moneybook.R;
 import com.google.gson.Gson;
 
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ExchangeRateFragment extends Fragment {
     Handler handler = new Handler();
@@ -32,6 +38,7 @@ public class ExchangeRateFragment extends Fragment {
     ArrayList<String> list=new ArrayList<>();
     String result;
     static RequestQueue requestQueue;
+    NumberFormat numberFormat;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +46,7 @@ public class ExchangeRateFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_exchange_rate, container, false);
 
+        numberFormat =NumberFormat.getInstance(Locale.getDefault());
 
         USARateTextView = view.findViewById(R.id.USARateTextView);
         EuroTextView = view.findViewById(R.id.EuroRateTextView);
@@ -52,6 +60,7 @@ public class ExchangeRateFragment extends Fragment {
         }
         minusdays[0]=0;
         sendRequest();
+
 
         return view;
     }//onCreateView끝
@@ -75,9 +84,7 @@ public class ExchangeRateFragment extends Fragment {
                     dayStr="0"+dayStr;
                 }
                 date=today.getYear()+monthStr+dayStr;
-            //Log.d("날짜를 보여줘", "년도: "+today.getYear());
             String urlStr="http://ds.gscms.co.kr:8888/Rest/ExchangeRates/081?type=json&sessionID=test&date="+date;
-            //Log.d("url을 보여줘", "유알엘은요: "+urlStr);
 
         //문자열 request객체를 생성 //문자열 요청을 함
         //인자: 요청방식, 주소, 응답리스터, 에러리스너
@@ -122,24 +129,23 @@ public class ExchangeRateFragment extends Fragment {
         //제이슨으로 받은 내용을 ExchangeRates 변경하여 ExchangeRates 반환함
         ExchnageRateResult exchnageRateResult = gson.fromJson(response, ExchnageRateResult.class);//제이슨으로 받은 놈을 ExchangeRates로 변경해서 반환
         if(exchnageRateResult.ExchangeRates.Row!=null) {
-            //영화정보를 이제 사용할 수 있음
-            String s = "영화 정보 수 :" + exchnageRateResult.ExchangeRates.Row.size();
+            String s = "" + exchnageRateResult.ExchangeRates.Row.size();
             ArrayList<ExRate> exratelist = exchnageRateResult.ExchangeRates.Row;
             for (ExRate result : exratelist) {
                 if (result.국명.equals("미국")) {
-                    USARateTextView.setText(result.매매기준율 + "");
+                    USARateTextView.setText(numberFormat.format(Double.parseDouble(result.매매기준율)) + "");
                 }
                 if (result.국명.equals("영국")) {
-                    EnglandTextView.setText(result.매매기준율 + "");
+                    EnglandTextView.setText(numberFormat.format(Double.parseDouble(result.매매기준율)) + "");
                 }
                 if (result.국명.equals("일본")) {
-                    JapanTextView.setText(result.매매기준율 + "");
+                    JapanTextView.setText(numberFormat.format(Double.parseDouble(result.매매기준율)) + "");
                 }
                 if (result.국명.equals("중국")) {
-                    ChinaTextView.setText(result.매매기준율 + "");
+                    ChinaTextView.setText(numberFormat.format(Double.parseDouble(result.매매기준율)) + "");
                 }
                 if (result.국명.equals("유로")) {
-                    EuroTextView.setText(result.매매기준율 + "");
+                    EuroTextView.setText(numberFormat.format(Double.parseDouble(result.매매기준율)) + "");
                 }
             }
         }
@@ -147,13 +153,11 @@ public class ExchangeRateFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void repeatFindWorkingDay(String response){
-        //Log.d(minusdays[0]+"번째응답하라", "onResponse: " + response);
         int test= response.indexOf("\"@count\":\"0\"");
-        //Log.d("정보가 있는지 없는지 여부", "환율정보 있으면-1이다" + test);
         if(test!=-1){
-            minusdays[0]++; Log.d("마이너스데이는 몇인가", "onResponse: " + minusdays[0]);
+            minusdays[0]++;
+            //Log.d("마이너스데이는 몇인가", "onResponse: " + minusdays[0]);
             findworkingDay=LocalDate.now().minusDays(minusdays[0]);
-            //Log.d("워킹데이를 찾아서", "findworkingDay: " + findworkingDay.toString());
             String monthStr=findworkingDay.getMonthValue()+"";
             if (monthStr.length()==1){
                 monthStr="0"+monthStr;
@@ -164,7 +168,7 @@ public class ExchangeRateFragment extends Fragment {
             }
             String date=findworkingDay.getYear()+monthStr+dayStr;
             String urlStr="http://ds.gscms.co.kr:8888/Rest/ExchangeRates/081?type=json&sessionID=test&date="+date;
-            Log.d("TAG", "urlStr: "+urlStr);
+            //Log.d("TAG", "urlStr: "+urlStr);
             StringRequest request = new StringRequest(
                     Request.Method.GET,
                     urlStr,
