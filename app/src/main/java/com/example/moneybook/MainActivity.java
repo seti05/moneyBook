@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     BottomNavigationView bottomNavigationView;
     public static FragmentTransaction fragmentTransaction;
     public static FragmentManager manager;
+
+    private BackPressCloseHandler backPressCloseHandler;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -99,12 +102,20 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
         //차트 상세내역 클릭
         barchartClick();
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
     }//onCreate끝
 
     @Override
+    protected void onDestroy() {
+        Log.d("메인엑티비티가 사라진드아아", "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(),"한번더 누르면 종료됩니다",Toast.LENGTH_SHORT).show();
         //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
     }
 
     private void barchartClick() {
@@ -137,4 +148,38 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     @Override
     public void onGranted(int i, String[] strings) { }
+
+
+    public class BackPressCloseHandler {
+        //뒤로가기 버튼용 클래스
+
+        private long backKeyPressedTime = 0;
+        private Toast toast;
+
+        private Activity activity;
+
+        public BackPressCloseHandler(Activity context) {
+            this.activity = context;
+        }
+
+        public void onBackPressed() {
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis();
+                showGuide();
+                return;
+            }
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                activity.finish();
+                toast.cancel();
+            }
+        }
+
+        public void showGuide() {
+            toast = Toast.makeText(activity,
+                    "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+
 }

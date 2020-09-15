@@ -30,10 +30,12 @@ import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
 import com.example.moneybook.settings.MinMaxFilter;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class RegMoneyBookActivity extends AppCompatActivity {
@@ -56,6 +58,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
 
     EditText amountEdit,memoEdit;
     MainActivity MA = (MainActivity) MainActivity.activity;
+    NumberFormat numberFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(getApplicationContext());
         database = dbHelper.getWritableDatabase();
 
+        numberFormat = NumberFormat.getInstance(Locale.getDefault());
         setCategory();
 
         setCategoryName();
@@ -274,9 +278,11 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                         Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
                 database.execSQL(sql);
             }
-            regSuccessMSG=inputDay+"일자 "+ inputAmount+"원 입력이 성공했습니다.";
+            regSuccessMSG=inputDay+"일자 "+ numberFormat.format(Integer.parseInt(inputAmount))+"원 입력이 성공했습니다.";
+            reRegConfirm();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"입력중 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -303,7 +309,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 insertMoneybook();
-                reRegConfirm();
             }
         });
         builder.show();

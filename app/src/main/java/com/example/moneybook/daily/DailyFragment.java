@@ -1,6 +1,7 @@
 package com.example.moneybook.daily;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -77,6 +78,8 @@ public class DailyFragment extends Fragment {
 
     FloatingActionButton fab;
     Handler handler = new Handler();
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -203,6 +206,8 @@ public class DailyFragment extends Fragment {
 
         //데이터 보여줄 스크롤뷰
         scrollView = view.findViewById(R.id.scrollview);
+
+
         return view;
     }//온크리에이트뷰 끝
 
@@ -678,5 +683,8 @@ public class DailyFragment extends Fragment {
         });
 
     }
+
+
+
 
 }
