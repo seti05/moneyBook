@@ -48,6 +48,7 @@ public class BarChartFragment extends Fragment {
     Bundle bundle;
     ArrayList<String> exNull, inNull;
     TextView nodata;
+    View divider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +59,9 @@ public class BarChartFragment extends Fragment {
         //막대그래프 설정
         barChart = view.findViewById(R.id.barChart);
         barChart.setPinchZoom(false);
-        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setDoubleTapToZoomEnabled(true);
+        barChart.zoomIn();
+        barChart.zoomOut();
         barChart.setDrawBarShadow(false);
         barChart.setDrawGridBackground(false);
         barChart.setTouchEnabled(true);
@@ -82,6 +85,7 @@ public class BarChartFragment extends Fragment {
         titleText = getActivity().findViewById(R.id.titleText);
         adapter = new BarChartAdapter();
         nodata = view.findViewById(R.id.barNoData);
+        divider = view.findViewById(R.id.divider3);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -201,10 +205,12 @@ public class BarChartFragment extends Fragment {
             nodata.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
             barChart.setVisibility(View.INVISIBLE);
+            divider.setVisibility(View.GONE);
         } else {
             nodata.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             barChart.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
             for(int i = 0; i < exList.size(); i++) {
                 //표에 표현할 데이터추가
                 exData.add(new BarEntry(Float.parseFloat(monthArr.get(i)), exList.get(i).getAmount()));

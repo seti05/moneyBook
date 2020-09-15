@@ -57,6 +57,7 @@ public class AssetChartFragment extends Fragment {
     TextView nodata;
     DecimalFormat mFormat;
     boolean percentSignSeparated;
+    View divider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,7 @@ public class AssetChartFragment extends Fragment {
         assetData = new ArrayList<>();
         pieEntry = new ArrayList<PieEntry>();
         nodata = view.findViewById(R.id.pieNoData);
+        divider = view.findViewById(R.id.divider4);
 
         //그래프 설정
         pieChart.setUsePercentValues(true);//퍼센트 단위로 보여줌
@@ -149,10 +151,12 @@ public class AssetChartFragment extends Fragment {
             nodata.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.INVISIBLE);
             pieChart.setVisibility(View.INVISIBLE);
+            divider.setVisibility(View.GONE);
         } else {
             nodata.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             pieChart.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
             for(int i = 0; i < assetTypeCnt.size(); i++){
                 pieEntry.add(new PieEntry(Float.parseFloat(assetCnt.get(i)), assetTypeCnt.get(i)));
                 dataSet = new PieDataSet(pieEntry, null);

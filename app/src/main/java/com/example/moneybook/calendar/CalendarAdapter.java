@@ -18,6 +18,8 @@ import com.example.moneybook.daily.DailyInAndOut;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {
@@ -58,7 +60,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         return items;
     }
 
-
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView category, money;
         NumberFormat numberFormat;
@@ -90,8 +91,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
             }
             if(item.getMemo() != null){
                 category.setText(item.getCategoryName()+"(" + item.getMemo() + ")");
-              }
+            }
         }
+
     }
 
     public void addItem(DailyInAndOut item){items.add(item);}

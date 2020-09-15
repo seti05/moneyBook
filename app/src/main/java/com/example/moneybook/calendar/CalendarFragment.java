@@ -323,8 +323,8 @@ public class CalendarFragment extends Fragment {
     //상세내역보는 것
     private void select() {
         if(database != null){
-            String exSql = "select expensecategory_name, amount, memo, expense_date from expense where expense_date = '"+day+"'";
-            String inSql = "select incomecategory_name, amount, memo, income_date from income where income_date = '" + day + "'";
+            String exSql = "select expensecategory_name, amount, memo, expense_date, reg_date_time from expense where expense_date = '"+day+"'";
+            String inSql = "select incomecategory_name, amount, memo, income_date, reg_date_time from income where income_date = '" + day + "'";
 
             Cursor cursorEx = database.rawQuery(exSql, null);
             Cursor cursorIn = database.rawQuery(inSql, null);
@@ -344,11 +344,12 @@ public class CalendarFragment extends Fragment {
                 int amount = cursorIn.getInt(1);
                 String memo = cursorIn.getString(2);
                 String income_date = cursorIn.getString(3);
+                String regDateTime = cursorIn.getString(4);
                 if(memo==null || memo.equals("")){
-                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, null);
+                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, null, regDateTime);
                     adapter.addItem(d);
                 } else {
-                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, memo);
+                    DailyInAndOut d = new DailyInAndOut(0, "수입", income_date, null, incomecategory_name, amount, memo, regDateTime);
                     adapter.addItem(d);
                 }
             }
@@ -362,11 +363,12 @@ public class CalendarFragment extends Fragment {
                 int amount = cursorEx.getInt(1);
                 String memo = cursorEx.getString(2);
                 String expense_date = cursorEx.getString(3);
+                String regDateTime = cursorEx.getString(4);
                 if(memo==null || memo.equals("")){
-                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, null);
+                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, null, regDateTime);
                     adapter.addItem(d);
                 } else {
-                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, memo);
+                    DailyInAndOut d = new DailyInAndOut(0, "지출", expense_date, null, expensecategory_name, amount, memo, regDateTime);
                     adapter.addItem(d);
                 }
             }
@@ -398,6 +400,9 @@ public class CalendarFragment extends Fragment {
             datePickerDialog.getDatePicker().setCalendarViewShown(false);
             dateSql = yearStr + "-" + monthStr + "-";
             monthSum();
+            day = dateSql;
+            Log.d("TAG", "onDateSet: " + day);
+            select();
         }
     };
 
