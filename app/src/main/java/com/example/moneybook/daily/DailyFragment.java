@@ -1,7 +1,9 @@
 package com.example.moneybook.daily;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +34,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.MainActivity;
@@ -310,8 +313,6 @@ public class DailyFragment extends Fragment {
         TextView categoryT,assetT,memoT,amountT;
         categoryT= new TextView(getContext());
         categoryT.setText("  "+category+" | "+asset);
-//        assetT= new TextView(getContext());
-//        assetT.setText(asset);
         amountT= new TextView(getContext());
         amountT.setGravity(Gravity.END);
         if (dailyInAndOut.getType().equals("수입")){
@@ -325,9 +326,8 @@ public class DailyFragment extends Fragment {
         }
         amountT.setTextSize(18);
         memoT= new TextView(getContext());
-        memoT.setText(memo);
+        memoT.setText("  "+memo);
         innercardviewLinear.addView(categoryT);
-        //innercardviewLinear.addView(assetT);
         innercardviewLinear.addView(amountT);
         innercardviewLinear.addView(memoT);
         cardView.addView(innercardviewLinear);
@@ -366,7 +366,7 @@ public class DailyFragment extends Fragment {
             }
             @SuppressLint("ClickableViewAccessibility")
             @Override
-            public void onClick(View v) {
+            public void onClick() {
                 //Log.d("스크롤뷰클릭이벤트 제발", "onClick: "+dailyInAndOut.toString());
                 Intent intent = new Intent(getContext(), UpdateMoneyBookActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -390,6 +390,34 @@ public class DailyFragment extends Fragment {
             public void showfabOnScroll() {
                 fab.show();
             }
+
+            @Override
+            public void onConfirmDelete() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
+                builder.setTitle("삭제확인");
+                builder.setMessage("정말 삭제하시겠습니까?");
+                builder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteMoneybook(dailyInAndOut);
+                        database.close();
+                        MainActivity MA = (MainActivity) MainActivity.activity;
+                        MA.finish();
+                        Intent intent = new Intent(getContext(),MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                |Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("date",titleTextView.getText().toString()+"");
+                        MA.startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("삭제 안함", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
         });
     }//카드뷰 안쪽 텍스트뷰 만들고 리니어레이아웃에 뷰추가
 
@@ -409,6 +437,23 @@ public class DailyFragment extends Fragment {
                     }
                 });
         }
+    }
+
+    private void deleteMoneybook(DailyInAndOut dailyInAndOut) {
+        String exDelsql="delete from expense where expense_id="+dailyInAndOut.getId();
+        String inDelsql="delete from income where income_id="+dailyInAndOut.getId();
+        try {
+            if(dailyInAndOut.getType().equals("지출")){
+                database.execSQL(exDelsql);
+            }else if (dailyInAndOut.getType().equals("수입")) {
+                database.execSQL(inDelsql);
+            }
+            Toast.makeText(getContext(),"삭제 성공했습니다",Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(getContext(),"삭제 실패했습니다",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -459,6 +504,8 @@ public class DailyFragment extends Fragment {
         next1.setTextColor(Color.BLACK);
         next2.setTextColor(Color.BLACK);
         next3.setTextColor(Color.BLACK);
+        String b3text="";String b2text="";String b1text="";String setext="";String a1text="";String a2text="";String a3text="";
+
         before3.setText(setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString())+"\n"+selecday.minusDays(3).getDayOfMonth()+"");
         if (selecday.minusDays(3).getDayOfWeek().toString().equals("SATURDAY")){
             before3.setTextColor(Color.BLUE);
@@ -477,8 +524,8 @@ public class DailyFragment extends Fragment {
         }else if (selecday.minusDays(1).getDayOfWeek().toString().equals("SUNDAY")){
             before1.setTextColor(Color.RED);
         }
-        select.setText(Html.fromHtml(setWeekdayStr(selecday.getDayOfWeek().toString())+"<br>"
-                +"<span style=\"background-color:#FFF1F1;\"><u>"+selecday.getDayOfMonth() +"</u></span>"));
+        select.setText(setWeekdayStr(selecday.getDayOfWeek().toString())+"\n"
+                +selecday.getDayOfMonth());
         if (selecday.getDayOfWeek().toString().equals("SATURDAY")){
             select.setTextColor(Color.BLUE);
         }else if (selecday.getDayOfWeek().toString().equals("SUNDAY")){
@@ -502,6 +549,40 @@ public class DailyFragment extends Fragment {
         }else if (selecday.plusDays(3).getDayOfWeek().toString().equals("SUNDAY")){
             next3.setTextColor(Color.RED);
         }
+
+
+        if (today.isEqual(selecday.minusDays(3))){
+            b3text=setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(3).getDayOfMonth() +"</u>";
+            before3.setText(Html.fromHtml(b3text));
+        }else  if (today.isEqual(selecday.minusDays(2))){
+            b2text=setWeekdayStr(selecday.minusDays(2).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(2).getDayOfMonth() +"</u>";
+            before2.setText(Html.fromHtml(b2text));
+        }else if (today.isEqual(selecday.minusDays(1))){
+            b1text=setWeekdayStr(selecday.minusDays(1).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(1).getDayOfMonth() +"</u>";
+            before1.setText(Html.fromHtml(b1text));
+        }else if (today.isEqual(selecday.minusDays(0))){
+            setext=setWeekdayStr(selecday.minusDays(0).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(0).getDayOfMonth() +"</u>";
+            select.setText(Html.fromHtml(setext));
+        }else if (today.isEqual(selecday.minusDays(-1))){
+            a1text=setWeekdayStr(selecday.minusDays(-1).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(-1).getDayOfMonth() +"</u>";
+            next1.setText(Html.fromHtml(a1text));
+        }else if (today.isEqual(selecday.minusDays(-2))){
+            a2text=setWeekdayStr(selecday.minusDays(-2).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(-2).getDayOfMonth() +"</u>";
+            next2.setText(Html.fromHtml(a2text));
+        }else if (today.isEqual(selecday.minusDays(-3))){
+            a3text=setWeekdayStr(selecday.minusDays(-3).getDayOfWeek().toString())+"<br>"
+                    +"<u>"+selecday.minusDays(-3).getDayOfMonth() +"</u>";
+            next3.setText(Html.fromHtml(a3text));
+        }
+
+
+
     }
 
     public String setWeekdayStr(String str){
@@ -514,7 +595,6 @@ public class DailyFragment extends Fragment {
             case "FRIDAY":dayofweek= "금"; break;
             case "SATURDAY":dayofweek= "토"; break;
             case "SUNDAY":dayofweek= "일"; break;
-
         }
         return dayofweek;
     }

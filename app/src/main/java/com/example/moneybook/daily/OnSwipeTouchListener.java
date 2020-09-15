@@ -69,11 +69,8 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     break;
 
                 case MotionEvent.ACTION_UP:
-                    Log.d("스와이프터치리스너", "ACTION_UP:y값 "+event.getY());
+                    //Log.d("스와이프터치리스너", "ACTION_UP:y값 "+event.getY());
                     showfabOnScroll();
-                    if(isMoving==false){
-                        this.onClick(v);
-                    }
                     isMoving=false;
                     break;
 
@@ -97,28 +94,26 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
 
         @Override
+        public void onLongPress(MotionEvent e) {
+            Log.d("길게 누르기", "길게길게!");
+            onConfirmDelete();
+            super.onLongPress(e);
+        }
+
+
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            Log.d("넌 뭐지", "호이호이");
+            onClick();
+            return super.onSingleTapUp(e);
+        }
+
+        @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             Log.d("스크롤", "x:"+distanceX+"y: "+distanceY);
-            //이1: "+e1+"e2: "+e2+
             isMoving=true;
             showfabOnScroll();
-
-//            float scrolldistanceX = e2.getX() - e1.getX();
-//            float scrolldistanceY = e2.getY() - e1.getY();
-           // Log.d("ismoving?", "onFling: "+isMoving);
-//            if(isMoving) {
-//                if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD ) {
-//                    if (distanceX < 0) {
-//                        //Log.d("스와이프터치리스너", "onFling: 오른쪽");
-//                        onSwipeRight();
-//                    } else {
-//                        //Log.d("스와이프터치리스너", "onFling: 왼쪽");
-//                        onSwipeLeft();
-//                        return true;
-//                    }
-//                }
-//            }
-            //////////
 
 
             return super.onScroll(e1, e2, distanceX, distanceY);
@@ -129,8 +124,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
             float distanceX = e2.getX() - e1.getX();
             float distanceY = e2.getY() - e1.getY();
-            Log.d("ismoving?", "onFling: "+isMoving);
-            //if(isMoving) {
+            //Log.d("ismoving?", "onFling: "+isMoving);
                 if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (distanceX > 0) {
                         //Log.d("스와이프터치리스너", "onFling: 오른쪽");
@@ -141,7 +135,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                         return true;
                     }
                 }
-            //}
+
             return false;
         }
     }
@@ -155,7 +149,11 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     public void showfabAction() {
     }
-    public void onClick(View v) {
+    public void onClick() {
+        //Log.d("스와이프터치리스너", "onClick: ");
+    }
+
+    public void onConfirmDelete() {
         //Log.d("스와이프터치리스너", "onClick: ");
     }
 }

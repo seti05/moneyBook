@@ -55,6 +55,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
     String inputDay,inputAsset,inputCategory,inputAmount,inputMemo;
 
     EditText amountEdit,memoEdit;
+    MainActivity MA = (MainActivity) MainActivity.activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +165,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 }else {
                     inputAmount = amountEdit.getText().toString();
                     inputMemo = memoEdit.getText().toString();
-                    insertMoneybook();
+                    confirmRegReview();
                 }
             }
         });
@@ -258,24 +259,59 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         cursor.close();
     }
 
+    String regSuccessMSG="";
     private void insertMoneybook(){
         String sql="";
-        if(isExpenseChecked){
-            sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
-                    " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                    Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
-            database.execSQL(sql);
-        }else {
-            sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
-                    " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                    Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
-            database.execSQL(sql);
+        try {
+            if(isExpenseChecked){
+                sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
+                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
+                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+                database.execSQL(sql);
+            }else {
+                sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
+                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
+                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+                database.execSQL(sql);
+            }
+            regSuccessMSG=inputDay+"일자 "+ inputAmount+"원 입력이 성공했습니다.";
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"입력중 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
         }
-        confirmRegReview();
     }
+
     void confirmRegReview() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
         builder.setTitle("추가확인");
+        builder.setMessage("내용을 입력하시겠습니까?");
+        builder.setNeutralButton("daily로 돌아감", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                amountEdit.setText("");
+                memoEdit.setText("");
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                insertMoneybook();
+                reRegConfirm();
+            }
+        });
+        builder.show();
+    }
+
+    void reRegConfirm() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+        builder.setTitle(regSuccessMSG);
         builder.setMessage("계속 추가하시겠습니까?");
         builder.setPositiveButton("계속추가", new DialogInterface.OnClickListener() {
             @Override
@@ -287,7 +323,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         builder.setNegativeButton("추가안함", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                MainActivity MA = (MainActivity) MainActivity.activity;
                 MA.finish();
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP

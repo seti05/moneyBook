@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 import static android.R.id.home;
+import static android.R.id.icon;
 
 public class SettingsActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -54,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
         titleTextView = findViewById(R.id.settingtitleText);
         titleTextView.setText("설정");
@@ -224,6 +225,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==home){
+            MainActivity MA = (MainActivity) MainActivity.activity;
+            MA.finish();
             Intent intent = new Intent(this,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);

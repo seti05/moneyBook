@@ -10,6 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.moneybook.calendar.CalendarFragment;
 import com.example.moneybook.chart.ChartFragment;
@@ -19,6 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.pedro.library.AutoPermissions;
 import com.pedro.library.AutoPermissionsListener;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity implements AutoPermissionsListener {
     DailyFragment dailyFragment;
     Economy_InfoFragment economy_infoFragment;
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
     CalendarFragment calendarFragment;
     ChartFragment chartFragment;
     BottomNavigationView bottomNavigationView;
+    public static FragmentTransaction fragmentTransaction;
+    public static FragmentManager manager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -41,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         calendarFragment = new CalendarFragment();
         chartFragment = new ChartFragment();
 
+        manager = getSupportFragmentManager();
+        fragmentTransaction = manager.beginTransaction();
+
         getSupportFragmentManager().beginTransaction().add(R.id.main_container, dailyFragment).commit();
 
         //아래 네비게이션 바 클릭
@@ -48,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()){
                     //menu_bottom.xml에 있는 tab id로 구분함
                     case R.id.tab1:
@@ -89,6 +100,12 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         //차트 상세내역 클릭
         barchartClick();
     }//onCreate끝
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(),"한번더 누르면 종료됩니다",Toast.LENGTH_SHORT).show();
+        //super.onBackPressed();
+    }
 
     private void barchartClick() {
         Intent barChartIntent = getIntent();
