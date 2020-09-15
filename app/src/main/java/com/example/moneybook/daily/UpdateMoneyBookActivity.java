@@ -28,6 +28,7 @@ import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
 import com.example.moneybook.settings.MinMaxFilter;
+import com.example.moneybook.settings.NumberTextWatcher;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
     Button assetUpdateButton,categoryUpdateButton;
     String assetresult,categoryresult;
     String originalRegTime;
+    int updateAmountResult=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,19 +68,25 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         selecExpenseButton = findViewById(R.id.selectExButton);
         selecDayButton = findViewById(R.id.selectDayButton);
         amountEdit = findViewById(R.id.editTextNumber);
-        amountEdit.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , "100000000" )});
-        amountEdit.addTextChangedListener(new TextWatcher() {
+//        amountEdit.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , "100000000" )});
+//        amountEdit.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) { }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count){
+//                if (s.length() > 7){
+//                    Toast.makeText(UpdateMoneyBookActivity.this,"최대1억까지 입력가능합니다",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        amountEdit.addTextChangedListener(new NumberTextWatcher(amountEdit){
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count){
-                if (s.length() > 7){
-                    Toast.makeText(UpdateMoneyBookActivity.this,"최대1억까지 입력가능합니다",Toast.LENGTH_SHORT).show();
-                }
+            public void showToast() {
+                Toast.makeText(UpdateMoneyBookActivity.this,"1억 미만의 숫자만 입력가능합니다",Toast.LENGTH_SHORT).show();
             }
         });
         memoEdit = findViewById(R.id.editTextMemo);
@@ -275,28 +283,29 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
     }
 
     private void updateMoneybook(){
+        String numberOnlyAmountStr=inputAmount.replaceAll(",","");
         //수입,지출이 변동있으면 삭제하고 입력하기, 원래 작성시간 전달하기
         String exDelsql="delete from expense where expense_id="+data.getId();
         String inInsertsql="insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
                 " values('"+inputDay+"','"+assetresult+"','"+categoryresult+"',"+
-                Integer.parseInt(inputAmount)+",'"+originalRegTime+"','"+inputMemo+"')";
+                Integer.parseInt(numberOnlyAmountStr)+",'"+originalRegTime+"','"+inputMemo+"')";
 
         String inDelsql="delete from income where income_id="+data.getId();
         String exInsertsql="insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
                 " values('"+inputDay+"','"+assetresult+"','"+categoryresult+"',"+
-                Integer.parseInt(inputAmount)+",'"+originalRegTime+"','"+inputMemo+"')";
+                Integer.parseInt(numberOnlyAmountStr)+",'"+originalRegTime+"','"+inputMemo+"')";
 
         //수입,지출 변동없을때 바로 수정하기
         String exUpsql="update expense set expense_date='" +inputDay+
                 "',asset_name='" +assetresult+
                 "',expensecategory_name='" +categoryresult+
-                "',amount=" +Integer.parseInt(inputAmount)+
+                "',amount=" +Integer.parseInt(numberOnlyAmountStr)+
                 ",memo='"+inputMemo+
                 "' where expense_id="+data.getId();
         String inUpsql= "update income set income_date='" +inputDay+
                 "',asset_name='" +assetresult+
                 "',incomecategory_name='" +categoryresult+
-                "',amount=" +Integer.parseInt(inputAmount)+
+                "',amount=" +Integer.parseInt(numberOnlyAmountStr)+
                 ",memo='"+inputMemo+
                 "' where income_id="+data.getId();
 

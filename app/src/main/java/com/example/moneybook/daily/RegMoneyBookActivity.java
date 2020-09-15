@@ -29,11 +29,12 @@ import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
 import com.example.moneybook.settings.MinMaxFilter;
+import com.example.moneybook.settings.NumberTextWatcher;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -60,6 +61,8 @@ public class RegMoneyBookActivity extends AppCompatActivity {
     MainActivity MA = (MainActivity) MainActivity.activity;
     NumberFormat numberFormat;
 
+    int amountResult=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,21 +71,15 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         selecIncomeButton = findViewById(R.id.selectInButton);
         selecExpenseButton = findViewById(R.id.selectExButton);
         selecDayButton = findViewById(R.id.selectDayButton);
+        numberFormat = NumberFormat.getInstance(Locale.getDefault());
+
         spinner = findViewById(R.id.assetSpinner);
         spinner2 = findViewById(R.id.selectCategorySpinner);
         amountEdit = findViewById(R.id.editTextNumber);
-        amountEdit.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , "100000000" )});
-        amountEdit.addTextChangedListener(new TextWatcher() {
+        amountEdit.addTextChangedListener(new NumberTextWatcher(amountEdit){
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
-            @Override
-            public void afterTextChanged(Editable s) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (s.length() > 7){
-                    Toast.makeText(RegMoneyBookActivity.this,"최대1억까지 입력가능합니다",Toast.LENGTH_SHORT).show();
-                }
+            public void showToast() {
+                Toast.makeText(RegMoneyBookActivity.this,"1억 미만의 숫자만 입력가능합니다",Toast.LENGTH_SHORT).show();
             }
         });
         memoEdit = findViewById(R.id.editTextMemo);
@@ -110,7 +107,7 @@ public class RegMoneyBookActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(getApplicationContext());
         database = dbHelper.getWritableDatabase();
 
-        numberFormat = NumberFormat.getInstance(Locale.getDefault());
+
         setCategory();
 
         setCategoryName();
@@ -127,17 +124,17 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 }else {
                     String selecDate=getIntent().getStringExtra("regDate");
                     String[] dates=selecDate.split("-");
-                    Log.d("날짜등록", "우선 확인용"+dates[1].indexOf("0"));
+                    //Log.d("날짜등록", "우선 확인용"+dates[1].indexOf("0"));
                     String dayStr,monthStr;
                     if (dates[1].indexOf("0")==0){
                         monthStr=dates[1].substring(1);
-                        Log.d("날짜등록", "변경한거"+monthStr);
+                        //Log.d("날짜등록", "변경한거"+monthStr);
                     }else{
                         monthStr=dates[1];
                     }
                     if (dates[2].indexOf("0")==0){
                         dayStr=dates[2].substring(1);
-                        Log.d("날짜등록", "변경한거"+dayStr);
+                        //Log.d("날짜등록", "변경한거"+dayStr);
                     }else{
                         dayStr=dates[2];
                     }
@@ -192,7 +189,9 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 setCategoryName();
             }
         });
-    }
+    }//onCreate끝
+
+
 
     private void setAsset() {
         arrayAdapter2 = new ArrayAdapter<>(getApplicationContext(),
@@ -266,19 +265,39 @@ public class RegMoneyBookActivity extends AppCompatActivity {
     String regSuccessMSG="";
     private void insertMoneybook(){
         String sql="";
+//        try {
+//            if(isExpenseChecked){
+//                sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
+//                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
+//                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+//                database.execSQL(sql);
+//            }else {
+//                sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
+//                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
+//                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+//                database.execSQL(sql);
+//            }
+//            regSuccessMSG=inputDay+"일자 "+ numberFormat.format(Integer.parseInt(inputAmount))+"원 입력이 성공했습니다.";
+//            reRegConfirm();
+//        }catch (Exception e){
+//            Toast.makeText(getApplicationContext(),"입력중 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
+//
+//        }
+        String numberOnlyAmountStr=amountEdit.getText().toString().replaceAll(",","");
+        amountResult=Integer.parseInt(numberOnlyAmountStr);
         try {
             if(isExpenseChecked){
                 sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
                         " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+                        amountResult+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
                 database.execSQL(sql);
             }else {
                 sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
                         " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
+                        amountResult+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
                 database.execSQL(sql);
             }
-            regSuccessMSG=inputDay+"일자 "+ numberFormat.format(Integer.parseInt(inputAmount))+"원 입력이 성공했습니다.";
+            regSuccessMSG=inputDay+"일자 "+ numberFormat.format(amountResult)+"원 입력이 성공했습니다.";
             reRegConfirm();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"입력중 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
@@ -355,4 +374,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
 
         }
     };
+
+
 }
