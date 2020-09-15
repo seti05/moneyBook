@@ -132,8 +132,8 @@
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="#bdbdbd"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:background="#bdbdbd" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -142,7 +142,6 @@
                 android:background="#ececec"
                 android:orientation="vertical"
                 android:visibility="gone"
-                android:layout_marginBottom="7dp"
                 />
 
             <TextView

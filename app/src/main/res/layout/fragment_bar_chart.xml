@@ -20,6 +20,13 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="#bdbdbd" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/barRecyclerView"
         android:layout_width="match_parent"
