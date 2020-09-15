@@ -6,6 +6,6 @@
         android:id="@+id/tab5"
         app:showAsAction="always"
         android:title="설정"
-        android:icon="@drawable/setting"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:enabled="true"/>
 </menu>

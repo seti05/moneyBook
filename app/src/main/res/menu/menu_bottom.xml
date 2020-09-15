@@ -4,26 +4,28 @@
     <item
         android:id="@+id/tab1"
         app:showAsAction="always"
-        android:title="일별"
-        android:icon="@drawable/month"
+        android:icon="@drawable/ic_baseline_today_24"
         android:enabled="true"
+        android:checked="true"
+        android:title="Daily"
         />
     <item
         android:id="@+id/tab2"
         app:showAsAction="always"
-        android:title="월별"
-        android:icon="@drawable/week"
-        android:enabled="true"/>
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:enabled="true"
+        android:title="Month"
+        />
     <item
         android:id="@+id/tab3"
         app:showAsAction="always"
-        android:title="그래프"
-        android:icon="@drawable/today"
+        android:title="Graph"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
         android:enabled="true"/>
     <item
         android:id="@+id/tab4"
         app:showAsAction="always"
-        android:title="정보"
-        android:icon="@drawable/bar_chart"
+        android:title="Info"
+        android:icon="@drawable/ic_baseline_attach_money_24"
         android:enabled="true"/>
 </menu>
