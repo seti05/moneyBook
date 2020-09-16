@@ -35,7 +35,7 @@ public class ExchangeRateFragment extends Fragment {
     Handler handler = new Handler();
     ProgressDialog progressDialog;
     TextView USARateTextView,EuroTextView,ChinaTextView,EnglandTextView,JapanTextView,workingDayTextView,exchangeRateTitle;
-    ArrayList<String> list=new ArrayList<>();
+    //ArrayList<String> list=new ArrayList<>();
     String result;
     static RequestQueue requestQueue;
     NumberFormat numberFormat;
@@ -72,7 +72,6 @@ public class ExchangeRateFragment extends Fragment {
         progressDialog = ProgressDialog.show(getContext(),"ing...","환율정보 가져오는 중...",true,true);
         //요청 url을 받아옴
         LocalDate today = LocalDate.now();
-        exchangeRateTitle.setText("오늘("+today.toString()+")의 환율");
         findworkingDay=today;
             String date="";
             String monthStr=today.getMonthValue()+"";

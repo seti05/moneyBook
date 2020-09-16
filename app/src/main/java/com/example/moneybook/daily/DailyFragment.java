@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -206,6 +207,8 @@ public class DailyFragment extends Fragment {
 
         //데이터 보여줄 스크롤뷰
         scrollView = view.findViewById(R.id.scrollview);
+
+
 
 
         return view;
@@ -683,7 +686,6 @@ public class DailyFragment extends Fragment {
         });
 
     }
-
 
 
 
