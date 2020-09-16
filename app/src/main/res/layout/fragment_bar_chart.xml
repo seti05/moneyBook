@@ -37,7 +37,7 @@
         android:id="@+id/barNoData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="No data"
+        android:text="해당 년도의 내역이 없습니다"
         android:visibility="gone"
         android:gravity="center"/>
 

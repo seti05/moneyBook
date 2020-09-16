@@ -149,7 +149,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="No Data"
+                android:text="내역이 없습니다"
+                android:background="#ececec"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/calendar_select"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="조회를 원하는 날짜를 클릭하세요"
                 android:background="#ececec"
                 />
 

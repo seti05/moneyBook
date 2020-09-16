@@ -68,7 +68,7 @@ public class CalendarFragment extends Fragment {
     CalendarAdapter adapter;
     String day;
     NumberFormat numberFormat;
-    TextView nodata;
+    TextView nodata, selectday;
     TextView monthSum, expenseSum, incomeSum;
     String lastday, year_month_day, year_month;
     String amountIn, amountEx;
@@ -92,6 +92,7 @@ public class CalendarFragment extends Fragment {
         expenseSum = view.findViewById(R.id.monthExpenseText);
         incomeSum = view.findViewById(R.id.monthIncomeText);
         todayButton = view.findViewById(R.id.todayButton);
+        selectday = view.findViewById(R.id.calendar_select);
 
         //상단바 설정(오늘버튼)
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -333,9 +334,11 @@ public class CalendarFragment extends Fragment {
             if(cursorEx.getCount() == 0 && cursorIn.getCount() == 0){
                 recyclerView.setVisibility(View.GONE);
                 nodata.setVisibility(View.VISIBLE);
+                selectday.setVisibility(View.GONE);
             } else {
                 recyclerView.setVisibility(View.VISIBLE);
                 nodata.setVisibility(View.GONE);
+                selectday.setVisibility(View.GONE);
             }
             //수입내용
             while (cursorIn.moveToNext()){
@@ -402,7 +405,10 @@ public class CalendarFragment extends Fragment {
             monthSum();
             day = dateSql;
             Log.d("TAG", "onDateSet: " + day);
-            select();
+           // select();
+            recyclerView.setVisibility(View.GONE);
+            nodata.setVisibility(View.GONE);
+            selectday.setVisibility(View.VISIBLE);
         }
     };
 

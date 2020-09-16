@@ -84,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
-        android:text="No data"
+        android:text="해당 월의 내역이 없습니다"
         android:visibility="gone"
         android:gravity="center"/>
 
