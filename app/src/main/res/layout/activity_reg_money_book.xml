@@ -7,9 +7,22 @@
     android:orientation="vertical"
     tools:context=".daily.RegMoneyBookActivity" >
 
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#9FFFCCCC"
+        android:gravity="center"
+        android:text="가  계  부  입  력"
+        android:textSize="18sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginRight="3dp"
         android:orientation="horizontal">
 
         <TextView
@@ -23,23 +36,26 @@
         <Button
             android:id="@+id/selectExButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="#FFCCCC"
-            android:text="지출"
-            />
+            android:text="지출" />
 
         <Button
             android:id="@+id/selectInButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="#d6d7d7"
             android:text="수입" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginRight="3dp"
         android:orientation="horizontal">
 
         <TextView
@@ -53,7 +69,8 @@
         <Button
             android:id="@+id/selectDayButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="?attr/colorButtonNormal"
             android:text="today" />

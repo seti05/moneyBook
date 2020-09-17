@@ -104,8 +104,6 @@ public class DailyFragment extends Fragment {
         ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);//원래 상단바의 이름을 감춤
         todayTextView=view.findViewById(R.id.todaytextview);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeAsUpIndicator(R.drawable.today);
 
         Date current = Calendar.getInstance().getTime();
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(current);
@@ -349,6 +347,14 @@ public class DailyFragment extends Fragment {
             layoutParams.leftMargin=18;
             layoutParams.rightMargin=18;
             cardView.setLayoutParams(layoutParams);
+        }
+        cardView.setElevation(0);
+        cardView.setContentPadding(0,10,0,10);
+        //cardView.setPreventCornerOverlap(false);
+        if (dailyInAndOut.getType().equals("지출")){
+            cardView.setCardBackgroundColor(Color.parseColor("#4DFDB3AE"));
+        }else {
+            cardView.setCardBackgroundColor(Color.parseColor("#8DBFE8FA"));
         }
         //카드뷰에 터치이벤트걸기
         cardView.setOnTouchListener(new OnSwipeTouchListener(getContext()){
