@@ -14,6 +14,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -210,9 +211,23 @@ public class SettingsActivity extends AppCompatActivity {
                 ad.setNegativeButton("데이터불러오기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        importDB();
+                        AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+                                ad.setTitle("백업된 가계부 내용을 불러옵니다")
+                                .setMessage("백업이후에 작업한 내용은 모두 사라집니다\n 그래도 불러오시겠습니까?")
+                                .setPositiveButton("데이터 불러오기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                importDB();
+                            }
+                        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
                     }
                 });
+
                 ad.show();
 
             }
@@ -252,12 +267,12 @@ public class SettingsActivity extends AppCompatActivity {
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-                Toast.makeText(getApplicationContext(), "Import Successful!",
+                Toast.makeText(getApplicationContext(), "데이터를 성공적으로 불러왔습니다. ",
                         Toast.LENGTH_SHORT).show();
 
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Import Failed!", Toast.LENGTH_SHORT)
+            Toast.makeText(getApplicationContext(), "데이터불러오기에 실패하였습니다.", Toast.LENGTH_SHORT)
                     .show();
 
         }
