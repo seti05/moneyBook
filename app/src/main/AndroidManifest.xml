@@ -15,36 +15,44 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".PasswordConfirmActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".chart.AssetDataListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".PasswordConfirmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".settings.AssetUpdateActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".settings.CateUpdateActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".daily.CategorySpinnerActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".daily.AssetSpinerActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".daily.RegMoneyBookActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".daily.UpdateMoneyBookActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".loadingActivity"
-            android:theme="@style/loadingActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".daily.RegMoneyBookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".daily.UpdateMoneyBookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".loadingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/loadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

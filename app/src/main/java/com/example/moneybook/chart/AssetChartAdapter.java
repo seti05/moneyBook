@@ -1,6 +1,8 @@
 package com.example.moneybook.chart;
 
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneybook.R;
+import com.example.moneybook.SettingsActivity;
 import com.example.moneybook.daily.DailyInAndOut;
+import com.example.moneybook.settings.CateUpdateActivity;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -20,6 +24,7 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
 
     ArrayList<DailyInAndOut> items = new ArrayList<>();
     ArrayList<String> perList = new ArrayList<>();
+    String year_month_day, year_month,assetDate,assetType;
 
     @NonNull
     @Override
@@ -44,11 +49,26 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
         TextView assetTypeText, assetText, perText;
         NumberFormat numberFormat;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             assetTypeText = itemView.findViewById(R.id.assetTypeText);
             assetText = itemView.findViewById(R.id.assetText);
             perText = itemView.findViewById(R.id.assetPer);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Log.d("월별 내역", items.get(getAdapterPosition()).getAssetName()+"눌렀지눌럿어");
+                    Intent cateIntent = new Intent(itemView.getContext(), AssetDataListActivity.class);
+                    cateIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    cateIntent.putExtra("assetName",items.get(getAdapterPosition()).getAssetName());
+                    cateIntent.putExtra("year_month",year_month);
+                    cateIntent.putExtra("year_month_day",year_month_day);
+                    cateIntent.putExtra("assetDate",assetDate);
+                    cateIntent.putExtra("assetType",assetType);
+                    itemView.getContext().startActivity(cateIntent);
+                }
+            });
         }
 
         public void setItem(DailyInAndOut item, int position) {
@@ -72,5 +92,12 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
     public void clear(){
         items.clear();
         perList.clear();
+    }
+
+    public void getPeriod(String ym,String ymd,String ad,String at){
+        year_month=ym;
+        year_month_day=ymd;
+        assetDate=ad;
+        assetType=at;
     }
 }
