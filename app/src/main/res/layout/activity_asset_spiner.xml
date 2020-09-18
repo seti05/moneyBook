@@ -8,18 +8,35 @@
     android:background="#ffcccc"
     tools:context=".daily.AssetSpinerActivity">
 
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="#01579B"
+        android:text="아래에 있는 버튼을 눌러 자산을 변경하세요" />
+
     <Spinner
         android:id="@+id/assetUpdateSpinner"
-        android:layout_width="match_parent"
+        android:layout_width="380dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center"/>
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/confirmAssetButton"
-        android:text="자산확인"
-        />
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:text="선택된 자산으로 변경" />
 
 </LinearLayout>

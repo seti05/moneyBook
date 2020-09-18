@@ -68,21 +68,6 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         selecExpenseButton = findViewById(R.id.selectExButton);
         selecDayButton = findViewById(R.id.selectDayButton);
         amountEdit = findViewById(R.id.editTextNumber);
-//        amountEdit.setFilters(new InputFilter[]{ new MinMaxFilter( "1" , "100000000" )});
-//        amountEdit.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//            @Override
-//            public void afterTextChanged(Editable s) { }
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count){
-//                if (s.length() > 7){
-//                    Toast.makeText(UpdateMoneyBookActivity.this,"최대1억까지 입력가능합니다",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
         amountEdit.addTextChangedListener(new NumberTextWatcher(amountEdit){
             @Override
             public void showToast() {
@@ -364,7 +349,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
                         |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                Log.d("t수정...", "수정할때 전달되는 값: "+inputDay);
+                //Log.d("t수정...", "수정할때 전달되는 값: "+inputDay);
                 finish();
                 intent.putExtra("date",inputDay+"");
                 MA.startActivity(intent);
@@ -373,6 +358,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         builder.setNegativeButton("수정안하고 돌아감", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                database.close();
                 finish();
             }
         });

@@ -47,6 +47,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -120,7 +121,6 @@ public class DailyFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "셀렉프레그먼크 클릭이벤트");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener, today.getYear(), today.getMonthValue()-1, today.getDayOfMonth());
                 datePickerDialog.getDatePicker().setCalendarViewShown(false);
                 datePickerDialog.show();
@@ -165,7 +165,6 @@ public class DailyFragment extends Fragment {
         view.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onSwipeRight() {
-                Log.d("TAG", "onSwipeRight: 전날");
                 String selectDayStr = titleTextView.getText().toString();
                 LocalDate selectDay = LocalDate.parse(selectDayStr);
                 titleTextView.setText(selectDay.minusDays(1).toString());
@@ -174,7 +173,6 @@ public class DailyFragment extends Fragment {
             }
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onSwipeLeft() {
-                Log.d("TAG", "onSwipeLeft: 다음날");
                 String selectDayStr = titleTextView.getText().toString();
                 LocalDate selectDay = LocalDate.parse(selectDayStr);
                 titleTextView.setText(selectDay.plusDays(1).toString());
@@ -206,9 +204,6 @@ public class DailyFragment extends Fragment {
         //데이터 보여줄 스크롤뷰
         scrollView = view.findViewById(R.id.scrollview);
 
-
-
-
         return view;
     }//온크리에이트뷰 끝
 
@@ -216,7 +211,6 @@ public class DailyFragment extends Fragment {
     DailyInAndOut dailyInAndOut;
     private void setCardView() {
         testlinearlayout.removeAllViews();
-        //Log.d("TAG", "셀렉프레그먼트에서 실행한 setCardView");
         //하루내역보여주기
         inList.clear();
         outList.clear();
@@ -224,7 +218,6 @@ public class DailyFragment extends Fragment {
         String[] expense = new String[]{"expense_date","asset_name","expensecategory_name","amount","memo"};
         String[] income = new String[]{"income_date","asset_name","incomecategory_name","amount","memo"};
         String selectDayStr = titleTextView.getText().toString();
-        //Log.d("카드뷰세팅", "날짜: "+selectDayStr);
         //지출 넣기
         cursor = database.rawQuery("select expense_id,expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo"+
                 " from expense where expense_date=?",new String[]{selectDayStr});
@@ -260,7 +253,6 @@ public class DailyFragment extends Fragment {
         Collections.sort(alldayList,myComparator);
         if(alldayList!=null){
             for (DailyInAndOut dayData: alldayList) {
-                //Log.d("전체정보", dayData.toString());
                 setCardTextView(dayData);
             }
         }
@@ -316,7 +308,7 @@ public class DailyFragment extends Fragment {
         cardView.setRadius(20);
         LinearLayout innercardviewLinear= new LinearLayout(getContext());
         innercardviewLinear.setOrientation(LinearLayout.VERTICAL);
-        TextView categoryT,assetT,memoT,amountT;
+        TextView categoryT,memoT,amountT;
         categoryT= new TextView(getContext());
         categoryT.setText("  "+category+" | "+asset);
         amountT= new TextView(getContext());
@@ -340,7 +332,6 @@ public class DailyFragment extends Fragment {
 
         testlinearlayout.addView(cardView);
         if(cardView.getLayoutParams()==null){
-            //Log.d("TAG", "cardView.getLayoutParams()는 널이다 ");
         }else {
             LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) cardView.getLayoutParams();
             layoutParams.bottomMargin=10;
@@ -350,7 +341,6 @@ public class DailyFragment extends Fragment {
         }
         cardView.setElevation(0);
         cardView.setContentPadding(0,10,0,10);
-        //cardView.setPreventCornerOverlap(false);
         if (dailyInAndOut.getType().equals("지출")){
             cardView.setCardBackgroundColor(Color.parseColor("#4DFDB3AE"));
         }else {
@@ -361,7 +351,6 @@ public class DailyFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onSwipeRight() {
-                //Log.d("스크롤뷰", "onSwipeRight: 전날");
                 String selectDayStr = titleTextView.getText().toString();
                 LocalDate selectDay = LocalDate.parse(selectDayStr);
                 titleTextView.setText(selectDay.minusDays(1).toString());
@@ -371,7 +360,6 @@ public class DailyFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onSwipeLeft() {
-                //Log.d("스크롤뷰", "onSwipeLeft: 다음날");
                 String selectDayStr = titleTextView.getText().toString();
                 LocalDate selectDay = LocalDate.parse(selectDayStr);
                 titleTextView.setText(selectDay.plusDays(1).toString());
@@ -381,7 +369,6 @@ public class DailyFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onClick() {
-                //Log.d("스크롤뷰클릭이벤트 제발", "onClick: "+dailyInAndOut.toString());
                 Intent intent = new Intent(getContext(), UpdateMoneyBookActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra("contents",dailyInAndOut);
@@ -396,7 +383,6 @@ public class DailyFragment extends Fragment {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void showfabAction() {
-                //super.showfabAction();
                 BackThread thread = new BackThread();
                 thread.start();
             }
@@ -446,7 +432,6 @@ public class DailyFragment extends Fragment {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //Log.d("플러스버튼 나타나라라", "showfabAction: ");
                         fab.show();
                     }
                 });

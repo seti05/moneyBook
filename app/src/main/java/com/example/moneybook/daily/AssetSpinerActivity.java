@@ -33,6 +33,7 @@ public class AssetSpinerActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_asset_spiner);
 
+
         dbHelper = new DatabaseHelper(getApplicationContext());
         database = dbHelper.getReadableDatabase();
 
@@ -47,15 +48,6 @@ public class AssetSpinerActivity extends Activity {
                 finish();
             }
         });
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
-        }
-        return true;
     }
 
     private void setAsset() {

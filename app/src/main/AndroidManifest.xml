@@ -36,6 +36,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
         <activity
+            android:name=".daily.RegMoneyBookActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".daily.CategorySpinnerActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
@@ -43,9 +46,6 @@
             android:name=".daily.AssetSpinerActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
-        <activity
-            android:name=".daily.RegMoneyBookActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".daily.UpdateMoneyBookActivity"
             android:screenOrientation="portrait" />
