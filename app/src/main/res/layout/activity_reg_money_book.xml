@@ -145,6 +145,7 @@
             android:maxLength="10"
             android:textSize="24sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -166,8 +167,8 @@
             android:ems="10"
             android:hint="메모"
             android:inputType="text"
-            android:textSize="14sp"
-            android:maxLength="40"/>
+            android:maxLength="40"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <Button

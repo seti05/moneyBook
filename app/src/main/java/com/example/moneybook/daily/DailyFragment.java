@@ -24,7 +24,6 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,6 +43,7 @@ import com.example.moneybook.R;
 import com.example.moneybook.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -55,11 +55,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.R.id.home;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DailyFragment extends Fragment {
     TextView before3,before2,before1,select,next1,next2,next3;
+    TextView b3DOW,b2DOW,b1DOW,selecDOW,n1DOW,n2DOW,n3DOW;
     TextView titleTextView,todayTextView;
     TextView incomeT,totalT,expenseT;
 
@@ -158,6 +158,15 @@ public class DailyFragment extends Fragment {
         next1 = view.findViewById(R.id.textView8);
         next2 = view.findViewById(R.id.textView9);
         next3 = view.findViewById(R.id.textView10);
+
+        b3DOW = view.findViewById(R.id.textView16);
+        b2DOW = view.findViewById(R.id.textView17);
+        b1DOW = view.findViewById(R.id.textView18);
+        selecDOW = view.findViewById(R.id.textView19);
+        n1DOW = view.findViewById(R.id.textView20);
+        n2DOW = view.findViewById(R.id.textView21);
+        n3DOW = view.findViewById(R.id.textView22);
+
         setSevenDays();
         //7일 클릭시 클릭한 데이터나오게
         dayclickEvent();
@@ -496,88 +505,87 @@ public class DailyFragment extends Fragment {
     public void setSevenDays(){
         String selectDayStr = titleTextView.getText().toString();
         LocalDate selecday = LocalDate.parse(selectDayStr);
-        before3.setTextColor(Color.BLACK);
-        before2.setTextColor(Color.BLACK);
-        before1.setTextColor(Color.BLACK);
-        select.setTextColor(Color.BLACK);
-        next1.setTextColor(Color.BLACK);
-        next2.setTextColor(Color.BLACK);
-        next3.setTextColor(Color.BLACK);
+        before3.setTextColor(Color.BLACK);before3.setBackground(null);
+        before2.setTextColor(Color.BLACK);before2.setBackground(null);
+        before1.setTextColor(Color.BLACK);before1.setBackground(null);
+        select.setTextColor(Color.BLACK);select.setBackground(null);
+        next1.setTextColor(Color.BLACK);next1.setBackground(null);
+        next2.setTextColor(Color.BLACK);next2.setBackground(null);
+        next3.setTextColor(Color.BLACK);next3.setBackground(null);
+        b3DOW.setTextColor(Color.BLACK);
+        b2DOW.setTextColor(Color.BLACK);
+        b1DOW.setTextColor(Color.BLACK);
+        selecDOW.setTextColor(Color.BLACK);
+        n1DOW.setTextColor(Color.BLACK);
+        n2DOW.setTextColor(Color.BLACK);
+        n3DOW.setTextColor(Color.BLACK);
         String b3text="";String b2text="";String b1text="";String setext="";String a1text="";String a2text="";String a3text="";
 
-        before3.setText(setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString())+"\n"+selecday.minusDays(3).getDayOfMonth()+"");
+        b3DOW.setText(setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString()));
+        before3.setText(selecday.minusDays(3).getDayOfMonth()+"");
         if (selecday.minusDays(3).getDayOfWeek().toString().equals("SATURDAY")){
-            before3.setTextColor(Color.BLUE);
+            before3.setTextColor(Color.BLUE);b3DOW.setTextColor(Color.BLUE);
         }else if (selecday.minusDays(3).getDayOfWeek().toString().equals("SUNDAY")){
-            before3.setTextColor(Color.RED);
+            before3.setTextColor(Color.RED);b3DOW.setTextColor(Color.RED);
         }
-        before2.setText(setWeekdayStr(selecday.minusDays(2).getDayOfWeek().toString())+"\n"+selecday.minusDays(2).getDayOfMonth()+"");
+        b2DOW.setText(setWeekdayStr(selecday.minusDays(2).getDayOfWeek().toString()));
+        before2.setText(selecday.minusDays(2).getDayOfMonth()+"");
         if (selecday.minusDays(2).getDayOfWeek().toString().equals("SATURDAY")){
-            before2.setTextColor(Color.BLUE);
+            before2.setTextColor(Color.BLUE);b2DOW.setTextColor(Color.BLUE);
         }else if (selecday.minusDays(2).getDayOfWeek().toString().equals("SUNDAY")){
-            before2.setTextColor(Color.RED);
+            before2.setTextColor(Color.RED);b2DOW.setTextColor(Color.RED);
         }
-        before1.setText(setWeekdayStr(selecday.minusDays(1).getDayOfWeek().toString())+"\n"+selecday.minusDays(1).getDayOfMonth()+"");
+        b1DOW.setText(setWeekdayStr(selecday.minusDays(1).getDayOfWeek().toString()));
+        before1.setText(selecday.minusDays(1).getDayOfMonth()+"");
         if (selecday.minusDays(1).getDayOfWeek().toString().equals("SATURDAY")){
-            before1.setTextColor(Color.BLUE);
+            before1.setTextColor(Color.BLUE);b1DOW.setTextColor(Color.BLUE);
         }else if (selecday.minusDays(1).getDayOfWeek().toString().equals("SUNDAY")){
-            before1.setTextColor(Color.RED);
+            before1.setTextColor(Color.RED);b1DOW.setTextColor(Color.RED);
         }
-        select.setText(setWeekdayStr(selecday.getDayOfWeek().toString())+"\n"
-                +selecday.getDayOfMonth());
+        selecDOW.setText(setWeekdayStr(selecday.getDayOfWeek().toString()));
+        select.setText(selecday.getDayOfMonth()+"");
         if (selecday.getDayOfWeek().toString().equals("SATURDAY")){
-            select.setTextColor(Color.BLUE);
+            select.setTextColor(Color.BLUE);selecDOW.setTextColor(Color.BLUE);
         }else if (selecday.getDayOfWeek().toString().equals("SUNDAY")){
-            select.setTextColor(Color.RED);
+            select.setTextColor(Color.RED);selecDOW.setTextColor(Color.RED);
         }
-        next1.setText(setWeekdayStr(selecday.plusDays(1).getDayOfWeek().toString())+"\n"+selecday.plusDays(1).getDayOfMonth()+"");
+        n1DOW.setText(setWeekdayStr(selecday.plusDays(1).getDayOfWeek().toString()));
+        next1.setText(selecday.plusDays(1).getDayOfMonth()+"");
         if (selecday.plusDays(1).getDayOfWeek().toString().equals("SATURDAY")){
-            next1.setTextColor(Color.BLUE);
+            next1.setTextColor(Color.BLUE);n1DOW.setTextColor(Color.BLUE);
         }else if (selecday.plusDays(1).getDayOfWeek().toString().equals("SUNDAY")){
-            next1.setTextColor(Color.RED);
+            next1.setTextColor(Color.RED);n1DOW.setTextColor(Color.RED);
         }
-        next2.setText(setWeekdayStr(selecday.plusDays(2).getDayOfWeek().toString())+"\n"+selecday.plusDays(2).getDayOfMonth()+"");
+        n2DOW.setText(setWeekdayStr(selecday.plusDays(2).getDayOfWeek().toString()));
+        next2.setText(selecday.plusDays(2).getDayOfMonth()+"");
         if (selecday.plusDays(2).getDayOfWeek().toString().equals("SATURDAY")){
-            next2.setTextColor(Color.BLUE);
+            next2.setTextColor(Color.BLUE);n2DOW.setTextColor(Color.BLUE);
         }else if (selecday.plusDays(2).getDayOfWeek().toString().equals("SUNDAY")){
-            next2.setTextColor(Color.RED);
+            next2.setTextColor(Color.RED);n2DOW.setTextColor(Color.RED);
         }
-        next3.setText(setWeekdayStr(selecday.plusDays(3).getDayOfWeek().toString())+"\n"+selecday.plusDays(3).getDayOfMonth()+"");
+        n3DOW.setText(setWeekdayStr(selecday.plusDays(3).getDayOfWeek().toString()));
+        next3.setText(selecday.plusDays(3).getDayOfMonth()+"");
         if (selecday.plusDays(3).getDayOfWeek().toString().equals("SATURDAY")){
-            next3.setTextColor(Color.BLUE);
+            next3.setTextColor(Color.BLUE);n3DOW.setTextColor(Color.BLUE);
         }else if (selecday.plusDays(3).getDayOfWeek().toString().equals("SUNDAY")){
-            next3.setTextColor(Color.RED);
+            next3.setTextColor(Color.RED);n3DOW.setTextColor(Color.RED);
         }
 
 
         if (today.isEqual(selecday.minusDays(3))){
-            b3text=setWeekdayStr(selecday.minusDays(3).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(3).getDayOfMonth() +"</u>";
-            before3.setText(Html.fromHtml(b3text));
+            before3.setBackgroundResource(R.drawable.select_today_color);
         }else  if (today.isEqual(selecday.minusDays(2))){
-            b2text=setWeekdayStr(selecday.minusDays(2).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(2).getDayOfMonth() +"</u>";
-            before2.setText(Html.fromHtml(b2text));
+            before2.setBackgroundResource(R.drawable.select_today_color);
         }else if (today.isEqual(selecday.minusDays(1))){
-            b1text=setWeekdayStr(selecday.minusDays(1).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(1).getDayOfMonth() +"</u>";
-            before1.setText(Html.fromHtml(b1text));
+            before1.setBackgroundResource(R.drawable.select_today_color);
         }else if (today.isEqual(selecday.minusDays(0))){
-            setext=setWeekdayStr(selecday.minusDays(0).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(0).getDayOfMonth() +"</u>";
-            select.setText(Html.fromHtml(setext));
+            select.setBackgroundResource(R.drawable.select_today_color);
         }else if (today.isEqual(selecday.minusDays(-1))){
-            a1text=setWeekdayStr(selecday.minusDays(-1).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(-1).getDayOfMonth() +"</u>";
-            next1.setText(Html.fromHtml(a1text));
+            next1.setBackgroundResource(R.drawable.select_today_color);
         }else if (today.isEqual(selecday.minusDays(-2))){
-            a2text=setWeekdayStr(selecday.minusDays(-2).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(-2).getDayOfMonth() +"</u>";
-            next2.setText(Html.fromHtml(a2text));
+            next2.setBackgroundResource(R.drawable.select_today_color);
         }else if (today.isEqual(selecday.minusDays(-3))){
-            a3text=setWeekdayStr(selecday.minusDays(-3).getDayOfWeek().toString())+"<br>"
-                    +"<u>"+selecday.minusDays(-3).getDayOfMonth() +"</u>";
-            next3.setText(Html.fromHtml(a3text));
+            next3.setBackgroundResource(R.drawable.select_today_color);
         }
 
 

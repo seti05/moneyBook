@@ -10,13 +10,12 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,13 +27,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
-import com.example.moneybook.settings.MinMaxFilter;
 import com.example.moneybook.settings.NumberTextWatcher;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -265,24 +262,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
     String regSuccessMSG="";
     private void insertMoneybook(){
         String sql="";
-//        try {
-//            if(isExpenseChecked){
-//                sql= "insert into expense(expense_date,asset_name,expensecategory_name,amount,reg_date_time,memo)"+
-//                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-//                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
-//                database.execSQL(sql);
-//            }else {
-//                sql= "insert into income(income_date, asset_name ,incomecategory_name,amount,reg_date_time,memo)"+
-//                        " values('"+inputDay+"','"+inputAsset+"','"+inputCategory+"',"+
-//                        Integer.parseInt(inputAmount)+",'"+System.currentTimeMillis()+"','"+inputMemo+"')";
-//                database.execSQL(sql);
-//            }
-//            regSuccessMSG=inputDay+"일자 "+ numberFormat.format(Integer.parseInt(inputAmount))+"원 입력이 성공했습니다.";
-//            reRegConfirm();
-//        }catch (Exception e){
-//            Toast.makeText(getApplicationContext(),"입력중 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
-//
-//        }
         String numberOnlyAmountStr=amountEdit.getText().toString().replaceAll(",","");
         amountResult=Integer.parseInt(numberOnlyAmountStr);
         try {
@@ -371,7 +350,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 monthStr="0"+monthStr;
             }
             selecDayButton.setText(year + "-" + monthStr + "-" + dayStr);
-
         }
     };
 
