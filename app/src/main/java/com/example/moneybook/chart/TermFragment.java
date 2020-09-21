@@ -389,8 +389,13 @@ public class TermFragment extends Fragment {
                         //상세내역
                         tr2 = new TableRow(getActivity());
                         TableLayout.LayoutParams tl2 = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                        tl2.setMargins(15, 0, 15, 0);
-                        tr2.setLayoutParams(tl2);
+                        if(date.get(date.size()-1) == date.get(i)){//제일 마지막만 bottom margin
+                            tl2.setMargins(15, 0, 15, 20);
+                            tr2.setLayoutParams(tl2);
+                        } else {
+                            tl2.setMargins(15, 0, 15, 0);
+                            tr2.setLayoutParams(tl2);
+                        }
                         tr2.setBackgroundColor(Color.parseColor("#FFF9C4"));
                        // tr2.setBackgroundResource(R.drawable.tr2_border);
                         t2 = new TextView(getActivity());
