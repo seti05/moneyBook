@@ -188,9 +188,16 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String today = simpleDateFormat.format(date);
         day = today;
-        Log.d("TAG", "오늘날짜: " + day);
+        Log.d("TAG", "오늘날짜: " + monthStr);
 
-        select();
+        Calendar cal = Calendar.getInstance();
+        String m = String.valueOf(cal.get(Calendar.MONTH)+1);
+        if(m.length() == 1){
+            m = "0"+m;
+        }
+        if(monthStr.equals(m)){
+            select();
+        }
 
         Log.d("TAG", "onCreateView: " + yearStr + monthStr);
 
@@ -299,6 +306,7 @@ public class CalendarFragment extends Fragment {
                         }
                         Log.d("TAG", "dateSql: " + dateSql);
                         day = dateSql + dayStr;
+                        Log.d("TAG", "이건가?: " + day);
                         adapter.clear();
                     }
                 });

@@ -122,7 +122,7 @@
                 android:id="@+id/gridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:listSelector="#FFF1F1"
+                android:listSelector="@color/colorAccent"
                 android:layout_marginTop="5dp"
                 android:numColumns="7" >
 
