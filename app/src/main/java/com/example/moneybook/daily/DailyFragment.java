@@ -60,6 +60,7 @@ import java.util.Locale;
 public class DailyFragment extends Fragment {
     TextView before3,before2,before1,select,next1,next2,next3;
     TextView b3DOW,b2DOW,b1DOW,selecDOW,n1DOW,n2DOW,n3DOW;
+    LinearLayout b3LL,b2LL,b1LL,selecLL,n1LL,n2LL,n3LL;
     TextView titleTextView,todayTextView;
     TextView incomeT,totalT,expenseT;
 
@@ -166,6 +167,14 @@ public class DailyFragment extends Fragment {
         n1DOW = view.findViewById(R.id.textView20);
         n2DOW = view.findViewById(R.id.textView21);
         n3DOW = view.findViewById(R.id.textView22);
+
+        b3LL = view.findViewById(R.id.b3LinearLayout);
+        b2LL = view.findViewById(R.id.b2LinearLayout);
+        b1LL = view.findViewById(R.id.b1LinearLayout);
+        selecLL = view.findViewById(R.id.selecLinearLayout);
+        n1LL = view.findViewById(R.id.n1LinearLayout);
+        n2LL = view.findViewById(R.id.n2LinearLayout);
+        n3LL = view.findViewById(R.id.n3LinearLayout);
 
         setSevenDays();
         //7일 클릭시 클릭한 데이터나오게
@@ -610,7 +619,7 @@ public class DailyFragment extends Fragment {
     //7개 날짜 클릭이벤트
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void dayclickEvent() {
-        before3.setOnClickListener(new View.OnClickListener() {
+        b3LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -620,7 +629,7 @@ public class DailyFragment extends Fragment {
                 setCardView();
             }
         });
-        before2.setOnClickListener(new View.OnClickListener() {
+        b2LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -630,7 +639,7 @@ public class DailyFragment extends Fragment {
                 setCardView();
             }
         });
-        before1.setOnClickListener(new View.OnClickListener() {
+        b1LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -641,7 +650,7 @@ public class DailyFragment extends Fragment {
 
             }
         });
-        select.setOnClickListener(new View.OnClickListener() {
+        selecLL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -652,7 +661,7 @@ public class DailyFragment extends Fragment {
 
             }
         });
-        next1.setOnClickListener(new View.OnClickListener() {
+        n1LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -663,7 +672,7 @@ public class DailyFragment extends Fragment {
 
             }
         });
-        next2.setOnClickListener(new View.OnClickListener() {
+        n2LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -673,7 +682,7 @@ public class DailyFragment extends Fragment {
                 setCardView();
             }
         });
-        next3.setOnClickListener(new View.OnClickListener() {
+        n3LL.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
