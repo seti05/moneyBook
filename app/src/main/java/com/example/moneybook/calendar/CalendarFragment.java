@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -550,7 +553,8 @@ public class CalendarFragment extends Fragment {
             String month = cmy.substring(6, 8);
 
             if(sToday.equals(getItem(position)) && sMonth.equals(month) && sYear.equals(year)){
-                holder.tvItemGridView.setTextColor(Color.parseColor(String.valueOf("#FB8989")));
+                //holder.tvItemGridView.setTextColor(Color.parseColor("#FB8989"));
+                holder.tvItemGridView.setBackgroundResource(R.drawable.today);
                 holder.tvItemGridView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             }
 

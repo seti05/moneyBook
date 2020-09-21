@@ -38,6 +38,7 @@ public class ChartFragment extends Fragment {
     Toolbar toolbar;
     BarChartFragment barChartFragment;
     AssetChartFragment assetChartFragment;
+    TermFragment termFragment;
     int yearNum;
 
 
@@ -67,6 +68,8 @@ public class ChartFragment extends Fragment {
         adapter.addItem(barChartFragment);
         assetChartFragment = new AssetChartFragment();
         adapter.addItem(assetChartFragment);
+        termFragment = new TermFragment();
+        adapter.addItem(termFragment);
         pager.setAdapter(adapter);
 
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(chartTab));

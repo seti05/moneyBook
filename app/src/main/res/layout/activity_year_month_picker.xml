@@ -18,11 +18,30 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="년"
+            android:textSize="20dp"
+            android:layout_gravity="center" />
+
         <NumberPicker
             android:id="@+id/picker_month"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="월"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout

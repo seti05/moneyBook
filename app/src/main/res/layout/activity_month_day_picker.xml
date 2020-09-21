@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chart.YearPicker"
+    tools:context=".chart.MonthDayPicker"
     android:layout_marginTop="20dp"
     android:orientation="vertical">
 
@@ -14,19 +14,34 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
         <NumberPicker
-            android:id="@+id/char_picker_year"
+            android:id="@+id/picker_month"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:layout_margin="10dp"/>
 
         <TextView
-            android:id="@+id/textView34"
+            android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="년"
+            android:text="월"
             android:textSize="20dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"/>
+
+        <NumberPicker
+            android:id="@+id/picker_day"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="일"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
@@ -50,5 +65,4 @@
             android:layout_weight="1"
             android:textAllCaps="false"/>
     </LinearLayout>
-
 </LinearLayout>
