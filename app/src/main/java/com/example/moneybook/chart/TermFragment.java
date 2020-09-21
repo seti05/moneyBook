@@ -28,6 +28,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class TermFragment extends Fragment {
         monthExpense = view.findViewById(R.id.monthExpenseText);
         monthSum = view.findViewById(R.id.monthSumText);
         numberFormat = NumberFormat.getInstance(Locale.getDefault());
-        chooseWeek = view.findViewById(R.id.chooseWeek);
+      //  chooseWeek = view.findViewById(R.id.chooseWeek);
         nodata = view.findViewById(R.id.nodata);
         weekContent = view.findViewById(R.id.weekContent);
         sumContent = view.findViewById(R.id.sumContent);
@@ -78,6 +79,30 @@ public class TermFragment extends Fragment {
 
         dbhelper = new DatabaseHelper(getActivity());
         database = dbhelper.getWritableDatabase();
+
+        //현재월에 맞는 시작날짜와 끝날짜 지정
+        Calendar cal = Calendar.getInstance();
+        Log.d("TAG", "onCreateView: " + cal.get(Calendar.YEAR) + (cal.get(Calendar.MONTH) + 1) + cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        termStartText.setText((cal.get(Calendar.MONTH) + 1)  + "월 " + cal.getMinimum(Calendar.DAY_OF_MONTH) + "일");
+        termEndText.setText((cal.get(Calendar.MONTH) + 1) + "월 " +  cal.getActualMaximum(Calendar.DAY_OF_MONTH) + "일");
+        yearStr = String.valueOf(cal.get(Calendar.YEAR));
+        yearEndStr = String.valueOf(cal.get(Calendar.YEAR));
+        monthStr = String.valueOf(cal.get(Calendar.MONTH) + 1);
+        monthEndStr = String.valueOf(cal.get(Calendar.MONTH) + 1);
+        if(monthStr.length() == 1){
+            monthStr = "0" + monthStr;
+        }
+        if(monthEndStr.length() == 1){
+            monthEndStr = "0" + monthEndStr;
+        }
+        dayStr = String.valueOf(cal.getMinimum(Calendar.DAY_OF_MONTH));
+        dayEndStr = String.valueOf(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        if(dayStr.length() == 1){
+            dayStr = "0" + dayStr;
+        }
+        startTerm = yearStr + "-" + monthStr + "-" + dayStr;
+        endTerm = yearEndStr + "-" + monthEndStr + "-" + dayEndStr;
+        termSelect();
 
         //날짜을 위한 이벤트
         //시작날짜 이벤트
@@ -201,7 +226,7 @@ public class TermFragment extends Fragment {
             }
             if(date.size() > 0){
                 nodata.setVisibility(View.GONE);
-                chooseWeek.setVisibility(View.GONE);
+             //   chooseWeek.setVisibility(View.GONE);
                 weekContent.setVisibility(View.VISIBLE);
                 sumContent.setVisibility(View.VISIBLE);
                 divider.setVisibility(View.VISIBLE);
@@ -390,7 +415,7 @@ public class TermFragment extends Fragment {
                     }
                 } else {
                 nodata.setVisibility(View.VISIBLE);
-                chooseWeek.setVisibility(View.GONE);
+               // chooseWeek.setVisibility(View.GONE);
                 weekContent.setVisibility(View.GONE);
                 sumContent.setVisibility(View.VISIBLE);
                 divider.setVisibility(View.GONE);

@@ -18,21 +18,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="조회시작날"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/textView29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" ~ "
-            android:textSize="18dp"/>
+            android:textSize="18dp"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/termEndText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="조회마지막날"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 
@@ -47,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="#FFF1F1"
             android:paddingTop="3dp"
-            android:stretchColumns="*"
-            android:visibility="gone">
+            android:stretchColumns="*">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -59,21 +63,24 @@
 
                 <TextView
                     android:id="@+id/monthIncome"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="수입" />
 
                 <TextView
                     android:id="@+id/monthSum"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="전체" />
 
                 <TextView
                     android:id="@+id/monthExpense"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="지출" />
@@ -85,19 +92,22 @@
 
                 <TextView
                     android:id="@+id/monthIncomeText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center" />
 
                 <TextView
                     android:id="@+id/monthSumText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center" />
 
                 <TextView
                     android:id="@+id/monthExpenseText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="center" />
             </TableRow>
@@ -108,14 +118,14 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/colorPrimaryDark"
-            android:visibility="gone"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/colorPrimaryDark"/>
 
         <ScrollView
             android:id="@+id/weekContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
                 <TableLayout
                     android:id="@+id/table"
@@ -124,12 +134,13 @@
                     android:stretchColumns="*" />
         </ScrollView>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/chooseWeek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="조회를 원하는 날짜를 클릭하세요" />
+            android:visibility="gone"
+            android:text="조회를 원하는 날짜를 클릭하세요" />-->
 
         <TextView
             android:id="@+id/nodata"
