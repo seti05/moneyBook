@@ -7,9 +7,6 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-//디비 업그레이드를 지원함
-//디비의 변경을 지원함
-//DatabaseHelper는 디비가 없으면 만들어 주고 테이블도 만들어 준다
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String NAME = "moneybook.db";
@@ -39,20 +36,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sqlExpense);
         String sqlIncomeCategory = "create table if not exists incomecategory( "+
                 " category_id integer primary key autoincrement, "+
-                " incomecategory_name text,memo text) ";
+                " incomecategory_name text) ";
         db.execSQL(sqlIncomeCategory);
         String sqlExpenseCategory = "create table if not exists expensecategory( "+
                 " category_id integer primary key autoincrement, "+
-                " expensecategory_name text,memo text) ";
+                " expensecategory_name text) ";
         db.execSQL(sqlExpenseCategory);
         String sqlAsset = "create table if not exists asset( "+
                 " asset_id integer primary key autoincrement, "+
-                " asset_name text,memo text) ";
+                " asset_name text) ";
         db.execSQL(sqlAsset);
-        String expenseCategoryinsertsql = "insert into expensecategory(expensecategory_name,memo) " +
-                "values('식비',''),('교통비',''),('통신비',''),('경조사비',''),('저축',''),('기타','')";
+        String expenseCategoryinsertsql = "insert into expensecategory(expensecategory_name) " +
+                "values('식비'),('교통비'),('통신비'),('경조사비'),('저축'),('기타')";
         db.execSQL(expenseCategoryinsertsql);
-        String incomeCategoryinsertsql = "insert into incomecategory(incomecategory_name,memo) values('급여',''),('보너스',''),('용돈',''),('기타','')";
+        String incomeCategoryinsertsql = "insert into incomecategory(incomecategory_name) values('급여'),('보너스'),('용돈'),('기타')";
         db.execSQL(incomeCategoryinsertsql);
         String assetinsertsql = "insert into asset(asset_name) values('현금'),('체크카드'),('신용카드')";
         db.execSQL(assetinsertsql);

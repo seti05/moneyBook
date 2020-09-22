@@ -41,7 +41,6 @@ public class AssetUpdateActivity extends Activity {
     DatabaseHelper dbHelper;
     SQLiteDatabase database;
     Cursor cursor;
-    Button addCateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,7 +270,7 @@ public class AssetUpdateActivity extends Activity {
                                     String assetDeleteSql="delete from asset where asset_id="+items.get(getAdapterPosition()).getId();
                                     try {
                                         database.execSQL(assetDeleteSql);
-                                        Toast.makeText(itemView.getContext(), "자산 삭제", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(itemView.getContext(), "자산 삭제완료", Toast.LENGTH_SHORT).show();
                                         setAssetName();
                                     }catch (Exception e){
                                         e.printStackTrace();
@@ -321,7 +320,6 @@ public class AssetUpdateActivity extends Activity {
             }
 
             public void setItem(UpdateSetting item) {
-                Log.d("자산", "setItem실행" + item);
                 itembutton.setText(item.getAssetName());
             }
         }

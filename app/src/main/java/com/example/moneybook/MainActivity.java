@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         backPressCloseHandler.onBackPressed();
     }
 
@@ -176,23 +175,5 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         }
     }
 
-
-//    //뒤로가기 버튼을 뺏어올 리스너 등록
-//    public interface onKeyBackPressedListener { void onBackKey(); }
-//    private onKeyBackPressedListener mOnKeyBackPressedListener;
-//    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) { mOnKeyBackPressedListener = listener; }
-//    //메인에서 토스트를 띄우며 종료확인을 하기 위해 필드선언
-//    EndToast endToast = new EndToast(this);
-//
-//    @Override
-//    public void onBackPressed() {
-//        if (mOnKeyBackPressedListener != null) {
-//            mOnKeyBackPressedListener.onBackKey();
-//        }else {
-//        //쌓인 BackStack 여부에 따라 Toast를 띄울지, 뒤로갈지
-//        if(getSupportFragmentManager().getBackStackEntryCount()==0){
-//            //* 종료 EndToast Bean 사용
-//            endToast.showEndToast("종료하려면 한번 더 누르세요.");
-//        }else{ super.onBackPressed(); } }}
 
 }

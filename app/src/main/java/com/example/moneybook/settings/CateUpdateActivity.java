@@ -77,7 +77,6 @@ public class CateUpdateActivity extends Activity {
                     exCheckBox.setChecked(true);
                 }
                 isExChecked=true;
-                //Log.d("뭐가 실행되냐? 지출파트", "onCheckedChanged: ");
                 if (isChecked){
                     addCateButton.setText("지출 카테고리 추가");
                     setCategoryName();
@@ -95,7 +94,6 @@ public class CateUpdateActivity extends Activity {
                     inCheckBox.setChecked(true);
                 }
                 isExChecked=false;
-                //Log.d("뭐가 실행되냐? 수입파트", "onCheckedChanged: ");
                 if (isChecked){
                     addCateButton.setText("수입 카테고리 추가");
                     setCategoryName();
@@ -120,14 +118,12 @@ public class CateUpdateActivity extends Activity {
     //리사이클러 뷰에 카테고리 이름 뿌려주기
     private void setCategoryName() {
 
-        //Log.d("실행이 되나요?", "setCategoryName: ");
         cateAdapter.clear();
         String exSelecSql="select category_id,expensecategory_name from expensecategory";
         String inSelecSql="select category_id,incomecategory_name from incomecategory";
         if(isExChecked){//지출 선택시
             cursor= database.rawQuery(exSelecSql,null);
             while(cursor.moveToNext()){
-                //Log.d("지출 커서 안쪽입니다.", "setCategoryName: ");
                 int cateId= cursor.getInt(0);
                 String cateitem =cursor.getString(1);
                 cateAdapter.addItem(new UpdateSetting(cateId,"지출",cateitem));
@@ -136,7 +132,6 @@ public class CateUpdateActivity extends Activity {
         }else {
             cursor= database.rawQuery(inSelecSql,null);
             while(cursor.moveToNext()){
-                //Log.d("수입 커서 안쪽입니다.", "setCategoryName: ");
                 int cateId= cursor.getInt(0);
                 String cateitem =cursor.getString(1);
                 cateAdapter.addItem(new UpdateSetting(cateId,"수입",cateitem));
@@ -161,10 +156,8 @@ public class CateUpdateActivity extends Activity {
         addCateEditText.addTextChangedListener(new TextWatcher(){
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                //Editable inputStr=passwordEditText.getText();
                 if (addCateEditText.getText().toString().length()>9)
                 {
-                    // Not allowed
                     Toast.makeText(getApplicationContext(),"10자이상 입력할수 없습니다",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -236,15 +229,9 @@ public class CateUpdateActivity extends Activity {
     public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
         ArrayList<UpdateSetting> items = new ArrayList<>();
 
-        //CateUpdateActivity cateUpdateActivity;
-        // MainActivity mActivity;
 
         public CategoryAdapter() {
         }
-
-//    public CategoryAdapter(CateUpdateActivity activity) {
-//        cateUpdateActivity = activity;
-//    }
 
         @NonNull
         @Override
@@ -274,7 +261,6 @@ public class CateUpdateActivity extends Activity {
             return items.get(position);
         }
 
-        //특정포지션에 넣어준다
         public void setItem(int position, UpdateSetting item) {
             items.set(position, item);
         }
@@ -305,7 +291,6 @@ public class CateUpdateActivity extends Activity {
                     public void onClick(View v) {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
-//                        Log.d("카테아답터", "어쨌든 클릭 누름" + items.get(pos).toString());
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 updateCategory();
                             }
@@ -328,7 +313,6 @@ public class CateUpdateActivity extends Activity {
                             {
                                 if (updateCateEditText.getText().toString().length()>9)
                                 {
-                                    // Not allowed
                                     Toast.makeText(itemView.getContext(),"10자이상 입력할수 없습니다",Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -420,7 +404,6 @@ public class CateUpdateActivity extends Activity {
             }
 
             public void setItem(UpdateSetting item) {
-                //Log.d("카테아답터", "setItem실행" + item);
                 itembutton.setText(item.getCategoryName());
             }
 

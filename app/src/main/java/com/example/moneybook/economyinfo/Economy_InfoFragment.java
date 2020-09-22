@@ -45,14 +45,10 @@ import static android.R.id.home;
 
 public class Economy_InfoFragment extends Fragment {
     ViewPager pager;
-   // private Context mContext;
     private TabLayout mTabLayout;
     Toolbar toolbar;
-//    TextView textView;
     TextView titleTextView;
 
-//    Handler handler = new Handler();
-//    ProgressDialog progressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -157,7 +153,6 @@ public class Economy_InfoFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(R.id.tab5 == item.getItemId()){
-            //Toast.makeText(this, "설정 눌렀지" , Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getContext(), SettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
