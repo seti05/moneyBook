@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center">
-<!--총 80dp-->
+
     <TextView
         android:id="@+id/tv_item_gridview"
         android:gravity="center_horizontal"

@@ -131,17 +131,6 @@ public class PasswordConfirmActivity extends AppCompatActivity {
                 v.setActivated(!v.isActivated());
             }
         });
-//        pwCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//                    password.setTransformationMethod(null);
-//                } else {
-//                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-//                }
-//            }
-//        });
-
 
         cursor = database.rawQuery("select password from user",null);
         while(cursor.moveToNext()){

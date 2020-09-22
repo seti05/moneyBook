@@ -134,14 +134,6 @@
                     android:stretchColumns="*" />
         </ScrollView>
 
-        <!--<TextView
-            android:id="@+id/chooseWeek"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="조회를 원하는 날짜를 클릭하세요" />-->
-
         <TextView
             android:id="@+id/nodata"
             android:layout_width="match_parent"

@@ -51,7 +51,7 @@ public class TermFragment extends Fragment {
     NumberFormat numberFormat;
     String inSum, exSum, exWeek, inWeek;
     int weekSum;
-    TextView chooseWeek, nodata;
+    TextView nodata;
     ScrollView weekContent;
     TableLayout sumContent;
     Date startDate, endDate;
@@ -71,7 +71,6 @@ public class TermFragment extends Fragment {
         monthExpense = view.findViewById(R.id.monthExpenseText);
         monthSum = view.findViewById(R.id.monthSumText);
         numberFormat = NumberFormat.getInstance(Locale.getDefault());
-      //  chooseWeek = view.findViewById(R.id.chooseWeek);
         nodata = view.findViewById(R.id.nodata);
         weekContent = view.findViewById(R.id.weekContent);
         sumContent = view.findViewById(R.id.sumContent);
@@ -82,7 +81,6 @@ public class TermFragment extends Fragment {
 
         //현재월에 맞는 시작날짜와 끝날짜 지정
         Calendar cal = Calendar.getInstance();
-        Log.d("TAG", "onCreateView: " + cal.get(Calendar.YEAR) + (cal.get(Calendar.MONTH) + 1) + cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         termStartText.setText((cal.get(Calendar.MONTH) + 1)  + "월 " + cal.getMinimum(Calendar.DAY_OF_MONTH) + "일");
         termEndText.setText((cal.get(Calendar.MONTH) + 1) + "월 " +  cal.getActualMaximum(Calendar.DAY_OF_MONTH) + "일");
         yearStr = String.valueOf(cal.get(Calendar.YEAR));
@@ -221,12 +219,11 @@ public class TermFragment extends Fragment {
                     return o1.getDate().compareTo(o2.getDate());
                 }
             });
-            for(DailyInAndOut d : date){
-                Log.d("TAG", "termSelect: " + d + "\n");
-            }
+//            for(DailyInAndOut d : date){
+//                Log.d("TAG", "termSelect: " + d + "\n");
+//            }
             if(date.size() > 0){
                 nodata.setVisibility(View.GONE);
-             //   chooseWeek.setVisibility(View.GONE);
                 weekContent.setVisibility(View.VISIBLE);
                 sumContent.setVisibility(View.VISIBLE);
                 divider.setVisibility(View.VISIBLE);
@@ -240,13 +237,11 @@ public class TermFragment extends Fragment {
                             tl1.setMargins(15, 15, 15, 0);
                             tr1.setLayoutParams(tl1);
                             tr1.setBackgroundResource(R.color.colorAccent);
-                            //tr1.setBackgroundResource(R.drawable.tr1_border);
                             t1 = new TextView(getActivity());
                             t1.setText(date.get(0).getDate());
                             t1.setTextSize(18f);
                             t1.setGravity(Gravity.CENTER);
                             tr1.addView(t1, new TableRow.LayoutParams(0, TableLayout.LayoutParams.WRAP_CONTENT, 3));
-                            //tableLayout.addView(tr1, tl);
                             tableLayout.addView(tr1);
                             //해당날짜의 합계
                             tr3 = new TableRow(getActivity());
@@ -254,7 +249,6 @@ public class TermFragment extends Fragment {
                             tl3.setMargins(15, 0, 15, 0);
                             tr3.setLayoutParams(tl3);
                             tr3.setBackgroundResource(R.color.colorAccent);
-                           // tr3.setBackgroundResource(R.drawable.tr3_border);
                             t5 = new TextView(getActivity());
                             t6 = new TextView(getActivity());
                             t7 = new TextView(getActivity());
@@ -316,7 +310,6 @@ public class TermFragment extends Fragment {
                             tl1.setMargins(15, 20, 15, 0);
                             tr1.setLayoutParams(tl1);
                             tr1.setBackgroundResource(R.color.colorAccent);
-                            //tr1.setBackgroundResource(R.drawable.tr1_border);
                             t1 = new TextView(getActivity());
                             t1.setText(date.get(i).getDate());
                             t1.setTextSize(18f);
@@ -329,7 +322,6 @@ public class TermFragment extends Fragment {
                             tl3.setMargins(15, 0, 15, 0);
                             tr3.setLayoutParams(tl3);
                             tr3.setBackgroundResource(R.color.colorAccent);
-                            //tr3.setBackgroundResource(R.drawable.tr3_border);
                             t5 = new TextView(getActivity());
                             t6 = new TextView(getActivity());
                             t7 = new TextView(getActivity());
@@ -397,7 +389,6 @@ public class TermFragment extends Fragment {
                             tr2.setLayoutParams(tl2);
                         }
                         tr2.setBackgroundColor(Color.parseColor("#FFF9C4"));
-                       // tr2.setBackgroundResource(R.drawable.tr2_border);
                         t2 = new TextView(getActivity());
                         t3 = new TextView(getActivity());
                         t4 = new TextView(getActivity());
@@ -420,7 +411,6 @@ public class TermFragment extends Fragment {
                     }
                 } else {
                 nodata.setVisibility(View.VISIBLE);
-               // chooseWeek.setVisibility(View.GONE);
                 weekContent.setVisibility(View.GONE);
                 sumContent.setVisibility(View.VISIBLE);
                 divider.setVisibility(View.GONE);
