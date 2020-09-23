@@ -230,6 +230,11 @@ public class SettingsActivity extends AppCompatActivity {
    }//onCreate끝나는 부분
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==home){
             MainActivity MA = (MainActivity) MainActivity.activity;
@@ -241,6 +246,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void importDB() {
         try {
