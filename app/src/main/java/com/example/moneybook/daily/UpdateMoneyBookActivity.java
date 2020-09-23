@@ -341,7 +341,6 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP
                         |Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //Log.d("t수정...", "수정할때 전달되는 값: "+inputDay);
                 finish();
                 intent.putExtra("date",inputDay+"");
                 MA.startActivity(intent);

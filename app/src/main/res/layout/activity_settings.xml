@@ -68,7 +68,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bt_corner"
-            android:text="비밀번호 설정" />
+            android:text="암호 설정" />
 
         <Button
             android:id="@+id/backup_load_button"

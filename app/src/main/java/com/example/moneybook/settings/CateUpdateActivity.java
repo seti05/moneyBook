@@ -207,10 +207,11 @@ public class CateUpdateActivity extends Activity {
                     try {
                         if (isExChecked){
                             database.execSQL(exInsertsql);
+                            Toast.makeText(CateUpdateActivity.this, "지출카테고리 추가완료", Toast.LENGTH_SHORT).show();
                         }else {
                             database.execSQL(inInsertsql);
+                            Toast.makeText(CateUpdateActivity.this, "수입카테고리 추가완료", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(CateUpdateActivity.this, "카테고리등록완료", Toast.LENGTH_SHORT).show();
                         setCategoryName();
                         wantToCloseDialog = true;
                     }catch (Exception e){
@@ -347,7 +348,7 @@ public class CateUpdateActivity extends Activity {
                                         }else{
                                             database.execSQL(inDeleteSql);
                                         }
-                                        Toast.makeText(itemView.getContext(), "카테고리 삭제", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(itemView.getContext(), "카테고리 삭제성공", Toast.LENGTH_SHORT).show();
                                         setCategoryName();
                                     }catch (Exception e){
                                         e.printStackTrace();
@@ -408,10 +409,11 @@ public class CateUpdateActivity extends Activity {
                         try {
                             if(isExChecked){
                                 database.execSQL(exCateUpdatesql);
+                                Toast.makeText(itemView.getContext(), "지출카테고리 수정완료", Toast.LENGTH_SHORT).show();
                             }else{
                                 database.execSQL(inCateUpdatesql);
+                                Toast.makeText(itemView.getContext(), "수입카테고리 수정완료", Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(itemView.getContext(), "카테고리수정완료", Toast.LENGTH_SHORT).show();
                             setCategoryName();
                         }catch (Exception e){
                             e.printStackTrace();

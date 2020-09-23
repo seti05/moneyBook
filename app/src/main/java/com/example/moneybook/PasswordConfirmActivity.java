@@ -178,7 +178,7 @@ public class PasswordConfirmActivity extends AppCompatActivity {
                         finish();
                     }else{
                         pwFalse.setVisibility(View.VISIBLE);
-                        pwFalse.setText("비밀번호가 틀렸습니다!!");
+                        pwFalse.setText("암호가 틀렸습니다!!");
                     }
                 }
             }

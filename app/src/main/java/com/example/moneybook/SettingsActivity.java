@@ -75,9 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
-                ad.setTitle("비밀번호 설정");       // 제목 설정
-
-                // EditText 삽입하기
+                ad.setTitle("암호 설정");
                 final EditText passwordEditText = new EditText(SettingsActivity.this);
                 passwordEditText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                 passwordEditText.setTextCursorDrawable(R.drawable.dialog_cursor_color);
@@ -98,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                 ad.setView(passwordEditText);
 
                 // 확인 버튼 설정
-                ad.setPositiveButton("암호등록", new DialogInterface.OnClickListener() {
+                ad.setPositiveButton("암호 등록", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {}
                 });
@@ -111,25 +109,34 @@ public class SettingsActivity extends AppCompatActivity {
                 // 취소 버튼 설정
                 ad.setNegativeButton("암호사용취소", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            String resetPasswordSql="update user set password=''";
-                            database.execSQL(resetPasswordSql);
-                            Toast.makeText(SettingsActivity.this, "암호제거", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        dialog.dismiss();
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 });
                 final AlertDialog dialog= ad.create();
                 // 창 띄우기
                 dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+                        if (dbPassword.equals("")){
+                            Toast.makeText(SettingsActivity.this, "등록된 암호가 없습니다", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                String resetPasswordSql="update user set password=''";
+                                database.execSQL(resetPasswordSql);
+                                Toast.makeText(SettingsActivity.this, "암호가 제거되었습니다", Toast.LENGTH_SHORT).show();
+                                wantToCloseDialog = true;
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                        if(wantToCloseDialog)
+                            dialog.dismiss();
+                    }
+                });
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
+                    public void onClick(View v) {
                         Boolean wantToCloseDialog = false;
                         String inputRegPassword= passwordEditText.getText().toString();
                         if (inputRegPassword.equals("")) {
@@ -140,7 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     passwordEditText.requestFocus();
                                 }
                             });
-                            Toast.makeText(SettingsActivity.this, "비번입력하세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this, "암호를 입력하세요", Toast.LENGTH_SHORT).show();
                         }else if (inputRegPassword.length()<4){
                             passwordEditText.post(new Runnable() {
                                 @Override
@@ -149,12 +156,12 @@ public class SettingsActivity extends AppCompatActivity {
                                     passwordEditText.requestFocus();
                                 }
                             });
-                            Toast.makeText(SettingsActivity.this, "4자리 숫자 입력하세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this, "4자리 숫자를 입력하세요", Toast.LENGTH_SHORT).show();
                         }else {
                             String sql="update user set password='"+inputRegPassword+"'";
                             try {
                                 database.execSQL(sql);
-                                Toast.makeText(SettingsActivity.this, "비번등록완료", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingsActivity.this, "암호가 등록완료되었습니다.", Toast.LENGTH_SHORT).show();
                                 wantToCloseDialog = true;
                             }catch (Exception e){
                                 e.printStackTrace();
@@ -294,17 +301,17 @@ public class SettingsActivity extends AppCompatActivity {
             while ((length = fis.read(buffer))>0){
                 output.write(buffer, 0, length);
             }
-            Toast.makeText(getApplicationContext(), "백업 성공!",
+            Toast.makeText(getApplicationContext(), "데이터 백업에 성공하였습니다!",
                     Toast.LENGTH_SHORT).show();
             output.flush();
             output.close();
             fis.close();
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "백업 실패!",
+            Toast.makeText(getApplicationContext(), "백업에 실패하였습니다!",
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "백업 실패!",
+            Toast.makeText(getApplicationContext(), "백업에 실패하였습니다!",
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }

@@ -65,7 +65,7 @@ public class StockFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         //에러가 왔을 때 실행할 내용
                         //에러를 화면에 뿌려준다
-                        Log.d("에러났다으아", "에러: " + error.getMessage());
+                        Log.d("응답에러", "에러: " + error.getMessage());
                     }
                 }
         );
@@ -90,7 +90,7 @@ public class StockFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         //에러가 왔을 때 실행할 내용
                         //에러를 화면에 뿌려준다
-                        Log.d("에러났다으아", "에러: " + error.getMessage());
+                        Log.d("응답에러", "에러: " + error.getMessage());
                     }
                 }
         );

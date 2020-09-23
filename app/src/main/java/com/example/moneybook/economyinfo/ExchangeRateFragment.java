@@ -103,7 +103,7 @@ public class ExchangeRateFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             //에러가 왔을 때 실행할 내용
                             //에러를 화면에 뿌려준다
-                            Log.d("에러났다으아", "에러: " + error.getMessage());
+                            Log.d("응답에러", "에러: " + error.getMessage());
                         }
                     }
             );
@@ -155,7 +155,6 @@ public class ExchangeRateFragment extends Fragment {
         int test= response.indexOf("\"@count\":\"0\"");
         if(test!=-1){
             minusdays[0]++;
-            //Log.d("마이너스데이는 몇인가", "onResponse: " + minusdays[0]);
             findworkingDay=LocalDate.now().minusDays(minusdays[0]);
             String monthStr=findworkingDay.getMonthValue()+"";
             if (monthStr.length()==1){
@@ -167,7 +166,6 @@ public class ExchangeRateFragment extends Fragment {
             }
             String date=findworkingDay.getYear()+monthStr+dayStr;
             String urlStr="http://ds.gscms.co.kr:8888/Rest/ExchangeRates/081?type=json&sessionID=test&date="+date;
-            //Log.d("TAG", "urlStr: "+urlStr);
             StringRequest request = new StringRequest(
                     Request.Method.GET,
                     urlStr,
@@ -182,7 +180,7 @@ public class ExchangeRateFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             //에러가 왔을 때 실행할 내용
                             //에러를 화면에 뿌려준다
-                            Log.d("에러났다으아", "에러: " + error.getMessage());
+                            Log.d("응답에러", "에러: " + error.getMessage());
                         }
                     }
             );
