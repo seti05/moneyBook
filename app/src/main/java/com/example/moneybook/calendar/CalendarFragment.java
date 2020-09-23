@@ -5,14 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,8 +96,6 @@ public class CalendarFragment extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_launcher_today_foreground);
 
         dbHelper = new DatabaseHelper(getContext());
         database = dbHelper.getWritableDatabase();
@@ -116,8 +109,6 @@ public class CalendarFragment extends Fragment {
                 return false;
             }
         });
-
-        Log.d("TAG", "onCreateView: " + dateSql);
 
         //오늘 년, 월 설정
         today();
@@ -140,7 +131,6 @@ public class CalendarFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onClick: ");
                 Intent intent = new Intent(getContext(), RegMoneyBookActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("regDate", day);//그리드뷰 클릭시 그 데이터
@@ -188,7 +178,6 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String today = simpleDateFormat.format(date);
         day = today;
-        Log.d("TAG", "오늘날짜: " + monthStr);
 
         Calendar cal = Calendar.getInstance();
         String m = String.valueOf(cal.get(Calendar.MONTH)+1);
@@ -198,8 +187,6 @@ public class CalendarFragment extends Fragment {
         if(monthStr.equals(m)){
             select();
         }
-
-        Log.d("TAG", "onCreateView: " + yearStr + monthStr);
 
         monthSum();
 
@@ -273,7 +260,6 @@ public class CalendarFragment extends Fragment {
                 if(amountIn == null){
                     amountIn = "0";
                 }
-                Log.d("TAG", "monthSum: " + (Integer.parseInt(amountIn) - Integer.parseInt(amountEx)));
                 int mountSumInt = Integer.parseInt(amountIn) - Integer.parseInt(amountEx);
                 if(mountSumInt < 0){
                     monthSum.setText(Html.fromHtml("<font color=\"#ff0000\">" + numberFormat.format(mountSumInt) + "</font>" + " 원"));
@@ -282,7 +268,6 @@ public class CalendarFragment extends Fragment {
                 } else if(mountSumInt > 0){
                     monthSum.setText(Html.fromHtml("<font color=\"#0000ff\">" + numberFormat.format(mountSumInt) + "</font>" + " 원"));
                 }
-                //monthSum.setText();
             }
         }
     }
@@ -293,7 +278,6 @@ public class CalendarFragment extends Fragment {
         if(bundle != null){
             String monthBC = bundle.getString("month");
             String yearBarChart = bundle.getString("year");
-            Log.d("TAG", "m: " + monthBC + ", y" + yearBarChart);
             if(monthBC != null && yearBarChart != null) {
                 dateSql = yearBarChart + "-" + monthBC + "-";
                 titleText.setText(yearBarChart + "년 " + monthBC + "월");
@@ -304,9 +288,7 @@ public class CalendarFragment extends Fragment {
                         if (dayStr.length() == 1) {
                             dayStr = "0" + dayStr;
                         }
-                        Log.d("TAG", "dateSql: " + dateSql);
                         day = dateSql + dayStr;
-                        Log.d("TAG", "이건가?: " + day);
                         adapter.clear();
                     }
                 });
@@ -323,7 +305,6 @@ public class CalendarFragment extends Fragment {
 
     //현재오늘 년월을 설정함함
     private void today() {
-        Log.d("TAG", "today: ");
         //현재 년월 지정
         long now = System.currentTimeMillis();
         date = new Date(now);
@@ -340,7 +321,6 @@ public class CalendarFragment extends Fragment {
 
             Cursor cursorEx = database.rawQuery(exSql, null);
             Cursor cursorIn = database.rawQuery(inSql, null);
-            Log.d("TAG", "cursorEx.getCount(): " + cursorEx.getCount() + "cursorIn.getCount(): " + cursorIn.getCount());
             //상세보기에 값이 비여있을때와 안비여있을때 구분
             if(cursorEx.getCount() == 0 && cursorIn.getCount() == 0){
                 recyclerView.setVisibility(View.GONE);
@@ -353,7 +333,6 @@ public class CalendarFragment extends Fragment {
             }
             //수입내용
             while (cursorIn.moveToNext()){
-                Log.d("TAG", "cursorIn.getCount(): " + cursorIn.getCount());
                 String incomecategory_name = cursorIn.getString(0);
                 int amount = cursorIn.getInt(1);
                 String memo = cursorIn.getString(2);
@@ -372,7 +351,6 @@ public class CalendarFragment extends Fragment {
 
             //지출내용
             while (cursorEx.moveToNext()){
-                Log.d("TAG", "cursorEx.getCount(): " + cursorEx.getCount());
                 String expensecategory_name = cursorEx.getString(0);
                 int amount = cursorEx.getInt(1);
                 String memo = cursorEx.getString(2);
@@ -415,8 +393,6 @@ public class CalendarFragment extends Fragment {
             dateSql = yearStr + "-" + monthStr + "-";
             monthSum();
             day = dateSql;
-            Log.d("TAG", "onDateSet: " + day);
-           // select();
             recyclerView.setVisibility(View.GONE);
             nodata.setVisibility(View.GONE);
             selectday.setVisibility(View.VISIBLE);
@@ -515,7 +491,6 @@ public class CalendarFragment extends Fragment {
             }
             if(dateSql == null){
                 selectym = now+dayStr;
-                Log.d("TAG", "sql: "  + selectym);
             } else {
                 selectym = dateSql + dayStr;
             }
@@ -561,7 +536,6 @@ public class CalendarFragment extends Fragment {
             String month = cmy.substring(6, 8);
 
             if(sToday.equals(getItem(position)) && sMonth.equals(month) && sYear.equals(year)){
-                //holder.tvItemGridView.setTextColor(Color.parseColor("#FB8989"));
                 holder.tvItemGridView.setBackgroundResource(R.drawable.today);
                 holder.tvItemGridView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             }

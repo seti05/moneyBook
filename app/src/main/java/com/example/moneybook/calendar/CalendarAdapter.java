@@ -1,7 +1,6 @@
 package com.example.moneybook.calendar;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import com.example.moneybook.daily.DailyInAndOut;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Locale;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder> {

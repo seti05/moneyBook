@@ -18,7 +18,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        printLog("onCreate() call");
         //유저테이블만들기
         String sqlUser = "create table if not exists user( "+
                 " user_id integer primary key autoincrement, "+

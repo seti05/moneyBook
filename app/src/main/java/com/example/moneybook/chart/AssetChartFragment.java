@@ -166,7 +166,6 @@ public class AssetChartFragment extends Fragment {
             dataSet.setSelectionShift(5f);
             dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
             dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-            //dataSet.setValueLinePart1OffsetPercentage(80.f);
             dataSet.setValueLinePart1Length(0.4f);
             dataSet.setValueLinePart2Length(1.0f);
 
@@ -303,9 +302,7 @@ public class AssetChartFragment extends Fragment {
                 for(int i = 0; i < assetTypeCnt.size(); i++){
                  amountSum += Integer.parseInt(assetCnt.get(i));
                 }
-               // Log.d("TAG", "amountSum: " + amountSum);
                 for(int i = 0; i < assetTypeCnt.size(); i++){
-                    //Log.d("TAG", "asset: " + String.format("%.2f", (Float.parseFloat(assetCnt.get(i))/amountSum)*100));
                     adapter.addPer(String.format("%.2f", (Float.parseFloat(assetCnt.get(i))/amountSum)*100) + " %");
                 }
             }

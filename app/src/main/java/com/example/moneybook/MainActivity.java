@@ -117,10 +117,8 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         if(barChartIntent != null) {
             String monthBarChart = barChartIntent.getStringExtra("month");
             if (monthBarChart != null) {
-                //Log.d("TAG", "클릭함: ");
                 String yearBarChart = monthBarChart.substring(0, 4);
                 String monthBC = monthBarChart.substring(monthBarChart.indexOf("-") + 1, monthBarChart.lastIndexOf("-"));
-                //Log.d("TAG", "이제는 받지?: " + yearBarChart + ", " + monthBC);
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_container, calendarFragment).commit();
                 bottomNavigationView.setSelectedItemId(R.id.tab2);
                 Bundle bundle = new Bundle();

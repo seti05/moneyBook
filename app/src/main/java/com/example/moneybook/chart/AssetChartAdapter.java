@@ -2,7 +2,6 @@ package com.example.moneybook.chart;
 
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneybook.R;
-import com.example.moneybook.SettingsActivity;
 import com.example.moneybook.daily.DailyInAndOut;
-import com.example.moneybook.settings.CateUpdateActivity;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -58,7 +55,6 @@ public class AssetChartAdapter extends RecyclerView.Adapter<AssetChartAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Log.d("월별 내역", items.get(getAdapterPosition()).getAssetName()+"눌렀지눌럿어");
                     Intent cateIntent = new Intent(itemView.getContext(), AssetDataListActivity.class);
                     cateIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     cateIntent.putExtra("assetName",items.get(getAdapterPosition()).getAssetName());
