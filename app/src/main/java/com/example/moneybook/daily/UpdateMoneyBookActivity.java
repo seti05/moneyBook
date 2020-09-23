@@ -35,7 +35,7 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
     SQLiteDatabase database;
     boolean isExpenseChecked=true;
 
-    int catNum,assetNum;
+    int catNum;
 
     ArrayList<String> incomeCat = new ArrayList<>();
     ArrayList<String> expenseCat = new ArrayList<>();
@@ -91,7 +91,6 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
         database = dbHelper.getWritableDatabase();
         Intent intent = getIntent();
         if(intent != null){
-            //인텐트 속에 있는 데이터들을 번들(묶음)로 가져옴
             Bundle bundle =intent.getExtras();
             data = (DailyInAndOut) bundle.getSerializable("contents");//저장해 놓은 키값을 입력, protected MyData(Parcel in)를 호출해서 넣어주는 거
 
@@ -130,13 +129,11 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
                 String dayStr,monthStr;
                 if (dates[1].indexOf("0")==0){
                     monthStr=dates[1].substring(1);
-                    Log.d("날짜등록", "변경한거"+monthStr);
                 }else{
                     monthStr=dates[1];
                 }
                 if (dates[2].indexOf("0")==0){
                     dayStr=dates[2].substring(1);
-                    Log.d("날짜등록", "변경한거"+dayStr);
                 }else{
                     dayStr=dates[2];
                 }
@@ -210,7 +207,6 @@ public class UpdateMoneyBookActivity extends AppCompatActivity {
                     categoryUpdateButton.setText(expenseCat.get(0));//지출카테고리 첫번째로 이름 변경
                     categoryresult = categoryUpdateButton.getText().toString();
                 }
-                //setCategoryName();
             }
         });
 

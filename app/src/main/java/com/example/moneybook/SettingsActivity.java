@@ -76,7 +76,6 @@ public class SettingsActivity extends AppCompatActivity {
                 AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
                 ad.setTitle("비밀번호 설정");       // 제목 설정
-                //ad.setMessage("Message");   // 내용 설정
 
                 // EditText 삽입하기
                 final EditText passwordEditText = new EditText(SettingsActivity.this);
@@ -88,10 +87,8 @@ public class SettingsActivity extends AppCompatActivity {
                 passwordEditText.addTextChangedListener(new TextWatcher(){
                     public void onTextChanged(CharSequence s, int start, int before, int count)
                     {
-                        //Editable inputStr=passwordEditText.getText();
                         if (passwordEditText.getText().toString().matches("^0") )
                         {
-                            // Not allowed
                             passwordEditText.setText("");
                         }
                     }
@@ -135,7 +132,6 @@ public class SettingsActivity extends AppCompatActivity {
                     {
                         Boolean wantToCloseDialog = false;
                         String inputRegPassword= passwordEditText.getText().toString();
-                        //Toast.makeText(SettingsActivity.this, "0넣을때"+inputRegPassword, Toast.LENGTH_SHORT).show();
                         if (inputRegPassword.equals("")) {
                             passwordEditText.post(new Runnable() {
                                 @Override
@@ -160,14 +156,12 @@ public class SettingsActivity extends AppCompatActivity {
                                 database.execSQL(sql);
                                 Toast.makeText(SettingsActivity.this, "비번등록완료", Toast.LENGTH_SHORT).show();
                                 wantToCloseDialog = true;
-                                //dialog.dismiss();
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
                         if(wantToCloseDialog)
                             dialog.dismiss();
-                        //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                     }
                 });
             }
@@ -199,9 +193,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
-                ad.setTitle("데이터");       // 제목 설정
-
-
+                ad.setTitle("데이터");
                 ad.setPositiveButton("백업하기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
@@ -289,10 +281,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             String outFileName = Environment.getExternalStorageDirectory()+"/moneybook_backup.db";
 
-            // Open the empty db as the output stream
             OutputStream output = new FileOutputStream(outFileName);
 
-            // Transfer bytes from the inputfile to the outputfile
             byte[] buffer = new byte[1024];
             int length;
             while ((length = fis.read(buffer))>0){
@@ -300,7 +290,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), "백업 성공!",
                     Toast.LENGTH_SHORT).show();
-            // Close the streams
             output.flush();
             output.close();
             fis.close();

@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class CateUpdateActivity extends Activity {
     boolean isExChecked=true;
     Button addCateButton;
 
+    String updateCateStr;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -373,30 +375,15 @@ public class CateUpdateActivity extends Activity {
                                     });
                                     Toast.makeText(itemView.getContext(), "수정할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    String exCateUpdatesql="update expensecategory set expensecategory_name='"+
-                                            updateCateEditText.getText().toString()+"' where category_id="+items.get(getAdapterPosition()).getId();
-                                    String inCateUpdatesql="update incomecategory set incomecategory_name='"+
-                                            updateCateEditText.getText().toString()+"' where category_id="+items.get(getAdapterPosition()).getId();
-                                    try {
-                                        if(isExChecked){
-                                            database.execSQL(exCateUpdatesql);
-                                        }else{
-                                            database.execSQL(inCateUpdatesql);
-                                        }
-                                        Toast.makeText(itemView.getContext(), "카테고리수정완료", Toast.LENGTH_SHORT).show();
-                                        setCategoryName();
-                                        wantToCloseDialog = true;
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
+                                    updateCateStr =updateCateEditText.getText().toString();
+                                    wantToCloseDialog = true;
                                 }
                                 if(wantToCloseDialog)
                                     dialog.dismiss();
-
+                                    updateTypeCheck();
                             }
                         });
                     }//업데이트 카테고리 함수 끝
-
 
                 });
 
@@ -405,6 +392,73 @@ public class CateUpdateActivity extends Activity {
 
             public void setItem(UpdateSetting item) {
                 itembutton.setText(item.getCategoryName());
+            }
+
+            public void updateTypeCheck() {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
+                builder.setTitle("수정확인");
+                builder.setPositiveButton("이후 입력부터 적용", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String exCateUpdatesql="update expensecategory set expensecategory_name='"+
+                                updateCateStr+"' where category_id="+items.get(getAdapterPosition()).getId();
+                        String inCateUpdatesql="update incomecategory set incomecategory_name='"+
+                                updateCateStr+"' where category_id="+items.get(getAdapterPosition()).getId();
+                        try {
+                            if(isExChecked){
+                                database.execSQL(exCateUpdatesql);
+                            }else{
+                                database.execSQL(inCateUpdatesql);
+                            }
+                            Toast.makeText(itemView.getContext(), "카테고리수정완료", Toast.LENGTH_SHORT).show();
+                            setCategoryName();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.setNegativeButton("이전 입력에도 적용", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String exCateUpdatesql="update expensecategory set expensecategory_name='"+
+                                updateCateStr+"' where category_id="+items.get(getAdapterPosition()).getId();
+                        String inCateUpdatesql="update incomecategory set incomecategory_name='"+
+                                updateCateStr+"' where category_id="+items.get(getAdapterPosition()).getId();
+                        String updateExpenseOldReg = "update expense set expensecategory_name='"+
+                                updateCateStr+"' where expensecategory_name='"+items.get(getAdapterPosition()).getCategoryName()+"'";
+                        String updateIncomeOldReg = "update income set incomecategory_name='"+
+                                updateCateStr+"' where incomecategory_name='"+items.get(getAdapterPosition()).getCategoryName()+"'";
+                        try {
+                            if(isExChecked){
+                                database.beginTransaction();
+                                try {
+                                    database.execSQL(exCateUpdatesql);
+                                    database.execSQL(updateExpenseOldReg);
+                                    database.setTransactionSuccessful();
+                                    Toast.makeText(itemView.getContext(), "지출카테고리 수정완료", Toast.LENGTH_SHORT).show();
+                                    setCategoryName();
+                                }finally {
+                                    database.endTransaction();
+                                }
+                            }else{
+                                database.beginTransaction();
+                                try {
+                                    database.execSQL(inCateUpdatesql);
+                                    database.execSQL(updateIncomeOldReg);
+                                    database.setTransactionSuccessful();
+                                    Toast.makeText(itemView.getContext(), "수입카테고리 수정완료", Toast.LENGTH_SHORT).show();
+                                    setCategoryName();
+                                }finally {
+                                    database.endTransaction();
+                                }
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.show();
             }
 
 

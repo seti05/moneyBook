@@ -121,17 +121,14 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                 }else {
                     String selecDate=getIntent().getStringExtra("regDate");
                     String[] dates=selecDate.split("-");
-                    //Log.d("날짜등록", "우선 확인용"+dates[1].indexOf("0"));
                     String dayStr,monthStr;
                     if (dates[1].indexOf("0")==0){
                         monthStr=dates[1].substring(1);
-                        //Log.d("날짜등록", "변경한거"+monthStr);
                     }else{
                         monthStr=dates[1];
                     }
                     if (dates[2].indexOf("0")==0){
                         dayStr=dates[2].substring(1);
-                        //Log.d("날짜등록", "변경한거"+dayStr);
                     }else{
                         dayStr=dates[2];
                     }
@@ -139,7 +136,6 @@ public class RegMoneyBookActivity extends AppCompatActivity {
                     dialog = new DatePickerDialog(RegMoneyBookActivity.this
                             ,listener, Integer.parseInt(dates[0]),Integer.parseInt(monthStr)-1,Integer.parseInt(dayStr));
                 }
-
                 dialog.show();
             }
         });

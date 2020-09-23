@@ -3,6 +3,7 @@ package com.example.moneybook.settings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneybook.DatabaseHelper;
+import com.example.moneybook.MainActivity;
 import com.example.moneybook.R;
 
 import java.lang.reflect.Field;
@@ -41,6 +43,7 @@ public class AssetUpdateActivity extends Activity {
     DatabaseHelper dbHelper;
     SQLiteDatabase database;
     Cursor cursor;
+    String updateStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +83,8 @@ public class AssetUpdateActivity extends Activity {
         FilterArray[0] = new InputFilter.LengthFilter(10);
         addAssetEditText.setFilters(FilterArray);
         addAssetEditText.addTextChangedListener(new TextWatcher(){
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                //Editable inputStr=passwordEditText.getText();
-                if (addAssetEditText.getText().toString().length()>9)
-                {
-                    // Not allowed
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (addAssetEditText.getText().toString().length()>9) {
                     Toast.makeText(getApplicationContext(),"10자이상 입력할수 없습니다",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -196,7 +195,6 @@ public class AssetUpdateActivity extends Activity {
             return items.get(position);
         }
 
-        //특정포지션에 넣어준다
         public void setItem(int position, UpdateSetting item) {
             items.set(position, item);
         }
@@ -222,12 +220,12 @@ public class AssetUpdateActivity extends Activity {
                     public void onClick(View v) {
                         int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
-                            updateCategory();
+                            updateAsset();
                         }
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.Q)
-                    private void updateCategory() {
+                    private void updateAsset() {
                         AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
                         final EditText updateAssetEditText = new EditText(itemView.getContext());
                         updateAssetEditText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -238,11 +236,8 @@ public class AssetUpdateActivity extends Activity {
                         FilterArray[0] = new InputFilter.LengthFilter(10);
                         updateAssetEditText.setFilters(FilterArray);
                         updateAssetEditText.addTextChangedListener(new TextWatcher(){
-                            public void onTextChanged(CharSequence s, int start, int before, int count)
-                            {
-                                if (updateAssetEditText.getText().toString().length()>9)
-                                {
-                                    // Not allowed
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if (updateAssetEditText.getText().toString().length()>9) {
                                     Toast.makeText(itemView.getContext(),"10자이상 입력할수 없습니다",Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -279,8 +274,9 @@ public class AssetUpdateActivity extends Activity {
                             });
                         }
                         final AlertDialog dialog= builder.create();
-                        // 창 띄우기
                         dialog.show();
+
+
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v)
@@ -297,19 +293,14 @@ public class AssetUpdateActivity extends Activity {
                                     });
                                     Toast.makeText(itemView.getContext(), "수정할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    String assetUpdatesql="update asset set asset_name='"+
-                                            updateAssetEditText.getText().toString()+"' where asset_id="+items.get(getAdapterPosition()).getId();
-                                    try {
-                                    database.execSQL(assetUpdatesql);
-                                    Toast.makeText(itemView.getContext(), "자산수정완료", Toast.LENGTH_SHORT).show();
-                                    setAssetName();
-                                        wantToCloseDialog = true;
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
+                                    updateStr= updateAssetEditText.getText().toString();
+                                    wantToCloseDialog = true;
                                 }
+
                                 if(wantToCloseDialog)
                                     dialog.dismiss();
+                                    updateTypeCheck();
+
 
                             }
                         });
@@ -322,8 +313,53 @@ public class AssetUpdateActivity extends Activity {
             public void setItem(UpdateSetting item) {
                 itembutton.setText(item.getAssetName());
             }
+
+            public void updateTypeCheck() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(),R.style.Theme_AppCompat_Light_Dialog_Alert);
+                    builder.setTitle("수정확인");
+                    builder.setPositiveButton("이후 입력부터 적용", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String assetUpdatesql="update asset set asset_name='"+
+                                    updateStr+"' where asset_id="+items.get(getAdapterPosition()).getId();
+                            try {
+                                database.execSQL(assetUpdatesql);
+                                Toast.makeText(itemView.getContext(), "자산수정완료", Toast.LENGTH_SHORT).show();
+                                setAssetName();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("이전 입력에도 적용", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String updateExpenseOldReg = "update expense set asset_name='"+
+                                    updateStr+"' where asset_name='"+items.get(getAdapterPosition()).getAssetName()+"'";
+                            String updateIncomeOldReg = "update income set asset_name='"+
+                                    updateStr+"' where asset_name='"+items.get(getAdapterPosition()).getAssetName()+"'";
+                            String assetUpdatesql="update asset set asset_name='"+
+                                    updateStr+"' where asset_id="+items.get(getAdapterPosition()).getId();
+
+                                database.beginTransaction();
+                                try {
+                                    database.execSQL(assetUpdatesql);
+                                    database.execSQL(updateExpenseOldReg);
+                                    database.execSQL(updateIncomeOldReg);
+                                    database.setTransactionSuccessful();
+                                    Toast.makeText(itemView.getContext(), "자산수정완료", Toast.LENGTH_SHORT).show();
+                                    setAssetName();
+                                }finally {
+                                    database.endTransaction();
+                                }
+
+                        }
+                    });
+                    builder.show();
+            }
         }
     }
+
 
 
 
