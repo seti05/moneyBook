@@ -322,7 +322,7 @@ public class AssetChartFragment extends Fragment {
                 cursor.close();
                 int amountSum = 0;
                 for(int i = 0; i < assetTypeCnt.size(); i++){
-                 amountSum += Integer.parseInt(assetCnt.get(i));
+                    amountSum += Integer.parseInt(assetCnt.get(i));
                 }
                 for(int i = 0; i < assetTypeCnt.size(); i++){
                     adapter.addPer(String.format("%.2f", (Float.parseFloat(assetCnt.get(i))/amountSum)*100) + " %");
@@ -330,7 +330,4 @@ public class AssetChartFragment extends Fragment {
             }
         }
     }
-
-
-
 }
