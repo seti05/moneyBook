@@ -22,6 +22,7 @@ import com.example.moneybook.DatabaseHelper;
 import com.example.moneybook.R;
 import com.example.moneybook.daily.DailyInAndOut;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -82,7 +83,7 @@ public class AssetChartFragment extends Fragment {
         //그래프 설정
         pieChart.setUsePercentValues(true);//퍼센트 단위로 보여줌
         pieChart.setDescription(null);
-        pieChart.setExtraOffsets(5, 10, 5, 5);
+        pieChart.setExtraOffsets(7, 10, 7,10);
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setDrawHoleEnabled(false);
         pieChart.setTransparentCircleRadius(61f);
@@ -90,6 +91,7 @@ public class AssetChartFragment extends Fragment {
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTextSize(15f);
         pieChart.setMinAngleForSlices(10f);
+        pieChart.getLegend().setWordWrapEnabled(true);//인덱스 자동 줄바꿈
 
         //지출클릭시 변수변경
         expense.setOnClickListener(new View.OnClickListener() {
@@ -162,9 +164,29 @@ public class AssetChartFragment extends Fragment {
                 dataSet = new PieDataSet(pieEntry, null);
             }
 
+            //여러가지 색상표현
+            ArrayList<Integer> colors = new ArrayList<>();
+
+            for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.JOYFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.COLORFUL_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.LIBERTY_COLORS)
+                colors.add(c);
+
+            for (int c : ColorTemplate.PASTEL_COLORS)
+                colors.add(c);
+
+            colors.add(ColorTemplate.getHoloBlue());
+
             dataSet.setSliceSpace(0.5f);//파이 사이간격(이거때문에 적은 값들이 안보였었음)
             dataSet.setSelectionShift(5f);
-            dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+            dataSet.setColors(colors);
             dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
             dataSet.setValueLinePart1Length(0.4f);
             dataSet.setValueLinePart2Length(1.0f);
