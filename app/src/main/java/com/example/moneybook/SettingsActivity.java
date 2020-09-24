@@ -211,14 +211,14 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
-                                ad.setTitle("백업된 가계부 내용을 불러옵니다")
+                        ad.setTitle("백업된 가계부 내용을 불러옵니다")
                                 .setMessage("백업이후에 작업한 내용은 모두 사라집니다\n 그래도 불러오시겠습니까?")
                                 .setPositiveButton("데이터 불러오기", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, int which) {
-                                importDB();
-                            }
-                        }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        importDB();
+                                    }
+                                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -228,6 +228,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
 
                 ad.show();
+
 
             }
         });

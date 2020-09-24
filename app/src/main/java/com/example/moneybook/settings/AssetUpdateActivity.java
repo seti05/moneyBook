@@ -114,7 +114,7 @@ public class AssetUpdateActivity extends Activity {
             {
                 Boolean wantToCloseDialog = false;
                 String inputRegAsset= addAssetEditText.getText().toString();
-                if (inputRegAsset.equals("")) {
+                if (inputRegAsset.equals("") || inputRegAsset.trim().equals("")) {
                     addAssetEditText.post(new Runnable() {
                         @Override
                         public void run() {
@@ -124,7 +124,7 @@ public class AssetUpdateActivity extends Activity {
                     });
                     Toast.makeText(AssetUpdateActivity.this, "추가할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                 }else {
-                    String assetInsertsql="insert into asset(asset_name) values('"+inputRegAsset+"')";
+                    String assetInsertsql="insert into asset(asset_name) values('"+inputRegAsset.trim()+"')";
                     try {
                         database.execSQL(assetInsertsql);
                         Toast.makeText(AssetUpdateActivity.this, "자산등록완료", Toast.LENGTH_SHORT).show();
@@ -283,7 +283,7 @@ public class AssetUpdateActivity extends Activity {
                             {
                                 Boolean wantToCloseDialog = false;
                                 String inputRegCategory= updateAssetEditText.getText().toString();
-                                if (inputRegCategory.equals("")) {
+                                if (inputRegCategory.equals("") || inputRegCategory.trim().equals("")) {
                                     updateAssetEditText.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -293,13 +293,15 @@ public class AssetUpdateActivity extends Activity {
                                     });
                                     Toast.makeText(itemView.getContext(), "수정할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    updateStr= updateAssetEditText.getText().toString();
+                                    updateStr= updateAssetEditText.getText().toString().trim();
                                     wantToCloseDialog = true;
+                                    updateTypeCheck();
                                 }
 
                                 if(wantToCloseDialog)
                                     dialog.dismiss();
-                                    updateTypeCheck();
+
+
 
 
                             }

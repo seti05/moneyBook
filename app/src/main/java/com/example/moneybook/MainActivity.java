@@ -25,7 +25,7 @@ import com.pedro.library.AutoPermissionsListener;
 
 import java.util.Stack;
 
-public class MainActivity extends AppCompatActivity implements AutoPermissionsListener {
+public class MainActivity extends AppCompatActivity {
     DailyFragment dailyFragment;
     Economy_InfoFragment economy_infoFragment;
     public static Activity activity;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         bundle.putString("selectDay",getIntent().getStringExtra("date"));
         dailyFragment.setArguments(bundle);
 
-        AutoPermissions.Companion.loadAllPermissions(this,101);
+
 
         //차트 상세내역 클릭
         barchartClick();
@@ -129,17 +129,6 @@ public class MainActivity extends AppCompatActivity implements AutoPermissionsLi
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        AutoPermissions.Companion.parsePermissions(this , requestCode,permissions,this);
-    }
-
-    @Override
-    public void onDenied(int i, String[] strings) { }
-
-    @Override
-    public void onGranted(int i, String[] strings) { }
 
 
     public class BackPressCloseHandler {

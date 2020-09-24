@@ -192,7 +192,7 @@ public class CateUpdateActivity extends Activity {
             {
                 Boolean wantToCloseDialog = false;
                 String inputRegCategory= addCateEditText.getText().toString();
-                if (inputRegCategory.equals("")) {
+                if (inputRegCategory.equals("") || inputRegCategory.trim().equals("")) {
                     addCateEditText.post(new Runnable() {
                         @Override
                         public void run() {
@@ -202,8 +202,8 @@ public class CateUpdateActivity extends Activity {
                     });
                     Toast.makeText(CateUpdateActivity.this, "추가할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                 }else {
-                    String exInsertsql="insert into expensecategory(expensecategory_name) values('"+inputRegCategory+"')";
-                    String inInsertsql="insert into incomecategory(incomecategory_name) values('"+inputRegCategory+"')";
+                    String exInsertsql="insert into expensecategory(expensecategory_name) values('"+inputRegCategory.trim()+"')";
+                    String inInsertsql="insert into incomecategory(incomecategory_name) values('"+inputRegCategory.trim()+"')";
                     try {
                         if (isExChecked){
                             database.execSQL(exInsertsql);
@@ -366,7 +366,7 @@ public class CateUpdateActivity extends Activity {
                             {
                                 Boolean wantToCloseDialog = false;
                                 String inputRegCategory= updateCateEditText.getText().toString();
-                                if (inputRegCategory.equals("")) {
+                                if (inputRegCategory.equals("") || inputRegCategory.trim().equals("")) {
                                     updateCateEditText.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -376,12 +376,13 @@ public class CateUpdateActivity extends Activity {
                                     });
                                     Toast.makeText(itemView.getContext(), "수정할 이름을 입력하세요", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    updateCateStr =updateCateEditText.getText().toString();
+                                    updateCateStr =updateCateEditText.getText().toString().trim();
                                     wantToCloseDialog = true;
+                                    updateTypeCheck();
                                 }
                                 if(wantToCloseDialog)
                                     dialog.dismiss();
-                                    updateTypeCheck();
+
                             }
                         });
                     }//업데이트 카테고리 함수 끝
