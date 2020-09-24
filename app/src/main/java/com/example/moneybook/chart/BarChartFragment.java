@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,6 @@ public class BarChartFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_bar_chart, container, false);
-
         //막대그래프 설정
         barChart = view.findViewById(R.id.barChart);
         barChart.setPinchZoom(false);

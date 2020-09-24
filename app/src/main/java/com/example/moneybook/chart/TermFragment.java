@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -61,7 +63,7 @@ public class TermFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_term, container, false);
-
+        Log.i("TEST","test!!");
         termStartText = view.findViewById(R.id.termStartText);
         termEndText = view.findViewById(R.id.termEndText);
         titleText = getActivity().findViewById(R.id.titleText);
@@ -102,14 +104,36 @@ public class TermFragment extends Fragment {
         endTerm = yearEndStr + "-" + monthEndStr + "-" + dayEndStr;
         termSelect();
 
+        //타이틀바에 있는 텍스트 변경시
+        titleText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                yearStr = titleText.getText().toString().substring(0, 4);
+                yearEndStr = titleText.getText().toString().substring(0, 4);
+                Log.d("TAG", "afterTextChanged: " + yearStr);
+                startTerm = yearStr + "-" + monthStr + "-" + dayStr;
+                endTerm = yearEndStr + "-" + monthEndStr + "-" + dayEndStr;
+                date.clear();
+                tableLayout.removeAllViews();
+                termSelect();
+            }
+        });
+
         //날짜을 위한 이벤트
         //시작날짜 이벤트
         termStartText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("TAG", "onClick: " + yearStr);
                 MonthDayPicker picker = new MonthDayPicker();
                 Bundle yearBundle = new Bundle();
-                yearBundle.putString("year",titleText.getText().toString().substring(0, 4));
+                yearBundle.putString("year", yearStr);
                 picker.setArguments(yearBundle);
                 picker.setListener(startListener);
                 picker.show(getFragmentManager(), "MonthDayPicker");
@@ -122,7 +146,7 @@ public class TermFragment extends Fragment {
             public void onClick(View v) {
                 MonthDayPicker picker = new MonthDayPicker();
                 Bundle yearBundle = new Bundle();
-                yearBundle.putString("year",titleText.getText().toString().substring(0, 4));
+                yearBundle.putString("year", yearEndStr);
                 picker.setArguments(yearBundle);
                 picker.setListener(endListener);
                 picker.show(getFragmentManager(), "MonthDayPicker");
@@ -133,6 +157,7 @@ public class TermFragment extends Fragment {
     }
 
     private void termSelect() {
+        Log.d("TAG", "termSelect: " + startTerm + endTerm);
         if(database != null) {
             sqlEx = "select expense_date, asset_name, expensecategory_name, amount, memo from expense where expense_date >= '" + startTerm + "' and expense_date <= '" + endTerm + "' order by expense_date";
             if (sqlEx != null) {
@@ -219,9 +244,7 @@ public class TermFragment extends Fragment {
                     return o1.getDate().compareTo(o2.getDate());
                 }
             });
-//            for(DailyInAndOut d : date){
-//                Log.d("TAG", "termSelect: " + d + "\n");
-//            }
+
             if(date.size() > 0){
                 nodata.setVisibility(View.GONE);
                 weekContent.setVisibility(View.VISIBLE);
@@ -424,7 +447,8 @@ public class TermFragment extends Fragment {
     DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            yearStr = titleText.getText().toString().substring(0, 4);
+            Log.d("TAG", "onDateSet: " + yearStr);
+            //yearStr = titleText.getText().toString().substring(0, 4);
             termStartText.setText(month + "월 " + dayOfMonth + "일 ");
             monthStr = String.valueOf(month);
             dayStr = String.valueOf(dayOfMonth);
@@ -457,7 +481,7 @@ public class TermFragment extends Fragment {
     DatePickerDialog.OnDateSetListener endListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            yearEndStr = titleText.getText().toString().substring(0, 4);
+            //yearEndStr = titleText.getText().toString().substring(0, 4);
             termEndText.setText(month + "월 " + dayOfMonth + "일 ");
             monthEndStr = String.valueOf(month);
             dayEndStr = String.valueOf(dayOfMonth);
