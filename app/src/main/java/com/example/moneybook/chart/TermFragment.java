@@ -63,7 +63,6 @@ public class TermFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_term, container, false);
-        Log.i("TEST","test!!");
         termStartText = view.findViewById(R.id.termStartText);
         termEndText = view.findViewById(R.id.termEndText);
         titleText = getActivity().findViewById(R.id.titleText);
@@ -116,7 +115,6 @@ public class TermFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 yearStr = titleText.getText().toString().substring(0, 4);
                 yearEndStr = titleText.getText().toString().substring(0, 4);
-                Log.d("TAG", "afterTextChanged: " + yearStr);
                 startTerm = yearStr + "-" + monthStr + "-" + dayStr;
                 endTerm = yearEndStr + "-" + monthEndStr + "-" + dayEndStr;
                 date.clear();
@@ -130,7 +128,6 @@ public class TermFragment extends Fragment {
         termStartText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onClick: " + yearStr);
                 MonthDayPicker picker = new MonthDayPicker();
                 Bundle yearBundle = new Bundle();
                 yearBundle.putString("year", yearStr);
@@ -157,7 +154,6 @@ public class TermFragment extends Fragment {
     }
 
     private void termSelect() {
-        Log.d("TAG", "termSelect: " + startTerm + endTerm);
         if(database != null) {
             sqlEx = "select expense_date, asset_name, expensecategory_name, amount, memo from expense where expense_date >= '" + startTerm + "' and expense_date <= '" + endTerm + "' order by expense_date";
             if (sqlEx != null) {
@@ -447,7 +443,6 @@ public class TermFragment extends Fragment {
     DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            Log.d("TAG", "onDateSet: " + yearStr);
             //yearStr = titleText.getText().toString().substring(0, 4);
             termStartText.setText(month + "월 " + dayOfMonth + "일 ");
             monthStr = String.valueOf(month);
